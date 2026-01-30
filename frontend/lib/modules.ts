@@ -9,6 +9,7 @@ export type Module = {
   table: string
   countField?: string
   enabled: boolean
+  requiresFullAccess?: boolean // Requer 7 dias de premium para acessar
 }
 
 export const modules: Module[] = [
@@ -35,7 +36,8 @@ export const modules: Module[] = [
     icon: '🚀',
     table: 'n8n_workflows',
     countField: 'super_fluxos',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   },
   {
     id: 'prompts-midjourney',
@@ -85,7 +87,8 @@ export const modules: Module[] = [
     description: 'Softwares prontos para revender',
     icon: '⚡',
     table: 'saas',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   },
   {
     id: 'bonus',
@@ -93,7 +96,8 @@ export const modules: Module[] = [
     description: 'Conteúdo extra especial',
     icon: '🌟',
     table: 'bonus',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   }
 ]
 

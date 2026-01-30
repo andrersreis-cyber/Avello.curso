@@ -10,6 +10,7 @@ type UserProfile = {
   nome: string
   avatar_url?: string
   plano: 'free' | 'premium'
+  premium_since?: string | null
   created_at: string
 }
 
@@ -23,6 +24,8 @@ type AuthContextType = {
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   isPremium: boolean
+  hasFullAccess: boolean // Premium há mais de 7 dias (conteúdo exclusivo liberado)
+  daysUntilFullAccess: number // Dias restantes para acesso total
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -150,6 +153,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null)
   }
 
+  // Calcular se tem acesso total (premium há mais de 7 dias)
+  const calculateFullAccess = () => {
+    if (profile?.plano !== 'premium') return { hasFullAccess: false, daysRemaining: 0 }
+    
+    if (!profile.premium_since) {
+      // Se não tem data, considera que tem acesso total (usuário antigo)
+      return { hasFullAccess: true, daysRemaining: 0 }
+    }
+    
+    const premiumDate = new Date(profile.premium_since)
+    const now = new Date()
+    const diffTime = now.getTime() - premiumDate.getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+    
+    if (diffDays >= 7) {
+      return { hasFullAccess: true, daysRemaining: 0 }
+    }
+    
+    return { hasFullAccess: false, daysRemaining: 7 - diffDays }
+  }
+
+  const { hasFullAccess, daysRemaining } = calculateFullAccess()
+
   const value = {
     user,
     profile,
@@ -160,6 +186,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signInWithGoogle,
     signOut,
     isPremium: profile?.plano === 'premium',
+    hasFullAccess,
+    daysUntilFullAccess: daysRemaining,
   }
 
   return (
