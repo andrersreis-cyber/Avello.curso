@@ -40,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Buscar perfil do usuário (apenas campos necessários)
   const fetchProfile = async (userId: string) => {
+    console.log('🔍 Buscando perfil para userId:', userId)
     const { data, error } = await supabase
       .from('usuarios')
       .select('id,email,nome,avatar_url,plano,premium_since,created_at')
@@ -47,10 +48,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .single()
 
     if (error) {
-      // Se não existe perfil, retorna null silenciosamente
+      console.error('❌ Erro ao buscar perfil:', error)
       return null
     }
     
+    console.log('✅ Perfil carregado:', data)
     return data as UserProfile
   }
 
