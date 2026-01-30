@@ -9,6 +9,9 @@ import { captureAffiliateRef, trackAffiliateClick, getAffiliateCookie } from '@/
  */
 export function AffiliateTracker() {
   useEffect(() => {
+    // Verificar se está no navegador
+    if (typeof window === 'undefined') return
+    
     // Captura o código do afiliado da URL ou cookie
     const refCode = captureAffiliateRef()
     

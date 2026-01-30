@@ -7,6 +7,7 @@ const AFFILIATE_COOKIE_DAYS = 30 // Cookie válido por 30 dias
  * Salva o código do afiliado no cookie
  */
 export function setAffiliateCookie(code: string) {
+  if (typeof document === 'undefined') return
   const expires = new Date()
   expires.setTime(expires.getTime() + AFFILIATE_COOKIE_DAYS * 24 * 60 * 60 * 1000)
   document.cookie = `${AFFILIATE_COOKIE_NAME}=${code};expires=${expires.toUTCString()};path=/;SameSite=Lax`
@@ -16,6 +17,7 @@ export function setAffiliateCookie(code: string) {
  * Obtém o código do afiliado do cookie
  */
 export function getAffiliateCookie(): string | null {
+  if (typeof document === 'undefined') return null
   const name = AFFILIATE_COOKIE_NAME + '='
   const decodedCookie = decodeURIComponent(document.cookie)
   const cookies = decodedCookie.split(';')
@@ -33,6 +35,7 @@ export function getAffiliateCookie(): string | null {
  * Remove o cookie do afiliado
  */
 export function clearAffiliateCookie() {
+  if (typeof document === 'undefined') return
   document.cookie = `${AFFILIATE_COOKIE_NAME}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`
 }
 
@@ -63,6 +66,7 @@ export function captureAffiliateRef() {
  * Registra um clique de afiliado no servidor
  */
 export async function trackAffiliateClick(code: string) {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return
   try {
     await fetch('/api/affiliate/click', {
       method: 'POST',
