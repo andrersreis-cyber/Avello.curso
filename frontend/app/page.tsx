@@ -231,7 +231,8 @@ export default function MembersPage() {
       case 'typebot_templates':
         return records.map(t => ({
           id: t.id,
-          title: t.nome_original || t.nome_resumido || 'Template Typebot',
+          title: t.nome_resumido || t.nome_original || 'Template Typebot',
+          originalName: t.nome_original,
           description: t.descricao,
           type: 'template' as const,
           tags: t.tags || [],

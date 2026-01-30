@@ -14,7 +14,7 @@ export type Module = {
 export const modules: Module[] = [
   {
     id: 'n8n-templates',
-    name: 'Pack +2000 Templates',
+    name: 'Pack +2500 Templates n8n',
     description: 'Fluxos completos e prontos para usar no seu n8n',
     icon: '📦',
     table: 'n8n_workflows',
@@ -22,7 +22,7 @@ export const modules: Module[] = [
   },
   {
     id: 'prompts-chatgpt',
-    name: 'Pack +3500 Prompts ChatGPT',
+    name: '+2400 Prompts ChatGPT',
     description: 'Prompts profissionais para ChatGPT',
     icon: '💬',
     table: 'prompts_chatgpt',
@@ -39,7 +39,7 @@ export const modules: Module[] = [
   },
   {
     id: 'prompts-midjourney',
-    name: '3500 Prompts Midjourney',
+    name: '+290 Prompts Midjourney',
     description: 'Prompts criativos para imagens',
     icon: '🎨',
     table: 'prompts_midjourney',
@@ -47,7 +47,7 @@ export const modules: Module[] = [
   },
   {
     id: 'typebot-templates',
-    name: '+3 Mil Templates Typebot',
+    name: '+500 Templates Typebot',
     description: 'Chatbots prontos para usar',
     icon: '🤖',
     table: 'typebot_templates',

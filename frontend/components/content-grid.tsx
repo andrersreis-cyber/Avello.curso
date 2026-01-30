@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ContentCard } from './content-card'
 import { WorkflowModal } from './workflow-modal'
 import { PromptModal } from './prompt-modal'
+import { TypebotModal } from './typebot-modal'
 import { UpgradeModal } from './upgrade-modal'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/auth-context'
@@ -34,6 +35,7 @@ type ContentItem = {
   copyContent?: string
   downloadData?: object
   bonusData?: BonusData
+  originalName?: string // Para templates Typebot
 }
 
 type ContentGridProps = {
@@ -172,14 +174,27 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, isLocked =
         ))}
       </div>
 
-      {/* Modal para Workflows e Templates */}
-      {selectedItem && (selectedItem.type === 'workflow' || selectedItem.type === 'template') && (
+      {/* Modal para Workflows n8n */}
+      {selectedItem && selectedItem.type === 'workflow' && (
         <WorkflowModal
           isOpen={true}
           onClose={() => setSelectedItem(null)}
           title={selectedItem.title}
           description={selectedItem.description}
           jsonData={selectedItem.downloadData}
+          tags={selectedItem.tags}
+        />
+      )}
+
+      {/* Modal para Templates Typebot */}
+      {selectedItem && selectedItem.type === 'template' && (
+        <TypebotModal
+          isOpen={true}
+          onClose={() => setSelectedItem(null)}
+          title={selectedItem.title}
+          originalName={selectedItem.originalName}
+          description={selectedItem.description}
+          driveUrl={selectedItem.url}
           tags={selectedItem.tags}
         />
       )}
