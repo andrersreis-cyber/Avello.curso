@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { AffiliateTracker } from "@/components/affiliate-tracker";
 import { AuthProvider } from "@/contexts/auth-context";
@@ -32,7 +33,9 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <AffiliateTracker />
-            <FacebookPixel />
+            <Suspense fallback={null}>
+              <FacebookPixel />
+            </Suspense>
             {children}
           </AuthProvider>
         </QueryProvider>
