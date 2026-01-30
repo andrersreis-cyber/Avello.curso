@@ -8,6 +8,8 @@ type SidebarProps = {
   activeModule: string
   onModuleChange: (moduleId: string) => void
   counts: Record<string, number>
+  onClose?: () => void // Para fechar drawer em mobile
+  className?: string
 }
 
 // Categorias de módulos
@@ -65,11 +67,18 @@ const moduleStyles: Record<string, { gradient: string, iconBg: string, badge?: s
   }
 }
 
-export function Sidebar({ activeModule, onModuleChange, counts }: SidebarProps) {
+export function Sidebar({ activeModule, onModuleChange, counts, onClose, className }: SidebarProps) {
   const totalItems = Object.values(counts).reduce((a, b) => a + b, 0)
 
+  // Handler que fecha o drawer em mobile após selecionar módulo
+  const handleModuleChange = (moduleId: string) => {
+    onModuleChange(moduleId)
+    // Fecha o drawer em mobile
+    if (onClose) onClose()
+  }
+
   return (
-    <aside className="w-80 bg-zinc-900 border-r border-zinc-700 overflow-y-auto flex flex-col">
+    <aside className={cn("w-80 bg-zinc-900 border-r border-zinc-700 overflow-y-auto flex flex-col", className)}>
       {/* Header Stats */}
       <div className="p-4 border-b border-zinc-700">
         <div className="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
@@ -123,7 +132,7 @@ export function Sidebar({ activeModule, onModuleChange, counts }: SidebarProps) 
             module={module}
             isActive={activeModule === module.id}
             count={counts[module.id]}
-            onClick={() => onModuleChange(module.id)}
+            onClick={() => handleModuleChange(module.id)}
             style={moduleStyles[module.id]}
           />
         ))}
@@ -136,7 +145,7 @@ export function Sidebar({ activeModule, onModuleChange, counts }: SidebarProps) 
             module={module}
             isActive={activeModule === module.id}
             count={counts[module.id]}
-            onClick={() => onModuleChange(module.id)}
+            onClick={() => handleModuleChange(module.id)}
             style={moduleStyles[module.id]}
           />
         ))}
@@ -149,7 +158,7 @@ export function Sidebar({ activeModule, onModuleChange, counts }: SidebarProps) 
             module={module}
             isActive={activeModule === module.id}
             count={counts[module.id]}
-            onClick={() => onModuleChange(module.id)}
+            onClick={() => handleModuleChange(module.id)}
             style={moduleStyles[module.id]}
           />
         ))}

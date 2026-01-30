@@ -1,12 +1,16 @@
 'use client'
 
-import { LogOut, Users, ShoppingBag, Heart, HelpCircle, Bell, Search, Sparkles, LogIn } from 'lucide-react'
+import { LogOut, Users, ShoppingBag, Heart, HelpCircle, Bell, Search, Sparkles, LogIn, Menu } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/auth-context'
 
-export function Header() {
+type HeaderProps = {
+  onMenuClick?: () => void
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
   const [notifications] = useState(3)
   const { user, profile, signOut, loading, isPremium } = useAuth()
 
@@ -37,8 +41,19 @@ export function Header() {
         }} />
       </div>
 
-      {/* Left: Logo */}
+      {/* Left: Menu + Logo */}
       <div className="flex items-center gap-4 relative z-10">
+        {/* Botão Menu Mobile */}
+        {onMenuClick && (
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden p-2 -ml-2 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            aria-label="Abrir menu"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        )}
+
         <Link href="/" className="flex items-center gap-3 group cursor-pointer">
           <div className="relative">
             <img 

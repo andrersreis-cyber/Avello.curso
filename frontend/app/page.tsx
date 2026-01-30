@@ -12,6 +12,7 @@ import { SelfHostedDirectory } from '@/components/selfhosted-directory'
 import { FreeToolsDirectory } from '@/components/free-tools-directory'
 import { BonusModal } from '@/components/bonus-modal'
 import { TimeLockedModule } from '@/components/time-locked-module'
+import { MobileDrawer } from '@/components/mobile-drawer'
 import { modules } from '@/lib/modules'
 import { createClient } from '@/lib/supabase-browser'
 import { useAuth } from '@/contexts/auth-context'
@@ -78,6 +79,7 @@ export default function MembersPage() {
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [categoryCount, setCategoryCount] = useState(0)
   const [selectedBonus, setSelectedBonus] = useState<BonusData | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const mainRef = useRef<HTMLElement>(null)
   
   const { isPremium, hasFullAccess, daysUntilFullAccess } = useAuth()
@@ -438,13 +440,28 @@ export default function MembersPage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <Header />
+      <Header onMenuClick={() => setIsMobileMenuOpen(true)} />
       
-      <div className="flex h-[calc(100vh-64px)]">
+      {/* Mobile Drawer */}
+      <MobileDrawer 
+        isOpen={isMobileMenuOpen} 
+        onClose={() => setIsMobileMenuOpen(false)}
+      >
         <Sidebar 
           activeModule={activeModule}
           onModuleChange={setActiveModule}
           counts={counts}
+          onClose={() => setIsMobileMenuOpen(false)}
+        />
+      </MobileDrawer>
+      
+      <div className="flex h-[calc(100vh-64px)]">
+        {/* Sidebar - oculta em mobile, visível em desktop */}
+        <Sidebar 
+          activeModule={activeModule}
+          onModuleChange={setActiveModule}
+          counts={counts}
+          className="hidden lg:flex"
         />
         
         <main ref={mainRef} className="flex-1 overflow-y-auto">
