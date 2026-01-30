@@ -8,7 +8,6 @@ type UserProfile = {
   id: string
   email: string
   nome: string
-  avatar_url?: string
   plano: 'free' | 'premium'
   premium_since?: string | null
   created_at: string
@@ -43,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log('🔍 Buscando perfil para userId:', userId)
     const { data, error } = await supabase
       .from('usuarios')
-      .select('id,email,nome,avatar_url,plano,premium_since,created_at')
+      .select('id,email,nome,plano,premium_since,created_at')
       .eq('id', userId)
       .single()
 
