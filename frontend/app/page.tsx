@@ -13,7 +13,7 @@ import { FreeToolsDirectory } from '@/components/free-tools-directory'
 import { BonusModal } from '@/components/bonus-modal'
 import { TimeLockedModule } from '@/components/time-locked-module'
 import { modules } from '@/lib/modules'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase-browser'
 import { useAuth } from '@/contexts/auth-context'
 
 // Módulos gratuitos (disponíveis para todos)
@@ -81,6 +81,7 @@ export default function MembersPage() {
   const mainRef = useRef<HTMLElement>(null)
   
   const { isPremium, hasFullAccess, daysUntilFullAccess } = useAuth()
+  const supabase = createClient()
 
   // Módulos especiais que não usam dados do Supabase
   const isSpecialModule = ['ferramentas-ia', 'self-hosted', 'ferramentas-gratis'].includes(activeModule)
