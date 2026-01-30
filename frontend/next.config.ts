@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // Otimizações de produção
   poweredByHeader: false,
   
+  // Output para Netlify
+  output: 'standalone',
+  
   // Configuração de imagens
   images: {
     remotePatterns: [
