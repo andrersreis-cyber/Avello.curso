@@ -9,6 +9,10 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code')
   const origin = requestUrl.origin
 
+  // Criar resposta de redirecionamento
+  const redirectUrl = new URL('/', origin)
+  const response = NextResponse.redirect(redirectUrl)
+
   if (code) {
     const cookieStore = await cookies()
     
@@ -22,9 +26,11 @@ export async function GET(request: NextRequest) {
           },
           setAll(cookiesToSet) {
             try {
-              cookiesToSet.forEach(({ name, value, options }) =>
+              cookiesToSet.forEach(({ name, value, options }) => {
                 cookieStore.set(name, value, options)
-              )
+                // Garantir que cookies sejam setados na resposta também
+                response.cookies.set(name, value, options)
+              })
             } catch {
               // Ignore errors in Server Components
             }
@@ -55,6 +61,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Redirecionar para a página principal após login
-  return NextResponse.redirect(`${origin}/`)
+  return response
 }
