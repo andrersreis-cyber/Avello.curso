@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo, ReactNode } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase-browser'
 
@@ -38,17 +38,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   
   const supabase = createClient()
 
-  // Buscar perfil do usuário
+  // Buscar perfil do usuário (apenas campos necessários)
   const fetchProfile = async (userId: string) => {
     const { data, error } = await supabase
       .from('usuarios')
-      .select('*')
+      .select('id,email,nome,avatar_url,plano,premium_since,created_at')
       .eq('id', userId)
       .single()
 
     if (error) {
-      console.error('Erro ao buscar perfil:', error)
-      // Se não existe perfil, criar um básico
+      // Se não existe perfil, retorna null silenciosamente
       return null
     }
     
@@ -153,8 +152,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null)
   }
 
-  // Calcular se tem acesso total (premium há mais de 7 dias)
-  const calculateFullAccess = () => {
+  // Calcular se tem acesso total (premium há mais de 7 dias) - memoizado
+  const { hasFullAccess, daysRemaining } = useMemo(() => {
     if (profile?.plano !== 'premium') return { hasFullAccess: false, daysRemaining: 0 }
     
     if (!profile.premium_since) {
@@ -172,9 +171,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     
     return { hasFullAccess: false, daysRemaining: 7 - diffDays }
-  }
-
-  const { hasFullAccess, daysRemaining } = calculateFullAccess()
+  }, [profile?.plano, profile?.premium_since])
 
   const value = {
     user,

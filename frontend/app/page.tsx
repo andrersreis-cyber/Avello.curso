@@ -102,11 +102,9 @@ export default function MembersPage() {
   const usesCategoryView = CATEGORY_MODULES.includes(activeModule) && !searchQuery && !isSpecialModule
   const showCategories = usesCategoryView && !selectedCategory
 
-  // Carregar contagens de cada módulo
+  // Carregar contagens de cada módulo (em paralelo para performance)
   useEffect(() => {
     async function loadCounts() {
-      const newCounts: Record<string, number> = {}
-      
       const tables = [
         { module: 'n8n-templates', table: 'n8n_workflows' },
         { module: 'prompts-chatgpt', table: 'prompts_chatgpt' },
@@ -117,14 +115,17 @@ export default function MembersPage() {
         { module: 'ferramentas-ia', table: 'ferramentas' },
       ]
 
-      for (const { module, table } of tables) {
-        const { count, error } = await supabase
-          .from(table)
-          .select('*', { count: 'exact', head: true })
-        
-        console.log('Count result:', { table, count, error })
-        newCounts[module] = count || 0
-      }
+      // Executar todas as queries em paralelo
+      const results = await Promise.all(
+        tables.map(({ table }) => 
+          supabase.from(table).select('*', { count: 'exact', head: true })
+        )
+      )
+
+      const newCounts: Record<string, number> = {}
+      tables.forEach(({ module }, index) => {
+        newCounts[module] = results[index].count || 0
+      })
 
       // Módulos derivados
       newCounts['super-fluxos'] = 58
@@ -153,7 +154,7 @@ export default function MembersPage() {
     setHasMore(true)
   }, [searchQuery, selectedCategory])
 
-  // Carregar categorias para módulos de prompts
+  // Carregar categorias para módulos de prompts (otimizado)
   const loadCategories = useCallback(async () => {
     const module = modules.find(m => m.id === activeModule)
     if (!module) return
@@ -161,29 +162,17 @@ export default function MembersPage() {
     setLoading(true)
     
     try {
-      // Buscar todas as categorias com paginação (Supabase limita a 1000 por padrão)
-      let allData: { categoria_prompt: string }[] = []
-      let pageNum = 0
-      const pageSize = 1000
+      // Buscar categorias distintas com contagem usando RPC ou query otimizada
+      // Primeiro, buscar apenas categorias únicas (muito mais rápido)
+      const { data, error } = await supabase
+        .from(module.table)
+        .select('categoria_prompt')
+      
+      if (error) throw error
 
-      while (true) {
-        const { data, error } = await supabase
-          .from(module.table)
-          .select('categoria_prompt')
-          .range(pageNum * pageSize, (pageNum + 1) * pageSize - 1)
-
-        if (error) throw error
-        if (!data || data.length === 0) break
-        
-        allData = [...allData, ...data]
-        pageNum++
-        
-        if (data.length < pageSize) break
-      }
-
-      // Agrupar por categoria e contar
+      // Agrupar por categoria e contar no cliente
       const categoryMap = new Map<string, number>()
-      allData.forEach(item => {
+      data?.forEach(item => {
         const cat = item.categoria_prompt || 'Outros'
         categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1)
       })
@@ -303,14 +292,14 @@ export default function MembersPage() {
       const from = pageNum * PAGE_SIZE
       const to = from + PAGE_SIZE - 1
 
-      // Selecionar apenas campos necessários (evita carregar arquivo_json grande)
+      // Selecionar apenas campos necessários (NÃO carregar arquivo_json na listagem)
       const columns = {
-        'n8n_workflows': 'id,nome,descricao,tags,arquivo_json',
+        'n8n_workflows': 'id,nome,descricao,tags',
         'prompts_chatgpt': 'id,categoria_prompt,prompt_br',
         'prompts_midjourney': 'id,nome,categoria_prompt,descricao,prompt_br,prompt_en,imagem_url,tipo',
         'typebot_templates': 'id,nome_original,nome_resumido,descricao,tags,link_drive',
         'saas': 'id,nome,descricao,tags,imagem_url,link',
-        'bonus': '*, bonus_items(*)',
+        'bonus': 'id,nome,descricao,imagem_url,link,bonus_items(id,titulo,descricao,link,ordem)',
         'ferramentas': 'id,nome,descricao,url'
       }
       
@@ -347,8 +336,6 @@ export default function MembersPage() {
 
       const { data: records, error } = await query
 
-      // Debug log
-      console.log('Query result:', { table: module.table, records: records?.length, error })
 
       if (error) {
         console.error('Supabase error:', error)

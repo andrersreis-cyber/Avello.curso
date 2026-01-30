@@ -1,7 +1,6 @@
 'use client'
 
-import { LogOut, Users, ShoppingBag, Heart, HelpCircle, Bell, Search, Sparkles, LogIn, Menu } from 'lucide-react'
-import { useState } from 'react'
+import { LogOut, Users, ShoppingBag, Heart, HelpCircle, Search, Sparkles, LogIn, Menu } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/auth-context'
@@ -11,7 +10,6 @@ type HeaderProps = {
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
-  const [notifications] = useState(3)
   const { user, profile, signOut, loading, isPremium } = useAuth()
 
   const handleSignOut = async () => {
@@ -32,7 +30,7 @@ export function Header({ onMenuClick }: HeaderProps) {
   }
 
   return (
-    <header className="h-16 bg-zinc-900 border-b border-zinc-700 flex items-center justify-between px-6 relative overflow-hidden">
+    <header className="h-16 bg-zinc-900 border-b border-zinc-700 flex items-center justify-between px-3 sm:px-6 relative overflow-hidden">
       {/* Background Pattern - mais sutil */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{
@@ -42,20 +40,20 @@ export function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       {/* Left: Menu + Logo */}
-      <div className="flex items-center gap-4 relative z-10">
+      <div className="flex items-center gap-2 sm:gap-4 relative z-10">
         {/* Botão Menu Mobile */}
         {onMenuClick && (
           <button
             onClick={onMenuClick}
-            className="lg:hidden p-2 -ml-2 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            className="lg:hidden p-2 -ml-1 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
             aria-label="Abrir menu"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         )}
 
-        <Link href="/" className="flex items-center gap-3 group cursor-pointer">
-          <div className="relative">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+          <div className="relative hidden sm:block">
             <img 
               src="/images/logo-avello.png" 
               alt="Avello" 
@@ -63,19 +61,19 @@ export function Header({ onMenuClick }: HeaderProps) {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-cyan-400">
+            <span className="text-base sm:text-lg font-bold text-cyan-400">
               AVELLO
             </span>
-            <span className="text-[10px] text-zinc-400 -mt-1 tracking-wider">
+            <span className="text-[9px] sm:text-[10px] text-zinc-400 -mt-1 tracking-wider">
               PREMIUM ACCESS
             </span>
           </div>
         </Link>
 
-        {/* Divider */}
-        <div className="h-8 w-px bg-zinc-700 ml-2" />
+        {/* Divider - hidden on mobile */}
+        <div className="hidden sm:block h-8 w-px bg-zinc-700 ml-2" />
 
-        {/* Quick Search */}
+        {/* Quick Search - hidden on mobile */}
         <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-zinc-800 rounded-lg border border-zinc-700 hover:border-cyan-500/50 transition-colors group">
           <Search className="w-4 h-4 text-zinc-400 group-hover:text-cyan-400 transition-colors" />
           <input 
@@ -91,30 +89,36 @@ export function Header({ onMenuClick }: HeaderProps) {
       
       {/* Right: Navigation */}
       <div className="flex items-center gap-1 relative z-10">
-        <NavLink href="/comunidade" icon={<Users className="w-4 h-4" />} label="Comunidade" />
-        <NavLink href="/loja" icon={<ShoppingBag className="w-4 h-4" />} label="Loja" highlight />
-        <NavLink href="/afiliados" icon={<Heart className="w-4 h-4" />} label="Afiliados" />
-        <NavLink href="/suporte" icon={<HelpCircle className="w-4 h-4" />} label="Suporte" />
+        {/* Navigation links - hidden on mobile (available in drawer) */}
+        <div className="hidden lg:flex items-center gap-1">
+          <NavLink href="/comunidade" icon={<Users className="w-4 h-4" />} label="Comunidade" />
+          <NavLink href="/loja" icon={<ShoppingBag className="w-4 h-4" />} label="Loja" highlight />
+          <NavLink href="/afiliados" icon={<Heart className="w-4 h-4" />} label="Afiliados" />
+          <NavLink href="/suporte" icon={<HelpCircle className="w-4 h-4" />} label="Suporte" />
 
-        {/* Divider */}
-        <div className="h-8 w-px bg-zinc-700 mx-2" />
+          {/* Divider */}
+          <div className="h-8 w-px bg-zinc-700 mx-2" />
+        </div>
+
+        {/* Mobile quick links */}
+        <div className="flex lg:hidden items-center gap-1">
+          <Link href="/comunidade" className="p-1.5 text-zinc-400 hover:text-white rounded-lg">
+            <Users className="w-4 h-4" />
+          </Link>
+          <Link href="/afiliados" className="p-1.5 text-zinc-400 hover:text-white rounded-lg">
+            <Heart className="w-4 h-4" />
+          </Link>
+          <Link href="/suporte" className="p-1.5 text-zinc-400 hover:text-white rounded-lg">
+            <HelpCircle className="w-4 h-4" />
+          </Link>
+        </div>
 
         {user ? (
           <>
-            {/* Notifications */}
-            <button className="relative p-2 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-all">
-              <Bell className="w-5 h-5" />
-              {notifications > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-cyan-500 rounded-full flex items-center justify-center text-[10px] font-bold text-white">
-                  {notifications}
-                </span>
-              )}
-            </button>
-
             {/* User Menu */}
-            <button className="flex items-center gap-2 px-3 py-1.5 ml-1 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors group border border-zinc-700">
+            <button className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 ml-1 bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors group border border-zinc-700">
               <div className={cn(
-                "w-7 h-7 rounded-full flex items-center justify-center",
+                "w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center",
                 isPremium 
                   ? "bg-gradient-to-br from-cyan-500 to-blue-600" 
                   : "bg-zinc-600"
@@ -139,7 +143,8 @@ export function Header({ onMenuClick }: HeaderProps) {
             {/* Logout */}
             <button 
               onClick={handleSignOut}
-              className="flex items-center gap-2 px-3 py-2 text-zinc-300 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors ml-1"
+              className="flex items-center gap-1 sm:gap-2 p-1.5 sm:px-3 sm:py-2 text-zinc-300 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors ml-1"
+              aria-label="Sair"
             >
               <LogOut className="w-4 h-4" />
               <span className="text-sm hidden sm:inline">Sair</span>
@@ -150,18 +155,18 @@ export function Header({ onMenuClick }: HeaderProps) {
             {/* Login Button */}
             <Link
               href="/login"
-              className="flex items-center gap-2 px-4 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
             >
               <LogIn className="w-4 h-4" />
-              <span className="text-sm">Entrar</span>
+              <span className="text-sm hidden sm:inline">Entrar</span>
             </Link>
 
             {/* Sign Up Button */}
             <Link
               href="/cadastro"
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all ml-1"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all ml-1"
             >
-              <span className="text-sm">Criar Conta</span>
+              <span className="text-xs sm:text-sm">Criar Conta</span>
             </Link>
           </>
         )}
