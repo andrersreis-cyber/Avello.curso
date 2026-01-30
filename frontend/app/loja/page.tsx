@@ -53,6 +53,18 @@ export default function LojaPage() {
   const handleCheckout = async (productId: ProductId) => {
     setLoading(productId)
     
+    // Track Facebook Pixel - InitiateCheckout
+    if (typeof window !== 'undefined' && window.fbq) {
+      const product = products[productId]
+      window.fbq('track', 'InitiateCheckout', {
+        content_name: product.name,
+        content_ids: [productId],
+        content_type: 'product',
+        value: product.price / 100,
+        currency: 'BRL',
+      })
+    }
+    
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',

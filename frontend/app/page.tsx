@@ -16,6 +16,7 @@ import { MobileDrawer } from '@/components/mobile-drawer'
 import { modules } from '@/lib/modules'
 import { createClient } from '@/lib/supabase-browser'
 import { useAuth } from '@/contexts/auth-context'
+import { useModuleCounts } from '@/hooks/use-module-counts'
 
 // Módulos gratuitos (disponíveis para todos)
 const FREE_MODULES = ['n8n-templates']
@@ -76,7 +77,6 @@ export default function MembersPage() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
-  const [counts, setCounts] = useState<Record<string, number>>({})
   const [categoryCount, setCategoryCount] = useState(0)
   const [selectedBonus, setSelectedBonus] = useState<BonusData | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -84,6 +84,9 @@ export default function MembersPage() {
   
   const { isPremium, hasFullAccess, daysUntilFullAccess } = useAuth()
   const supabase = createClient()
+  
+  // Usar React Query para contagens (com cache)
+  const { data: counts = {} } = useModuleCounts()
 
   // Módulos especiais que não usam dados do Supabase
   const isSpecialModule = ['ferramentas-ia', 'self-hosted', 'ferramentas-gratis'].includes(activeModule)
@@ -102,41 +105,7 @@ export default function MembersPage() {
   const usesCategoryView = CATEGORY_MODULES.includes(activeModule) && !searchQuery && !isSpecialModule
   const showCategories = usesCategoryView && !selectedCategory
 
-  // Carregar contagens de cada módulo (em paralelo para performance)
-  useEffect(() => {
-    async function loadCounts() {
-      const tables = [
-        { module: 'n8n-templates', table: 'n8n_workflows' },
-        { module: 'prompts-chatgpt', table: 'prompts_chatgpt' },
-        { module: 'prompts-midjourney', table: 'prompts_midjourney' },
-        { module: 'typebot-templates', table: 'typebot_templates' },
-        { module: 'saas', table: 'saas' },
-        { module: 'bonus', table: 'bonus' },
-        { module: 'ferramentas-ia', table: 'ferramentas' },
-      ]
-
-      // Executar todas as queries em paralelo
-      const results = await Promise.all(
-        tables.map(({ table }) => 
-          supabase.from(table).select('*', { count: 'exact', head: true })
-        )
-      )
-
-      const newCounts: Record<string, number> = {}
-      tables.forEach(({ module }, index) => {
-        newCounts[module] = results[index].count || 0
-      })
-
-      // Módulos derivados
-      newCounts['super-fluxos'] = 58
-      newCounts['self-hosted'] = 350
-      newCounts['ferramentas-gratis'] = newCounts['ferramentas-ia']
-
-      setCounts(newCounts)
-    }
-
-    loadCounts()
-  }, [])
+  // Contagens agora são gerenciadas pelo React Query (hook useModuleCounts)
 
   // Reset quando muda módulo
   useEffect(() => {

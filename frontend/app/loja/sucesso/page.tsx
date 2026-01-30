@@ -20,6 +20,14 @@ function SucessoContent() {
   const [showConfetti, setShowConfetti] = useState(false)
   
   useEffect(() => {
+    // Track Facebook Pixel - Purchase (conversão)
+    if (typeof window !== 'undefined' && window.fbq && sessionId) {
+      window.fbq('track', 'Purchase', {
+        content_type: 'product',
+        currency: 'BRL',
+      })
+    }
+    
     // Dispara confetti ao carregar
     if (!showConfetti) {
       setShowConfetti(true)
