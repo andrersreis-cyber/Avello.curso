@@ -9,12 +9,13 @@ export type Module = {
   table: string
   countField?: string
   enabled: boolean
+  requiresFullAccess?: boolean // Requer 7 dias de premium para acessar
 }
 
 export const modules: Module[] = [
   {
     id: 'n8n-templates',
-    name: 'Pack +2000 Templates',
+    name: 'Pack +2500 Templates n8n',
     description: 'Fluxos completos e prontos para usar no seu n8n',
     icon: '📦',
     table: 'n8n_workflows',
@@ -22,7 +23,7 @@ export const modules: Module[] = [
   },
   {
     id: 'prompts-chatgpt',
-    name: 'Pack +3500 Prompts ChatGPT',
+    name: '+2400 Prompts ChatGPT',
     description: 'Prompts profissionais para ChatGPT',
     icon: '💬',
     table: 'prompts_chatgpt',
@@ -35,11 +36,12 @@ export const modules: Module[] = [
     icon: '🚀',
     table: 'n8n_workflows',
     countField: 'super_fluxos',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   },
   {
     id: 'prompts-midjourney',
-    name: '3500 Prompts Midjourney',
+    name: '+290 Prompts Midjourney',
     description: 'Prompts criativos para imagens',
     icon: '🎨',
     table: 'prompts_midjourney',
@@ -47,7 +49,7 @@ export const modules: Module[] = [
   },
   {
     id: 'typebot-templates',
-    name: '+3 Mil Templates Typebot',
+    name: '+500 Templates Typebot',
     description: 'Chatbots prontos para usar',
     icon: '🤖',
     table: 'typebot_templates',
@@ -85,7 +87,8 @@ export const modules: Module[] = [
     description: 'Softwares prontos para revender',
     icon: '⚡',
     table: 'saas',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   },
   {
     id: 'bonus',
@@ -93,7 +96,8 @@ export const modules: Module[] = [
     description: 'Conteúdo extra especial',
     icon: '🌟',
     table: 'bonus',
-    enabled: true
+    enabled: true,
+    requiresFullAccess: true // Liberado após 7 dias
   }
 ]
 

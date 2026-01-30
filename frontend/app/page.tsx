@@ -11,6 +11,7 @@ import { ExternalDirectory } from '@/components/external-directory'
 import { SelfHostedDirectory } from '@/components/selfhosted-directory'
 import { FreeToolsDirectory } from '@/components/free-tools-directory'
 import { BonusModal } from '@/components/bonus-modal'
+import { TimeLockedModule } from '@/components/time-locked-module'
 import { modules } from '@/lib/modules'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/contexts/auth-context'
@@ -79,13 +80,20 @@ export default function MembersPage() {
   const [selectedBonus, setSelectedBonus] = useState<BonusData | null>(null)
   const mainRef = useRef<HTMLElement>(null)
   
-  const { isPremium } = useAuth()
+  const { isPremium, hasFullAccess, daysUntilFullAccess } = useAuth()
 
   // Módulos especiais que não usam dados do Supabase
   const isSpecialModule = ['ferramentas-ia', 'self-hosted', 'ferramentas-gratis'].includes(activeModule)
   
+  // Buscar config do módulo atual
+  const currentModuleConfig = modules.find(m => m.id === activeModule)
+  
   // Verificar se módulo atual está bloqueado para usuários free
   const isModuleLocked = !FREE_MODULES.includes(activeModule) && !isPremium
+  
+  // Verificar se módulo requer acesso total (7 dias de premium)
+  const requiresFullAccess = currentModuleConfig?.requiresFullAccess || false
+  const isModuleTimeLocked = requiresFullAccess && isPremium && !hasFullAccess
 
   // Verificar se módulo atual usa categorias
   const usesCategoryView = CATEGORY_MODULES.includes(activeModule) && !searchQuery && !isSpecialModule
@@ -231,7 +239,8 @@ export default function MembersPage() {
       case 'typebot_templates':
         return records.map(t => ({
           id: t.id,
-          title: t.nome_original || t.nome_resumido || 'Template Typebot',
+          title: t.nome_resumido || t.nome_original || 'Template Typebot',
+          originalName: t.nome_original,
           description: t.descricao,
           type: 'template' as const,
           tags: t.tags || [],
@@ -438,8 +447,14 @@ export default function MembersPage() {
         />
         
         <main ref={mainRef} className="flex-1 overflow-y-auto">
-          {/* Renderizar iframe externo */}
-          {isIframeModule ? (
+          {/* Módulo bloqueado por tempo (7 dias de garantia) */}
+          {isModuleTimeLocked ? (
+            <TimeLockedModule 
+              moduleName={currentModuleConfig?.name || 'Módulo'} 
+              daysRemaining={daysUntilFullAccess} 
+            />
+          ) : isIframeModule ? (
+            /* Renderizar iframe externo */
             <div className="h-full">
               <ExternalDirectory
                 url={iframeConfig.url}

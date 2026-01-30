@@ -63,9 +63,32 @@ export async function POST(request: NextRequest) {
           )
         }
         
-        // TODO: Criar usuário no Supabase
-        // TODO: Enviar email de boas-vindas
-        // TODO: Liberar acesso ao sistema
+        // Atualizar usuário para premium com data de início
+        if (session.customer_email) {
+          const now = new Date().toISOString()
+          
+          // Buscar usuário pelo email
+          const { data: usuario } = await supabase
+            .from('usuarios')
+            .select('id')
+            .eq('email', session.customer_email)
+            .single()
+          
+          if (usuario) {
+            // Atualizar para premium com data de início
+            await supabase
+              .from('usuarios')
+              .update({ 
+                plano: 'premium',
+                premium_since: now
+              })
+              .eq('id', usuario.id)
+            
+            console.log(`✅ Usuário ${session.customer_email} atualizado para premium`)
+          } else {
+            console.log(`⚠️ Usuário não encontrado: ${session.customer_email}`)
+          }
+        }
         
         break
       }
