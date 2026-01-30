@@ -126,8 +126,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signInWithGoogle = async () => {
-    // Usar variável de ambiente ou fallback para window.location.origin
-    const siteUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+    // Sempre usar window.location.origin para garantir redirect correto
+    const siteUrl = window.location.origin
     
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',

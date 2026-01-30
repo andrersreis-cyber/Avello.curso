@@ -151,11 +151,11 @@ export default function LandingPage() {
           </div>
           
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-zinc-400 hover:text-white transition-colors">
+            <Link href="/login" className="text-zinc-400 hover:text-white transition-colors">
               Entrar
             </Link>
             <Link 
-              href="/"
+              href="/cadastro"
               className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all"
             >
               Começar Grátis
@@ -193,7 +193,7 @@ export default function LandingPage() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Link
-              href="/"
+              href="/cadastro"
               className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
             >
               <Zap className="w-5 h-5" />
@@ -326,7 +326,7 @@ export default function LandingPage() {
               </ul>
               
               <Link
-                href="/"
+                href="/cadastro"
                 className="flex items-center justify-center gap-2 w-full py-3 bg-zinc-700 hover:bg-zinc-600 text-white rounded-xl font-medium transition-all"
               >
                 Criar Conta Grátis
@@ -498,7 +498,7 @@ export default function LandingPage() {
           </p>
           
           <Link
-            href="/"
+            href="/cadastro"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25"
           >
             <Zap className="w-5 h-5" />
