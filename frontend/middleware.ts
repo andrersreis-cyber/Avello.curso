@@ -35,21 +35,30 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession()
 
   // Rotas públicas (não precisam de autenticação)
-  const publicRoutes = ['/login', '/cadastro', '/landing', '/api', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade']
+  const publicRoutes = ['/login', '/cadastro', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade']
   const isPublicRoute = publicRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Se não está logado e tenta acessar rota protegida
-  if (!session && !isPublicRoute && request.nextUrl.pathname !== '/') {
-    // Permitir acesso à página principal mesmo sem login (para demonstração)
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+  // Se não está logado
+  if (!session) {
+    // Se está na raiz, redirecionar para landing
+    if (request.nextUrl.pathname === '/') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/landing'
+      return NextResponse.redirect(url)
+    }
+    
+    // Se tenta acessar rota protegida, redireciona para login
+    if (!isPublicRoute) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
   }
 
-  // Se está logado e tenta acessar login/cadastro, redireciona para home
-  if (session && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro')) {
+  // Se está logado e tenta acessar login/cadastro/landing, redireciona para home
+  if (session && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro' || request.nextUrl.pathname === '/landing')) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)
