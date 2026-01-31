@@ -43,10 +43,11 @@ type ContentGridProps = {
   viewMode: 'grid' | 'list'
   loading?: boolean
   onBonusClick?: (bonus: BonusData) => void
+  onWorkflowClick?: (item: ContentItem) => Promise<ContentItem> // Novo: carrega dados completos do workflow
   isLocked?: boolean // Módulo está bloqueado para usuários free
 }
 
-export function ContentGrid({ items, viewMode, loading, onBonusClick, isLocked = false }: ContentGridProps) {
+export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflowClick, isLocked = false }: ContentGridProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const { isPremium } = useAuth()
@@ -103,15 +104,22 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, isLocked =
     }
   }
 
-  const handleCardClick = (item: ContentItem) => {
+  const handleCardClick = async (item: ContentItem) => {
     // Se módulo está bloqueado e usuário não é premium, mostra modal de upgrade
     if (isLocked && !isPremium) {
       setShowUpgradeModal(true)
       return
     }
     
-    // Abre modal para workflows, templates e prompts
-    if (item.type === 'workflow' || item.type === 'template' || item.type === 'prompt') {
+    // Para workflows, carregar dados completos antes de abrir modal
+    if (item.type === 'workflow' && onWorkflowClick) {
+      const fullItem = await onWorkflowClick(item)
+      setSelectedItem(fullItem)
+      return
+    }
+    
+    // Abre modal para templates e prompts
+    if (item.type === 'template' || item.type === 'prompt') {
       setSelectedItem(item)
     } else if (item.type === 'bonus' && item.bonusData && onBonusClick) {
       // Para bônus, abre o modal de detalhes

@@ -79,6 +79,8 @@ export default function MembersPage() {
   const [page, setPage] = useState(0)
   const [categoryCount, setCategoryCount] = useState(0)
   const [selectedBonus, setSelectedBonus] = useState<BonusData | null>(null)
+  const [selectedWorkflow, setSelectedWorkflow] = useState<ContentItem | null>(null)
+  const [workflowData, setWorkflowData] = useState<any>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const mainRef = useRef<HTMLElement>(null)
   
@@ -106,6 +108,24 @@ export default function MembersPage() {
   const showCategories = usesCategoryView && !selectedCategory
 
   // Contagens agora são gerenciadas pelo React Query (hook useModuleCounts)
+
+  // Função para carregar arquivo_json de um workflow específico
+  const loadWorkflowData = useCallback(async (workflowId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('n8n_workflows')
+        .select('arquivo_json')
+        .eq('id', workflowId)
+        .single()
+
+      if (error) throw error
+      
+      return data?.arquivo_json
+    } catch (error) {
+      console.error('Erro ao carregar workflow:', error)
+      return null
+    }
+  }, [supabase])
 
   // Reset quando muda módulo
   useEffect(() => {
@@ -163,14 +183,22 @@ export default function MembersPage() {
   const mapData = useCallback((table: string, records: any[]): ContentItem[] => {
     switch (table) {
       case 'n8n_workflows':
-        return records.map(w => ({
-          id: w.id,
-          title: w.nome,
-          description: w.descricao,
-          tags: w.tags || [],
-          type: 'workflow' as const,
-          downloadData: w.arquivo_json
-        }))
+        return records.map(w => {
+          // Gerar descrição automática se estiver vazia
+          let description = w.descricao
+          if (!description || description.trim() === '') {
+            description = `Workflow completo e pronto para usar: ${w.nome}. Importar no seu n8n.`
+          }
+          
+          return {
+            id: w.id,
+            title: w.nome,
+            description: description,
+            tags: w.tags || [],
+            type: 'workflow' as const,
+            downloadData: w.arquivo_json
+          }
+        })
       case 'prompts_chatgpt':
         return records.map(p => {
           // Criar título a partir do prompt (primeiras palavras)
@@ -520,6 +548,11 @@ export default function MembersPage() {
                 viewMode={viewMode}
                 loading={loading}
                 onBonusClick={(bonus) => setSelectedBonus(bonus)}
+                onWorkflowClick={async (item) => {
+                  // Carregar arquivo_json do workflow
+                  const jsonData = await loadWorkflowData(item.id)
+                  return { ...item, downloadData: jsonData }
+                }}
                 isLocked={isModuleLocked}
               />
             )}
