@@ -1,0 +1,23 @@
+{
+  "id": 2,
+  "nome": "Documentos Jurídicos Gratuitos para Empreendedores e Profissionais",
+  "descricao": "Uma curadoria de recursos gratuitos para lidar com demandas legais do dia a dia sem fricção. Você encontra modelos prontos e padronizados para captação de investimento (KISS), uma coleção aberta de contratos e formulários (Docracy) e uma plataforma para gerar, assinar e enviar acordos válidos juridicamente em poucos minutos (ShakeLaw). Ideal para startups, freelancers e pequenas empresas que precisam agilizar documentação com segurança e custo zero inicial.",
+  "categoria": "Jurídico / Contratos e Compliance",
+  "conteudo": [
+    {
+      "link": "http://www.500.co/kiss/",
+      "titulo": "KISS (500 Global)",
+      "descricao": "Modelos gratuitos de contratos de investimento para startups, com termos padronizados e linguagem simples para fundadores e investidores."
+    },
+    {
+      "link": "https://www.docracy.com/",
+      "titulo": "Docracy",
+      "descricao": "Biblioteca aberta de documentos legais gratuitos, com contratos e formulários compartilhados por profissionais e pela comunidade."
+    },
+    {
+      "link": "http://www.shakelaw.com/",
+      "titulo": "ShakeLaw",
+      "descricao": "Plataforma para criar, assinar e enviar acordos juridicamente vinculativos em minutos; gratuito para uso pessoal."
+    }
+  ]
+}

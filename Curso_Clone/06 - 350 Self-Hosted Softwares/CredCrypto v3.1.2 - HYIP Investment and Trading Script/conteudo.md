@@ -1,0 +1,9 @@
+# CredCrypto v3.1.2 - HYIP Investment and Trading Script
+
+**Descrição:**
+Sistema de investimento e trading em criptomoedas, com gestão de carteiras, depósitos e rendimentos. Ideal para quem deseja operar plataformas financeiras próprias.
+
+**Link:** [Acessar Ferramenta](https://drive.google.com/file/d/1nlcRgG4Z9Ma3OI_qeuBfLuSHhMBoddny/view?usp=drive_link)
+
+![Imagem](https://segredosdon8n.com/imagens/saas/21.png)
+

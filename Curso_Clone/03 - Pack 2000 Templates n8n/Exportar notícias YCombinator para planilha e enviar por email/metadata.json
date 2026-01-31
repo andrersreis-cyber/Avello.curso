@@ -1,0 +1,239 @@
+{
+  "id": 9,
+  "nome_pt": "Exportar notícias YCombinator para planilha e enviar por email",
+  "descricao_pt": "Busca a página principal do Y Combinator (Hacker News), extrai títulos e URLs das notícias, gera uma planilha com os resultados e envia por email como anexo.",
+  "funcionalidade_pt": "• Gatilho manual: inicia o fluxo quando o usuário aciona a execução.\n• Requisição HTTP à página de notícias: obtém o HTML da página principal do Y Combinator (Hacker News).\n• Extração de HTML: captura títulos e links das notícias usando seletores CSS (.storylink).\n• Separação de listas: transforma os arrays de títulos e de URLs em listas de itens individuais.\n• União por índice: combina cada título com seu respectivo URL, mantendo a correspondência por posição.\n• Geração de arquivo de planilha: cria um arquivo de planilha nomeado com a data atual (ex: Ycombinator_news_YYYY-MM-DD) com a aba \"Latest news\" contendo os pares título/URL.\n• Envio por email com anexo: envia a planilha gerada por email usando credenciais SMTP.",
+  "ferramentas_pt": "• Hacker News (news.ycombinator.com): fonte pública das notícias a serem extraídas.\n• Servidor SMTP/Serviço de email: entrega do arquivo de planilha por email como anexo.\n• Formato de planilha (XLSX/CSV): formato de saída utilizado para armazenar e compartilhar as notícias.",
+  "link_drive": "https://drive.google.com/file/d/1XqwzedAPQQGvqrnvKtGRNo67gchp9N_j/view?usp=drivesdk",
+  "fluxo_json": {
+    "nodes": [
+      {
+        "name": "On clicking 'execute'",
+        "type": "n8n-nodes-base.manualTrigger",
+        "position": [
+          -100,
+          470
+        ],
+        "parameters": {},
+        "typeVersion": 1
+      },
+      {
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "notes": "Get news page",
+        "position": [
+          100,
+          470
+        ],
+        "parameters": {
+          "url": "=https://news.ycombinator.com/",
+          "options": {
+            "fullResponse": true,
+            "batchInterval": 500
+          },
+          "responseFormat": "file",
+          "queryParametersUi": {
+            "parameter": []
+          },
+          "headerParametersUi": {
+            "parameter": []
+          },
+          "allowUnauthorizedCerts": true
+        },
+        "notesInFlow": true,
+        "typeVersion": 1
+      },
+      {
+        "name": "HTML Extract",
+        "type": "n8n-nodes-base.htmlExtract",
+        "notes": "extract news data",
+        "position": [
+          310,
+          470
+        ],
+        "parameters": {
+          "options": {},
+          "sourceData": "binary",
+          "extractionValues": {
+            "values": [
+              {
+                "key": "news_title",
+                "cssSelector": ".storylink",
+                "returnArray": true
+              },
+              {
+                "key": "news_url",
+                "attribute": "href",
+                "cssSelector": ".storylink",
+                "returnArray": true,
+                "returnValue": "attribute"
+              }
+            ]
+          }
+        },
+        "notesInFlow": true,
+        "typeVersion": 1
+      },
+      {
+        "name": "list news url",
+        "type": "n8n-nodes-base.itemLists",
+        "position": [
+          500,
+          570
+        ],
+        "parameters": {
+          "options": {},
+          "fieldToSplitOut": "news_url"
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "list news title",
+        "type": "n8n-nodes-base.itemLists",
+        "position": [
+          500,
+          390
+        ],
+        "parameters": {
+          "options": {},
+          "fieldToSplitOut": "news_title"
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Merge",
+        "type": "n8n-nodes-base.merge",
+        "position": [
+          700,
+          470
+        ],
+        "parameters": {
+          "mode": "mergeByIndex"
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Spreadsheet File",
+        "type": "n8n-nodes-base.spreadsheetFile",
+        "position": [
+          870,
+          470
+        ],
+        "parameters": {
+          "options": {
+            "fileName": "=Ycombinator_news_{{new Date().toISOString().split('T', 1)[0]}}.{{$parameter[\"fileFormat\"]}}",
+            "sheetName": "Latest news"
+          },
+          "operation": "toFile"
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Send email notification",
+        "type": "n8n-nodes-base.emailSend",
+        "position": [
+          1050,
+          470
+        ],
+        "parameters": {
+          "text": "=Here are the latest news attached!",
+          "options": {},
+          "subject": "Ycombinator news",
+          "toEmail": "",
+          "fromEmail": "",
+          "attachments": "data"
+        },
+        "credentials": {
+          "smtp": ""
+        },
+        "typeVersion": 1
+      }
+    ],
+    "connections": {
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Spreadsheet File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTML Extract": {
+        "main": [
+          [
+            {
+              "node": "list news title",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "list news url",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "HTML Extract",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "list news url": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "list news title": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Spreadsheet File": {
+        "main": [
+          [
+            {
+              "node": "Send email notification",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "On clicking 'execute'": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "free": false,
+  "thumbnail_url": "https://ksbinfxpmbklkvzsrfql.supabase.co/storage/v1/object/public/workflow-thumbnails/pack/9.svg"
+}

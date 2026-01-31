@@ -1,0 +1,531 @@
+# Google Sheets
+
+**Descrição:** Coleção de prompts sobre Google Sheets.
+
+**Categoria:** Google Sheets
+
+## Prompt (PT-BR)
+```text
+4. Como faço para alterar a cor de uma guia de planilha no Planilhas Google?
+5. Como faço para inserir uma nova linha ou coluna no Planilhas Google?
+6. Como faço para excluir uma linha ou coluna no Planilhas Google?
+7. Como redimensiono uma linha ou coluna no Planilhas Google?
+8. Como faço para congelar linhas ou colunas no Planilhas Google?
+9. Como classificar dados em uma planilha no Planilhas Google?
+10. Como filtrar dados em uma planilha no Planilhas Google?
+Formatação do Planilhas Google
+11. Como altero o tamanho, a cor e o estilo da fonte no Planilhas Google?
+12. Como alinho texto em células no Planilhas Google?
+14.Como faço para mesclar células no Planilhas Google?
+15. Como faço para quebrar texto em células no Planilhas Google?
+16. Como adiciono uma imagem de fundo a uma planilha no Planilhas Google?
+17. Como altero o símbolo de moeda padrão no Planilhas Google?
+18. Como aplico formatação condicional às células no Planilhas Google?
+19.Como crio uma lista suspensa em uma célula no Planilhas Google?
+20. Como adiciono um gráfico ou tabela a uma planilha no Planilhas Google?
+Funções do Planilhas Google
+21. Como usar a função SOMA no Planilhas Google?
+22. Como usar a função CONTAGEM no Planilhas Google?
+24. Como usar as funções MÁXIMO e MÍNIMO no Planilhas Google?
+25.Como usar a função CONCATENAR no Planilhas Google?
+26.Como usar a função SE no Planilhas Google?
+27. Como usar a função PROCV no Planilhas Google?
+28. Como usar as funções ÍNDICE e CORRESP no Planilhas Google?
+29.Como usar a função CONSULTA no Planilhas Google?
+30.Como usar as funções IMPORT no Planilhas Google?
+Validação de dados do Planilhas Google
+31. Como defino a validação de dados para células no Planilhas Google?
+32. Como crio uma fórmula personalizada para validação de dados no Planilhas Google?
+34.Como crio uma validação de data ou hora para células no Planilhas Google?
+35. Como crio uma validação de número inteiro ou decimal para células no Planilhas Google?
+36. Como crio uma validação de comprimento ou texto para células no Planilhas Google?
+37.Como crio uma regra de validação de dados personalizada no Planilhas Google?
+38. Como faço para limpar a validação de dados de células no Planilhas Google?
+39.Como crio uma mensagem de aviso para dados inválidos no Planilhas Google?
+40.Como crio uma mensagem de entrada para validação de dados no Planilhas Google?
+Fórmulas do Planilhas Google
+41. Como usar a função SOMASE no Planilhas Google?
+42. Como usar a função CONT.SE no Planilhas Google?
+44.Como usar as funções ÍNDICE e CORRESP para realizar uma pesquisa no Planilhas Google?
+45. Como usar a função PROCV para realizar uma pesquisa no Planilhas Google?
+46. Como usar a função PROCH no Planilhas Google?
+47.Como usar a função OFFSET no Planilhas Google?
+48.Como usar a função ESCOLHER no Planilhas Google?
+49.Como usar a função SEERRO no Planilhas Google?
+50.Como usar a função CONCATENAR para combinar texto no Planilhas Google?
+Planilhas Google: gráficos e tabelas
+51.Como criar um gráfico de pizza no Planilhas Google?
+52.Como criar um gráfico de barras no Planilhas Google?
+54.Como criar um gráfico de dispersão no Planilhas Google?
+55.Como criar um gráfico de área no Planilhas Google?
+56.Como criar um gráfico empilhado no Planilhas Google?
+57. Como posso personalizar elementos de gráficos no Planilhas Google?
+58.Como adiciono rótulos de dados a um gráfico no Planilhas Google?
+59.Como adiciono uma linha de tendência a um gráfico no Planilhas Google?
+60.Como importo dados de outras fontes para criar um gráfico no Planilhas Google?
+Tabelas dinâmicas do Planilhas Google
+61. Como criar uma tabela dinâmica no Planilhas Google?
+62. Como personalizo campos da tabela dinâmica no Planilhas Google?
+64. Como classificar dados da tabela dinâmica no Planilhas Google?
+65. Como agrupo dados da tabela dinâmica por data ou hora no Planilhas Google?
+66. Como crio um campo calculado em uma tabela dinâmica no Planilhas Google?
+67. Como criar um gráfico dinâmico a partir de uma tabela dinâmica no Planilhas Google?
+68. Como atualizo os dados da tabela dinâmica no Planilhas Google?
+69. Como criar uma tabela dinâmica a partir de várias planilhas no Planilhas Google?
+70. Como usar tabelas dinâmicas para resumir grandes conjuntos de dados no Planilhas Google?
+Macros do Planilhas Google
+71.Como gravar uma macro no Planilhas Google?
+72.Como edito uma macro no Planilhas Google?
+74. Como atribuo uma tecla de atalho a uma macro no Planilhas Google?
+75.Como faço para excluir uma macro no Planilhas Google?
+76.Como usar uma macro para automatizar tarefas repetitivas no Planilhas Google?
+77. Como usar uma macro para importar dados de fontes externas no Planilhas Google?
+78.Como usar uma macro para exportar dados do Planilhas Google para outros formatos?
+79. Como usar uma macro para realizar cálculos avançados no Planilhas Google?
+80. Como usar uma macro para formatar e limpar dados no Planilhas Google?
+Script do Planilhas Google
+81. Como criar um script no Planilhas Google?
+82. Como edito um script no Planilhas Google?
+84. Como usar um script para automatizar tarefas no Planilhas Google?
+85. Como usar um script para importar dados de fontes externas no Planilhas Google?
+86. Como usar um script para exportar dados do Planilhas Google para outros formatos?
+87. Como usar um script para realizar cálculos avançados no Planilhas Google?
+88. Como usar um script para formatar e limpar dados no Planilhas Google?
+89. Como usar um script para integrar o Planilhas Google com outros serviços do Google?
+90.Como usar um script para enviar e-mails do Planilhas Google?
+Modelos do Planilhas Google
+91. Como encontro e uso modelos no Planilhas Google?
+92.Como crio um modelo no Planilhas Google?
+94.Como usar modelos para criar planilhas de orçamento no Planilhas Google?
+95.Como usar modelos para criar faturas e recibos no Planilhas Google?
+96.Como usar modelos para criar calendários e agendas no Planilhas Google?
+97. Como usar modelos para criar planilhas de gerenciamento de tarefas e projetos no Planilhas Google?
+98. Como usar modelos para criar planilhas de inventário e banco de dados no Planilhas Google?
+99. Como usar modelos para criar listas de contatos e planilhas de mala direta no Planilhas Google?
+100. Como usar modelos para criar gráficos e diagramas no Planilhas Google?
+Colaboração do Planilhas Google
+101. Como compartilho uma planilha com outras pessoas no Planilhas Google?
+102. Como defino permissões para outras pessoas em uma planilha compartilhada no Planilhas Google?
+104. Como deixo comentários em uma planilha no Planilhas Google?
+105. Como recebo notificações sobre alterações em uma planilha compartilhada no Planilhas Google?
+106. Como uso o histórico de versões para visualizar e restaurar versões anteriores de uma planilha no Planilhas Google?
+107. Como uso o modo Sugestão para fazer alterações em uma planilha compartilhada no Planilhas Google?
+108. Como uso o modo Comparar para ver as diferenças entre versões de uma planilha compartilhada no Planilhas Google?
+109. Como uso o recurso Proteger intervalo para bloquear determinadas células em uma planilha compartilhada no Planilhas Google?
+110. Como uso o recurso Validação de Dados para restringir a entrada de dados em uma planilha compartilhada no Planilhas Google?
+Integração com o Planilhas Google
+111. Como importo dados de outras fontes para o Planilhas Google?
+112.Como faço para exportar dados do Planilhas Google para outros formatos?
+114. Como faço para integrar o Planilhas Google com outros serviços que não sejam do Google?
+115. Como usar o Planilhas Google como fonte de dados para outros aplicativos?
+116. Como automatizo a transferência de dados entre o Planilhas Google e outros serviços usando scripts?
+117. Como uso o Zapier para conectar o Planilhas Google a outros serviços?
+118. Como uso o IFTTT para conectar o Planilhas Google a outros serviços?
+119. Como uso a API do Planilhas Google para me conectar a outros serviços?
+120. Como uso os complementos do Planilhas Google para estender sua funcionalidade?
+Segurança do Planilhas Google
+121. Quão seguro é o Planilhas Google?
+122. Como habilito a autenticação de dois fatores para minha conta do Planilhas Google?
+124. Como uso o recurso Proteger planilha para bloquear determinadas células ou intervalos em uma planilha?
+125. Como uso o recurso Validação de Dados para restringir a entrada de dados em uma planilha?
+126. Como usar o recurso de formatação condicional para destacar dados confidenciais em uma planilha?
+127. Como usar o recurso Localizar e Substituir para pesquisar e remover dados confidenciais em uma planilha?
+128. Como uso o recurso de registro de auditoria para rastrear alterações feitas em uma planilha?
+129. Como uso o recurso de log de acesso para ver quem acessou uma planilha?
+130.Como compartilhar apenas uma aba no Planilhas Google?
+Fórmulas avançadas do Planilhas Google
+131. Como usar a função SOMARPRODUTO no Planilhas Google?
+132. Como usar as funções SE, E e OU juntas no Planilhas Google?
+134. Como usar as funções de texto no Planilhas Google (por exemplo, MAIÚSCULA, INFERIOR, ADEQUADA, CONCATENAR)?
+135. Como usar as funções de data e hora no Planilhas Google (por exemplo, AGORA, HOJE, ANO, MÊS, DIA)?
+136. Como usar as funções aninhadas no Planilhas Google (por exemplo, SE dentro de SOMA, CONT.SE dentro de SOMASES)?
+137. Como usar as funções de pesquisa no Planilhas Google (por exemplo, PROCV, PROCH, ÍNDICE, CORRESP)?
+138. Como usar as funções de referência dinâmica no Planilhas Google (por exemplo, INDIRETO, DESLOCAMENTO)?
+139. Como usar formatação condicional com fórmulas personalizadas no Planilhas Google?
+140.Como usar a função de consulta do Planilhas Google para filtrar e classificar dados?
+Recursos avançados do Planilhas Google
+141. Como criar e usar intervalos nomeados no Planilhas Google?
+142. Como usar o recurso Explorar do Planilhas Google para extrair insights de dados?
+144. Como usar o editor de script do Planilhas Google para criar funções personalizadas?
+145. Como usar os modelos integrados do Planilhas Google para criar diferentes tipos de documentos?
+146. Como uso o recurso de preenchimento automático do Planilhas Google para preencher dados rapidamente?
+147.Como usar a função IMPORTXML do Planilhas Google para importar dados da web?
+148.Como usar a função IMPORTJSON do Planilhas Google para importar dados da web?
+149.Como usar a função IMPORTRANGE do Planilhas Google para importar dados de outras planilhas?
+150. Como usar a função HYPERLINK do Planilhas Google para criar links para outras planilhas ou sites?
+Gerenciamento de dados do Planilhas Google
+151. Como usar a função QUERY do Planilhas Google para filtrar e classificar dados?
+152. Como usar a função FILTRO do Planilhas Google para filtrar dados com base em critérios?
+154. Como usar a função TRANSPOSE do Planilhas Google para inverter linhas e colunas em uma planilha?
+155. Como usar a função SPLIT do Planilhas Google para dividir dados em colunas diferentes?
+156. Como usar a função JOIN do Planilhas Google para combinar dados de colunas diferentes?
+157. Como usar a função ÚNICO do Planilhas Google para remover duplicatas de uma planilha?
+158. Como usar a função CONCATENAR do Planilhas Google para unir dados de células diferentes?
+159. Como usar a função TRANSLATE do Planilhas Google para traduzir dados em uma planilha?
+160. Como usar a função CLEAN do Planilhas Google para remover caracteres indesejados dos dados de uma planilha?
+Planilhas Google - Gráficos avançados
+161. Como uso o editor de gráficos do Planilhas Google para personalizar elementos do gráfico?
+162. Como uso as opções de estilo de gráfico do Planilhas Google para alterar a aparência de um gráfico?
+164. Como uso as opções de eixo do gráfico do Planilhas Google para personalizar os eixos x e y de um gráfico?
+165. Como uso as opções de linhas de grade do Planilhas Google para adicionar linhas de grade a um gráfico?
+166. Como uso as opções de legenda do gráfico do Planilhas Google para personalizar a legenda de um gráfico?
+167. Como uso as opções de linha de tendência do gráfico do Planilhas Google para adicionar uma linha de tendência a um gráfico?
+168. Como uso as opções de barras de erro do gráfico do Planilhas Google para adicionar barras de erro a um gráfico?
+169. Como uso as opções de rótulos de dados do Planilhas Google para adicionar rótulos de dados a um gráfico?
+170. Como uso as opções de série de gráficos do Planilhas Google para personalizar séries de dados em um gráfico?
+Tabelas dinâmicas avançadas do Planilhas Google
+171. Como uso as opções da tabela dinâmica do Planilhas Google para personalizar o layout da tabela dinâmica?
+172. Como usar as opções de filtro da tabela dinâmica do Planilhas Google para filtrar dados em uma tabela dinâmica?
+174. Como uso as opções de grupo de tabelas dinâmicas do Planilhas Google para agrupar dados por determinados critérios em uma tabela dinâmica?
+175. Como uso as opções de cálculo da tabela dinâmica do Planilhas Google para executar cálculos em dados em uma tabela dinâmica?
+176. Como uso as opções de formato de tabela dinâmica do Planilhas Google para formatar dados em uma tabela dinâmica?
+177. Como uso as opções de formatação condicional da tabela dinâmica do Planilhas Google para destacar dados em uma tabela dinâmica?
+178. Como usar as opções de gráfico de tabela dinâmica do Planilhas Google para criar gráficos a partir de uma tabela dinâmica?
+179. Como uso as opções de fórmula da tabela dinâmica do Planilhas Google para criar fórmulas personalizadas para uma tabela dinâmica?
+180. Como uso as opções de exportação de tabela dinâmica do Planilhas Google para exportar dados de uma tabela dinâmica para outros formatos?
+Visualização de dados do Planilhas Google
+181. Como usar o recurso de mapa de calor do Planilhas Google para visualizar dados?
+182. Como uso o recurso de mapa do Planilhas Google para visualizar dados?
+184. Como usar o recurso de gráfico em cascata do Planilhas Google para visualizar dados?
+185. Como usar o recurso de gráfico de velas do Planilhas Google para visualizar dados?
+186. Como usar o recurso de mapa de árvore do Planilhas Google para visualizar dados?
+187. Como usar o recurso de medidor do Planilhas Google para visualizar dados?
+188. Como usar o recurso de diagrama de Sankey do Planilhas Google para visualizar dados?
+189. Como usar o recurso de gráfico de histograma do Planilhas Google para visualizar cronogramas de projetos?
+190.Como usar o recurso de gráfico de dispersão do Planilhas Google para visualizar dados?
+Análise de dados do Planilhas Google
+191. Como usar as funções estatísticas do Planilhas Google para analisar dados?
+194.Como usar o teste de hipóteses do Planilhas Google para analisar dados?
+195.Como usar o teste t do Planilhas Google para analisar dados?
+196.Como usar o teste ANOVA do Planilhas Google para analisar dados?
+197. Como usar a simulação de Monte Carlo do Planilhas Google para analisar dados?
+198. Como usar a análise da árvore de decisão do Planilhas Google para analisar dados?
+199. Como usar a análise de componentes principais (ACP) do Planilhas Google para analisar dados?
+200.Como usar a análise fatorial do Planilhas Google para analisar dados?
+Script avançado do Planilhas Google
+201. Como usar o editor de script do Planilhas Google para criar funções personalizadas?
+202. Como usar o editor de scripts do Planilhas Google para automatizar tarefas?
+204. Como usar o editor de script do Planilhas Google para criar caixas de diálogo personalizadas?
+205. Como usar o editor de script do Planilhas Google para criar gatilhos personalizados?
+206. Como usar o editor de script do Planilhas Google para criar macros personalizadas?
+207. Como usar o editor de script do Planilhas Google para criar funções de importação personalizadas?
+208. Como usar o editor de script do Planilhas Google para criar funções de exportação personalizadas?
+209. Como usar o editor de script do Planilhas Google para criar funções de validação personalizadas?
+210. Como usar o editor de scripts do Planilhas Google para criar funções de relatórios personalizadas?
+Formatação avançada do Planilhas Google
+211. Como uso o recurso de estilos do Planilhas Google para formatar dados?
+214. Como uso o recurso de formatação de data personalizada do Planilhas Google para formatar dados?
+215. Como uso o recurso de formatação de hora personalizada do Planilhas Google para formatar dados?
+216. Como uso o recurso de formatação de moeda personalizada do Planilhas Google para formatar dados?
+217. Como uso o recurso de formatação de porcentagem personalizada do Planilhas Google para formatar dados?
+218. Como uso o recurso de formatação de texto personalizada do Planilhas Google para formatar dados?
+219. Como uso o recurso de formatação de células personalizadas do Planilhas Google para formatar dados?
+220. Como uso o recurso de formatação de fórmula personalizada do Planilhas Google para formatar dados?
+221. Como usar o recurso de validação de dados do Planilhas Google para garantir a integridade dos dados?
+222. Como usar o recurso de validação de dados do Planilhas Google para restringir a entrada de dados?
+224. Como uso o recurso de validação de dados do Planilhas Google para definir regras de validação de dados?
+225. Como usar o recurso de validação de dados do Planilhas Google para criar fórmulas de validação personalizadas?
+226. Como usar o recurso de validação de dados do Planilhas Google para adicionar mensagens de erro personalizadas?
+227. Como uso o recurso de validação de dados do Planilhas Google para exibir mensagens de entrada personalizadas?
+228. Como usar o recurso de validação de dados do Planilhas Google para aplicar validação a várias células?
+229. Como uso o recurso de validação de dados do Planilhas Google para copiar regras de validação para outras planilhas?
+230. Como uso o recurso de validação de dados do Planilhas Google para limpar regras de validação?
+Limpeza de dados do Planilhas Google
+231. Como usar a função CLEAN do Planilhas Google para remover caracteres indesejados dos dados de uma planilha?
+232. Como usar o recurso Localizar e Substituir do Planilhas Google para procurar e remover dados indesejados em uma planilha?
+234. Como usar a função TRIM do Planilhas Google para remover espaços extras dos dados em uma planilha?
+235. Como usar o recurso Remover duplicatas do Planilhas Google para remover dados duplicados em uma planilha?
+236. Como uso o recurso de preenchimento Flash do Planilhas Google para preencher dados automaticamente em uma planilha?
+237. Como usar a função TRANSLATE do Planilhas Google para traduzir dados em uma planilha?
+238. Como usar as funções de texto do Planilhas Google (por exemplo, SUPERIOR, INFERIOR, ADEQUADO, CONCATENAR) para limpar e formatar dados em uma planilha?
+239.Como usar a função FILTRO do Planilhas Google para filtrar e remover dados indesejados?
+240. Como usar a função REPLACE do Planilhas Google para substituir valores específicos em uma planilha?
+Proteção de dados do Planilhas Google
+241. Como uso o recurso de proteção de dados do Planilhas Google para proteger células contra edição?
+244. Como uso o recurso de proteção de dados do Planilhas Google para definir a proteção por senha para uma planilha?
+245. Como uso o recurso de proteção de dados do Planilhas Google para definir regras de formatação condicional para células protegidas?
+246. Como uso o recurso de proteção de dados do Planilhas Google para permitir que determinados usuários editem células protegidas?
+247. Como uso o recurso de proteção de dados do Planilhas Google para criar uma mensagem de aviso para os usuários antes de editar células protegidas?
+248. Como uso o recurso de proteção de dados do Planilhas Google para criar uma mensagem de erro personalizada para usuários que tentam editar células protegidas?
+249. Como uso o recurso de proteção de dados do Planilhas Google para rastrear alterações feitas em células protegidas?
+250.Como uso o recurso de proteção de dados do Planilhas Google para revogar o acesso a células protegidas?
+```
+
+## Prompt (EN-US)
+```text
+Google Sheets Basics
+1.How do I create a new sheet in Google Sheets?
+2.How do I rename a sheet in Google Sheets?
+3.How do I delete a sheet in Google Sheets?
+4.How do I change the color of a sheet tab in Google Sheets?
+5.How do I insert a new row or column in Google Sheets?
+6.How do I delete a row or column in Google Sheets?
+7.How do I resize a row or column in Google Sheets?
+8.How do I freeze rows or columns in Google Sheets?
+9.How do I sort data in a sheet in Google Sheets?
+10.How do I filter data in a sheet in Google Sheets?
+Google Sheets Formatting
+11.How do I change the font size, color, and style in Google Sheets?
+12.How do I align text in cells in Google Sheets?
+13.How do I apply a border and fill color to cells in Google Sheets?
+14.How do I merge cells in Google Sheets?
+15.How do I wrap text in cells in Google Sheets?
+16.How do I add a background image to a sheet in Google Sheets?
+17.How do I change the default currency symbol in Google Sheets?
+18.How do I apply conditional formatting to cells in Google Sheets?
+19.How do I create a drop-down list in a cell in Google Sheets?
+20.How do I add a chart or graph to a sheet in Google Sheets?
+Google Sheets Functions
+21.How do I use the SUM function in Google Sheets?
+22.How do I use the COUNT function in Google Sheets?
+23.How do I use the AVERAGE function in Google Sheets?
+24.How do I use the MAX and MIN functions in Google Sheets?
+25.How do I use the CONCATENATE function in Google Sheets?
+26.How do I use the IF function in Google Sheets?
+27.How do I use the VLOOKUP function in Google Sheets?
+28.How do I use the INDEX and MATCH functions in Google Sheets?
+29.How do I use the QUERY function in Google Sheets?
+30.How do I use the IMPORT functions in Google Sheets?
+Google Sheets Data Validation
+31.How do I set data validation for cells in Google Sheets?
+32.How do I create a custom formula for data validation in Google Sheets?
+33.How do I create a drop-down list for data validation in Google Sheets?
+34.How do I create a date or time validation for cells in Google Sheets?
+35.How do I create a whole number or decimal validation for cells in Google Sheets?
+36.How do I create a length or text validation for cells in Google Sheets?
+37.How do I create a custom data validation rule in Google Sheets?
+38.How do I clear data validation for cells in Google Sheets?
+39.How do I create a warning message for invalid data in Google Sheets?
+40.How do I create an input message for data validation in Google Sheets?
+Google Sheets Formulas
+41.How do I use the SUMIF function in Google Sheets?
+42.How do I use the COUNTIF function in Google Sheets?
+43.How do I use the SUMIFS and COUNTIFS functions in Google Sheets?
+44.How do I use the INDEX and MATCH functions to perform a lookup in Google Sheets?
+45.How do I use the VLOOKUP function to perform a lookup in Google Sheets?
+46.How do I use the HLOOKUP function in Google Sheets?
+47.How do I use the OFFSET function in Google Sheets?
+48.How do I use the CHOOSE function in Google Sheets?
+49.How do I use the IFERROR function in Google Sheets?
+50.How do I use the CONCATENATE function to combine text in Google Sheets?
+Google Sheets Charts and Graphs
+51.How do I create a pie chart in Google Sheets?
+52.How do I create a bar chart in Google Sheets?
+53.How do I create a line chart in Google Sheets?
+54.How do I create a scatter chart in Google Sheets?
+55.How do I create an area chart in Google Sheets?
+56.How do I create a stacked chart in Google Sheets?
+57.How do I customize chart elements in Google Sheets?
+58.How do I add data labels to a chart in Google Sheets?
+59.How do I add a trendline to a chart in Google Sheets?
+60.How do I import data from other sources to create a chart in Google Sheets?
+Google Sheets Pivot Tables
+61.How do I create a pivot table in Google Sheets?
+62.How do I customize pivot table fields in Google Sheets?
+63.How do I filter pivot table data in Google Sheets?
+64.How do I sort pivot table data in Google Sheets?
+65.How do I group pivot table data by date or time in Google Sheets?
+66.How do I create a calculated field in a pivot table in Google Sheets?
+67.How do I create a pivot chart from a pivot table in Google Sheets?
+68.How do I refresh pivot table data in Google Sheets?
+69.How do I create a pivot table from multiple sheets in Google Sheets?
+70.How do I use pivot tables to summarize large data sets in Google Sheets?
+Google Sheets Macros
+71.How do I record a macro in Google Sheets?
+72.How do I edit a macro in Google Sheets?
+73.How do I run a macro in Google Sheets?
+74.How do I assign a shortcut key to a macro in Google Sheets?
+75.How do I delete a macro in Google Sheets?
+76.How do I use a macro to automate repetitive tasks in Google Sheets?
+77.How do I use a macro to import data from external sources in Google Sheets?
+78.How do I use a macro to export data from Google Sheets to other formats?
+79.How do I use a macro to perform advanced calculations in Google Sheets?
+80.How do I use a macro to format and clean data in Google Sheets?
+Google Sheets Scripting
+81.How do I create a script in Google Sheets?
+82.How do I edit a script in Google Sheets?
+83.How do I run a script in Google Sheets?
+84.How do I use a script to automate tasks in Google Sheets?
+85.How do I use a script to import data from external sources in Google Sheets?
+86.How do I use a script to export data from Google Sheets to other formats?
+87.How do I use a script to perform advanced calculations in Google Sheets?
+88.How do I use a script to format and clean data in Google Sheets?
+89.How do I use a script to integrate Google Sheets with other Google services?
+90.How do I use a script to send emails from Google Sheets?
+Google Sheets Templates
+91.How do I find and use templates in Google Sheets?
+92.How do I create a template in Google Sheets?
+93.How do I share a template in Google Sheets?
+94.How do I use templates to create budget spreadsheets in Google Sheets?
+95.How do I use templates to create invoices and receipts in Google Sheets?
+96.How do I use templates to create calendars and schedules in Google Sheets?
+97.How do I use templates to create task and project management sheets in Google Sheets?
+98.How do I use templates to create inventory and database sheets in Google Sheets?
+99.How do I use templates to create contact lists and mailing sheets in Google Sheets?
+100.How do I use templates to create charts and diagrams in Google Sheets?
+Google Sheets Collaboration
+101.How do I share a sheet with others in Google Sheets?
+102.How do I set permissions for others on a shared sheet in Google Sheets?
+103.How do I collaborate on a sheet in real time in Google Sheets?
+104.How do I leave comments on a sheet in Google Sheets?
+105.How do I receive notifications for changes on a shared sheet in Google Sheets?
+106.How do I use version history to view and restore previous versions of a sheet in Google Sheets?
+107.How do I use the Suggesting mode to make changes to a shared sheet in Google Sheets?
+108.How do I use the Compare mode to view differences between versions of a shared sheet in Google Sheets?
+109.How do I use the Protect range feature to lock certain cells on a shared sheet in Google Sheets?
+110.How do I use the Data Validation feature to restrict data input on a shared sheet in Google Sheets?
+Google Sheets Integration
+111.How do I import data from other sources into Google Sheets?
+112.How do I export data from Google Sheets to other formats?
+113.How do I integrate Google Sheets with other Google services?
+114.How do I integrate Google Sheets with other non-Google services?
+115.How do I use Google Sheets as a data source for other applications?
+116.How do I automate data transfer between Google Sheets and other services using scripting?
+117.How do I use Zapier to connect Google Sheets with other services?
+118.How do I use IFTTT to connect Google Sheets with other services?
+119.How do I use the Google Sheets API to connect with other services?
+120.How do I use the Google Sheets add-ons to extend its functionality?
+Google Sheets Security
+121.How secure is Google Sheets?
+122.How do I enable two-factor authentication for my Google Sheets account?
+123.How do I set up a password for a sheet in Google Sheets?
+124.How do I use the Protect sheet feature to lock certain cells or ranges in a sheet?
+125.How do I use the Data Validation feature to restrict data input on a sheet?
+126.How do I use the Conditional formatting feature to highlight sensitive data in a sheet?
+127.How do I use the Find and Replace feature to search for and remove sensitive data in a sheet?
+128.How do I use the Audit log feature to track changes made to a sheet?
+129.How do I use the Access log feature to view who has accessed a sheet?
+130.How to share only one tab in Google Sheets?
+Google Sheets Advanced Formulas
+131.How do I use the SUMPRODUCT function in Google Sheets?
+132.How do I use the IF, AND, and OR functions together in Google Sheets?
+133.How do I use the INDEX and MATCH functions to find the value in a specific cell in Google Sheets?
+134.How do I use the text functions in Google Sheets (e.g., UPPER, LOWER, PROPER, CONCATENATE)?
+135.How do I use the date and time functions in Google Sheets (e.g., NOW, TODAY, YEAR, MONTH, DAY)?
+136.How do I use the nested functions in Google Sheets (e.g., IF inside SUM, COUNTIF inside SUMIFS)?
+137.How do I use the lookup functions in Google Sheets (e.g., VLOOKUP, HLOOKUP, INDEX, MATCH)?
+138.How do I use the dynamic reference functions in Google Sheets (e.g., INDIRECT, OFFSET)?
+139.How do I use conditional formatting with custom formulas in Google Sheets?
+140.How do I use the Google Sheets Query function to filter and sort data?
+Google Sheets Advanced Features
+141.How do I create and use named ranges in Google Sheets?
+142.How do I use the Google Sheets Explore feature to extract insights from data?
+143.How do I use the Google Sheets Data validation feature to ensure data integrity?
+144.How do I use the Google Sheets Script editor to create custom functions?
+145.How do I use the Google Sheets built-in templates to create different types of documents?
+146.How do I use the Google Sheets auto-fill feature to populate data quickly?
+147.How do I use the Google Sheets IMPORTXML function to import data from the web?
+148.How do I use the Google Sheets IMPORTJSON function to import data from the web?
+149.How do I use the Google Sheets IMPORTRANGE function to import data from other sheets?
+150.How do I use the Google Sheets HYPERLINK function to create links to other sheets or websites?
+Google Sheets Data Management
+151.How do I use the Google Sheets QUERY function to filter and sort data?
+152.How do I use the Google Sheets FILTER function to filter data based on criteria?
+153.How do I use the Google Sheets SORT function to sort data based on criteria?
+154.How do I use the Google Sheets TRANSPOSE function to flip rows and columns in a sheet?
+155.How do I use the Google Sheets SPLIT function to split data into different columns?
+156.How do I use the Google Sheets JOIN function to combine data from different columns?
+157.How do I use the Google Sheets UNIQUE function to remove duplicates from a sheet?
+158.How do I use the Google Sheets CONCATENATE function to join data from different cells?
+159.How do I use the Google Sheets TRANSLATE function to translate data in a sheet?
+160.How do I use the Google Sheets CLEAN function to remove unwanted characters from data in a sheet?
+Google Sheets Advanced Charting
+161.How do I use the Google Sheets Chart editor to customize chart elements?
+162.How do I use the Google Sheets Chart style options to change the appearance of a chart?
+163.How do I use the Google Sheets Chart animation options to make a chart more interactive?
+164.How do I use the Google Sheets Chart axis options to customize the x and y axis of a chart?
+165.How do I use the Google Sheets Chart gridlines options to add gridlines to a chart?
+166.How do I use the Google Sheets Chart legend options to customize the legend of a chart?
+167.How do I use the Google Sheets Chart trendline options to add a trendline to a chart?
+168.How do I use the Google Sheets Chart error bars options to add error bars to a chart?
+169.How do I use the Google Sheets Chart data labels options to add data labels to a chart?
+170.How do I use the Google Sheets Chart series options to customize data series in a chart?
+Google Sheets Advanced Pivot Tables
+171.How do I use the Google Sheets Pivot table options to customize the pivot table layout?
+172.How do I use the Google Sheets Pivot table filter options to filter data in a pivot table?
+173.How do I use the Google Sheets Pivot table sort options to sort data in a pivot table?
+174.How do I use the Google Sheets Pivot table group options to group data by certain criteria in a pivot table?
+175.How do I use the Google Sheets Pivot table calculation options to perform calculations on data in a pivot table?
+176.How do I use the Google Sheets Pivot table format options to format data in a pivot table?
+177.How do I use the Google Sheets Pivot table conditional formatting options to highlight data in a pivot table?
+178.How do I use the Google Sheets Pivot table chart options to create charts from a pivot table?
+179.How do I use the Google Sheets Pivot table formula options to create custom formulas for a pivot table?
+180.How do I use the Google Sheets Pivot table export options to export data from a pivot table to other formats?
+Google Sheets Data Visualization
+181.How do I use the Google Sheets heat map feature to visualize data?
+182.How do I use the Google Sheets map feature to visualize data?
+183.How do I use the Google Sheets Gantt chart feature to visualize project timelines?
+184.How do I use the Google Sheets waterfall chart feature to visualize data?
+185.How do I use the Google Sheets candlestick chart feature to visualize data?
+186.How do I use the Google Sheets treemap feature to visualize data?
+187.How do I use the Google Sheets gauge feature to visualize data?
+188.How do I use the Google Sheets Sankey diagram feature to visualize data?
+189.How do I use the Google Sheets histogram chart feature to visualize project timelines?
+190.How do I use the Google Sheets scatter plot feature to visualize data?
+Google Sheets Data Analysis
+191.How do I use the Google Sheets statistical functions to analyze data?
+192.How do I use the Google Sheets correlation and regression analysis to analyze data?
+193.How do I use the Google Sheets chi-squared test to analyze data?
+194.How do I use the Google Sheets hypothesis testing to analyze data?
+195.How do I use the Google Sheets t-test to analyze data?
+196.How do I use the Google Sheets ANOVA test to analyze data?
+197.How do I use the Google Sheets Monte Carlo simulation to analyze data?
+198.How do I use the Google Sheets decision tree analysis to analyze data?
+199.How do I use the Google Sheets principal component analysis (PCA) to analyze data?
+200.How do I use the Google Sheets factor analysis to analyze data?
+Google Sheets Advanced Scripting
+201.How do I use the Google Sheets Script editor to create custom functions?
+202.How do I use the Google Sheets Script editor to automate tasks?
+203.How do I use the Google Sheets Script editor to create custom menus?
+204.How do I use the Google Sheets Script editor to create custom dialogs?
+205.How do I use the Google Sheets Script editor to create custom triggers?
+206.How do I use the Google Sheets Script editor to create custom macros?
+207.How do I use the Google Sheets Script editor to create custom import functions?
+208.How do I use the Google Sheets Script editor to create custom export functions?
+209.How do I use the Google Sheets Script editor to create custom validation functions?
+210.How do I use the Google Sheets Script editor to create custom reporting functions?
+Google Sheets Advanced Formatting
+211.How do I use the Google Sheets styles feature to format data?
+212.How do I use the Google Sheets themes feature to format data?
+213.How do I use the Google Sheets custom number formatting feature to format data?
+214.How do I use the Google Sheets custom date formatting feature to format data?
+215.How do I use the Google Sheets custom time formatting feature to format data?
+216.How do I use the Google Sheets custom currency formatting feature to format data?
+217.How do I use the Google Sheets custom percentage formatting feature to format data?
+218.How do I use the Google Sheets custom text formatting feature to format data?
+219.How do I use the Google Sheets custom cell formatting feature to format data?
+220.How do I use the Google Sheets custom formula formatting feature to format data?
+221.How do I use the Google Sheets Data validation feature to ensure data integrity?
+222.How do I use the Google Sheets Data validation feature to restrict data input?
+223.How do I use the Google Sheets Data validation feature to create drop-down lists?
+224.How do I use the Google Sheets Data validation feature to set data validation rules?
+225.How do I use the Google Sheets Data validation feature to create custom validation formulas?
+226.How do I use the Google Sheets Data validation feature to add custom error messages?
+227.How do I use the Google Sheets Data validation feature to display custom input messages?
+228.How do I use the Google Sheets Data validation feature to apply validation to multiple cells?
+229.How do I use the Google Sheets Data validation feature to copy validation rules to other sheets?
+230.How do I use the Google Sheets Data validation feature to clear validation rules?
+Google Sheets Data Cleaning
+231.How do I use the Google Sheets CLEAN function to remove unwanted characters from data in a sheet?
+232.How do I use the Google Sheets Find and Replace feature to search for and remove unwanted data in a sheet?
+233.How do I use the Google Sheets Text to Columns feature to separate data into different columns?
+234.How do I use the Google Sheets TRIM function to remove extra spaces from data in a sheet?
+235.How do I use the Google Sheets Remove duplicates feature to remove duplicate data in a sheet?
+236.How do I use the Google Sheets Flash fill feature to automatically fill data in a sheet?
+237.How do I use the Google Sheets TRANSLATE function to translate data in a sheet?
+238.How do I use the Google Sheets Text functions (e.g., UPPER, LOWER, PROPER, CONCATENATE) to clean and format data in a sheet?
+239.How do I use the Google Sheets FILTER function to filter and remove unwanted data?
+240.How do I use the Google Sheets REPLACE function to replace specific values in a sheet?
+Google Sheets Data Protection
+241.How do I use the Google Sheets Data protection feature to protect cells from editing?
+242.How do I use the Google Sheets Data protection feature to protect sheets from editing?
+243.How do I use the Google Sheets Data protection feature to protect ranges from editing?
+244.How do I use the Google Sheets Data protection feature to set password protection for a sheet?
+245.How do I use the Google Sheets Data protection feature to set conditional formatting rules for protected cells?
+246.How do I use the Google Sheets Data protection feature to allow certain users to edit protected cells?
+247.How do I use the Google Sheets Data protection feature to create a warning message for users before editing protected cells?
+248.How do I use the Google Sheets Data protection feature to create a custom error message for users who try to edit protected cells?
+249.How do I use the Google Sheets Data protection feature to track changes made to protected cells?
+250.How do I use the Google Sheets Data protection feature to revoke access to protected cells?
+```
+

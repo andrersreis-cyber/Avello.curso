@@ -1,0 +1,9 @@
+# Stackposts - Ferramenta de Marketing Social
+
+**Descrição:**
+Sistema de automação para redes sociais. Permite programar postagens, analisar engajamento e gerenciar múltiplas contas em um só lugar. Muito usado por agências e social media.
+
+**Link:** [Acessar Ferramenta](https://drive.google.com/drive/folders/1hP09hGHhwW5l9Z2ht2FOtbWOhbuQZG5N?usp=drive_link)
+
+![Imagem](https://segredosdon8n.com/imagens/saas/13.png)
+

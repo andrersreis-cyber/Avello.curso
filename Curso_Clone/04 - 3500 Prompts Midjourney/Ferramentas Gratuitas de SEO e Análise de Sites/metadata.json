@@ -1,0 +1,53 @@
+{
+  "id": 7,
+  "nome": "Ferramentas Gratuitas de SEO e Análise de Sites",
+  "descricao": "Um kit essencial para mapear oportunidades e corrigir gargalos de SEO sem custo inicial. Avalie backlinks e autoridade (Moz, Ahrefs), escaneie problemas técnicos e on-page (SEO Site Checkup, Yoast), obtenha radiografia de tráfego e concorrência (Similarweb), faça checkups rápidos de marketing (Marketing Grader) e acompanhe posições de palavras-chave (SERPs Rank Checker). Útil para priorizar ações, embasar relatórios e ganhar eficiência na otimização contínua.",
+  "categoria": "SEO / Analytics e Otimização de Sites",
+  "conteudo": [
+    {
+      "link": "https://moz.com/researchtools/ose/",
+      "titulo": "Moz Open Site Explorer",
+      "descricao": "Ferramenta de análise de backlinks e autoridade de domínio para entender o perfil de links do seu site e dos concorrentes."
+    },
+    {
+      "link": "https://ahrefs.com/",
+      "titulo": "Ahrefs",
+      "descricao": "Explorador de sites e verificador de backlinks com métricas de SEO, palavras-chave e análise de concorrentes."
+    },
+    {
+      "link": "http://www.quicksprout.com/",
+      "titulo": "QuickSprout",
+      "descricao": "Analisador que fornece uma visão geral do desempenho do site e recomendações de otimização."
+    },
+    {
+      "link": "https://wordpress.org/plugins/wordpress-seo/",
+      "titulo": "Yoast SEO (WordPress)",
+      "descricao": "Plugin para WordPress que ajuda a otimizar SEO on-page, sitemap, meta tags e legibilidade."
+    },
+    {
+      "link": "http://seositecheckup.com/",
+      "titulo": "SEO Site Checkup",
+      "descricao": "Scanner que identifica problemas técnicos de SEO e sugere correções."
+    },
+    {
+      "link": "https://marketing.grader.com/",
+      "titulo": "Marketing Grader (HubSpot)",
+      "descricao": "Ferramenta para avaliar rapidamente sua presença de marketing digital e apontar melhorias."
+    },
+    {
+      "link": "https://www.similarweb.com/",
+      "titulo": "Similarweb",
+      "descricao": "Análise de tráfego e engajamento por domínio, com fontes de visita, categorias e benchmarks."
+    },
+    {
+      "link": "https://www.alexa.com/",
+      "titulo": "Alexa (histórico)",
+      "descricao": "Insights e ranking de sites (serviço descontinuado; referência histórica)."
+    },
+    {
+      "link": "https://serps.com/tools/rank_checke",
+      "titulo": "SERPs Rank Checker",
+      "descricao": "Verificador de posição de palavras-chave nos resultados de busca para monitorar rankings."
+    }
+  ]
+}

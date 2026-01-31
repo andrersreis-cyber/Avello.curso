@@ -1,0 +1,9 @@
+{
+  "id": 3,
+  "nome": "Aula 03 - Importando um template",
+  "descricao": "Nesta aula você vai descobrir como acelerar sua curva de aprendizado aproveitando os templates prontos de automação no n8n.\nO objetivo é mostrar, passo a passo, como importar fluxos já estruturados para que você não precise começar do zero.\n\nVocê vai aprender:\n\nOnde encontrar e como baixar templates de automações;\n\nO processo de importação dentro do painel do n8n;\n\nComo ajustar credenciais, variáveis e parâmetros para adaptar o fluxo ao seu contexto;\n\nBoas práticas para validar se o template está funcionando corretamente.\n\nAo final da aula, você terá um fluxo de automação importado, configurado e pronto para rodar, economizando horas de trabalho e acelerando seus resultados.",
+  "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/qmOpt-512Rw?si=HnNEbSHA3sUXLurQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+  "modulo": "Infraestrutura",
+  "link": null,
+  "free": true
+}

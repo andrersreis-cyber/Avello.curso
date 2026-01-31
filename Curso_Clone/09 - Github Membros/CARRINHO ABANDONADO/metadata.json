@@ -1,0 +1,15 @@
+{
+  "id": "ef9f836e-3d0c-4031-965f-5fea9f40cdeb",
+  "user_id": "cc840de8-7813-4a2e-96e1-ff5dfa010ebc",
+  "tipo": "fluxo",
+  "titulo": "CARRINHO ABANDONADO",
+  "descricao": "fazer um fluxo q puxe por exemplo de uma plataforma estilo kwify/kirvano etc. qnd o cliente não finaliza a compra, e faz o follow up de acordo com oq ele forneceu de dados antes de abandonar o carrinho\n",
+  "categoria": "Vendas",
+  "prioridade": "alta",
+  "status": "pendente",
+  "votos_positivos": 0,
+  "votos_negativos": 0,
+  "total_comentarios": 0,
+  "created_at": "2025-09-02T04:31:35.433724+00:00",
+  "updated_at": "2025-09-02T04:31:35.433724+00:00"
+}

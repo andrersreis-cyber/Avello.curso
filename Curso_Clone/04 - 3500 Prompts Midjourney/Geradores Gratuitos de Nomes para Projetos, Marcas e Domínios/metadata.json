@@ -1,0 +1,48 @@
+{
+  "id": 4,
+  "nome": "Geradores Gratuitos de Nomes para Projetos, Marcas e Domínios",
+  "descricao": "Uma seleção de ferramentas para transformar palavras-chave em nomes memoráveis e verificar disponibilidade de domínio e perfis sociais. Você pode explorar variações criativas, descobrir domínios curtos de uma única palavra, testar combinações com sufixos/prefixos e vasculhar TLDs alternativos em segundos. Ideal para batizar startups, produtos, newsletters e sites, acelerando brainstorm, validação e registro do nome com praticidade.",
+  "categoria": "Branding / Naming e Domínios",
+  "conteudo": [
+    {
+      "link": "http://thenameapp.com/",
+      "titulo": "The Name App",
+      "descricao": "Verifique rapidamente se o nome da sua ideia está disponível como domínio e em redes sociais populares."
+    },
+    {
+      "link": "http://www.naminum.com/",
+      "titulo": "Naminum",
+      "descricao": "Gerador que cria variações de nomes de empresa a partir de uma palavra-chave para achar opções únicas."
+    },
+    {
+      "link": "http://shortdomainsearch.com/",
+      "titulo": "Short Domain Search",
+      "descricao": "Pesquisa nomes de domínio curtos, de uma única palavra, mostrando opções disponíveis."
+    },
+    {
+      "link": "http://wordoid.com/",
+      "titulo": "Wordoid",
+      "descricao": "Cria palavras inventadas curtas e memoráveis com controle de idioma, padrão e qualidade."
+    },
+    {
+      "link": "http://www.hipsterbusiness.name/",
+      "titulo": "Hipster Business Name Generator",
+      "descricao": "Gera nomes de negócios com estética hipster/minimalista para marcas descoladas."
+    },
+    {
+      "link": "http://impossibility.org/",
+      "titulo": "Impossibility",
+      "descricao": "Combina sua palavra-chave com sufixos e prefixos criativos para sugerir domínios disponíveis."
+    },
+    {
+      "link": "http://www.leandomainsearch.com/",
+      "titulo": "Lean Domain Search",
+      "descricao": "Encontre domínios ao combinar sua palavra-chave com termos populares e filtrar por disponibilidade."
+    },
+    {
+      "link": "https://domainr.com/",
+      "titulo": "Domainr",
+      "descricao": "Busca rápida por domínios em centenas de TLDs, incluindo alternativas curtas e criativas."
+    }
+  ]
+}

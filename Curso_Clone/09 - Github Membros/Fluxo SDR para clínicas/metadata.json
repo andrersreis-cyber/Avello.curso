@@ -1,0 +1,15 @@
+{
+  "id": "dfcef13d-f00f-4959-87f1-8d31ca662aaf",
+  "user_id": "6518ca5f-952b-48b3-9000-32eec4cc70b0",
+  "tipo": "fluxo",
+  "titulo": "Fluxo SDR para clínicas",
+  "descricao": "Fluxo de SDR para Clínicas",
+  "categoria": "Comercial",
+  "prioridade": "alta",
+  "status": "pendente",
+  "votos_positivos": 1,
+  "votos_negativos": 0,
+  "total_comentarios": 0,
+  "created_at": "2025-08-18T10:20:56.507189+00:00",
+  "updated_at": "2025-08-18T10:33:22.010833+00:00"
+}

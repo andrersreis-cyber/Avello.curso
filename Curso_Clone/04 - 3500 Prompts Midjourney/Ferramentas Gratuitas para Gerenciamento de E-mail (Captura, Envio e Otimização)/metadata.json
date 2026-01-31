@@ -1,0 +1,78 @@
+{
+  "id": 10,
+  "nome": "Ferramentas Gratuitas para Gerenciamento de E-mail (Captura, Envio e Otimização)",
+  "descricao": "Colete leads com formulários, barras e popups (Contact Form 7, Hello Bar, ManyContacts, Sumo, Dreamgrow), organize listas e envie campanhas (Mailchimp, Sendinblue/Brevo), e integre envios transacionais por API com alta entregabilidade (SendGrid, Mailgun, Mandrill). Para elevar a performance, crie e-mails responsivos sem código (BEE Free) e monitore aberturas no Gmail (Mailtrack). Ideal para quem deseja montar um funil de e-mail completo — da captação ao envio — com baixo custo e velocidade de implementação.",
+  "categoria": "E-mail Marketing / Captura, Entrega e Automação",
+  "conteudo": [
+    {
+      "link": "https://wordpress.org/plugins/contact-form-7/",
+      "titulo": "Contact Form 7 (WordPress)",
+      "descricao": "Plugin amplamente usado para criar formulários e coletar endereços de e-mail no WordPress."
+    },
+    {
+      "link": "https://mailchimp.com/",
+      "titulo": "Mailchimp",
+      "descricao": "Plataforma de e-mail marketing para capturar leads, gerenciar listas e enviar campanhas."
+    },
+    {
+      "link": "https://www.manycontacts.com/",
+      "titulo": "ManyContacts",
+      "descricao": "Barra fixa no topo do site para captar e-mails e mensagens de visitantes."
+    },
+    {
+      "link": "https://www.hellobar.com/",
+      "titulo": "Hello Bar",
+      "descricao": "Barras e popups para aumentar assinantes de e-mail e conversões."
+    },
+    {
+      "link": "https://sumome.com/app/list-builder",
+      "titulo": "Sumo — List Builder",
+      "descricao": "Caixa de luz (popover) para coletar e-mails com gatilhos inteligentes."
+    },
+    {
+      "link": "https://wordpress.org/plugins/dreamgrow-scroll-triggered-box/",
+      "titulo": "Dreamgrow Scroll Triggered Box (WordPress)",
+      "descricao": "Popup acionado por rolagem para aumentar conversões e capturar e-mails (WordPress)."
+    },
+    {
+      "link": "https://sumome.com/app/scroll-box",
+      "titulo": "Sumo — Scroll Box",
+      "descricao": "Popup discreto acionado pela rolagem para captar e-mails de forma menos intrusiva."
+    },
+    {
+      "link": "http://mandrill.com/",
+      "titulo": "Mandrill (Mailchimp Transactional)",
+      "descricao": "Envio de e-mails transacionais com alta entrega via API."
+    },
+    {
+      "link": "https://www.mailgun.com/",
+      "titulo": "Mailgun",
+      "descricao": "Serviço de e-mail para desenvolvedores com API para envios transacionais e validação."
+    },
+    {
+      "link": "https://sendgrid.com/",
+      "titulo": "SendGrid",
+      "descricao": "Plataforma de e-mail transacional e marketing com APIs e ferramentas de entrega."
+    },
+    {
+      "link": "https://www.sendinblue.com/",
+      "titulo": "Sendinblue (Brevo)",
+      "descricao": "Envio de e-mails de marketing e transacionais com automações e segmentação."
+    },
+    {
+      "link": "https://mailtrack.io/en/",
+      "titulo": "Mailtrack",
+      "descricao": "Rastreamento de abertura de e-mails no Gmail com recibos de leitura."
+    },
+    {
+      "link": "https://beefree.io/index.aspx",
+      "titulo": "BEE Free",
+      "descricao": "Editor de e-mails responsivos com blocos arrastáveis para montar campanhas rapidamente."
+    },
+    {
+      "link": "http://www.cannedemails.com/",
+      "titulo": "Canned Emails",
+      "descricao": "Coleção de e-mails pré-escritos e minimalistas para respostas rápidas."
+    }
+  ]
+}

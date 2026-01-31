@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "nome": "Aula 02 – EasyPanel instalando N8N",
+  "descricao": "Nesta aula você vai aprender como utilizar o EasyPanel, um painel de gerenciamento de servidores que simplifica toda a instalação e administração de aplicações, para instalar e configurar o n8n na sua VPS.\n\nVocê vai ver na prática:\n\nComo acessar e configurar o EasyPanel;\n\nO passo a passo para instalar o n8n de forma rápida e sem complicação;\n\nAs boas práticas para manter sua aplicação estável e segura;\n\nComo validar se a instalação está funcionando corretamente.\n\nAo final da aula, você terá o n8n rodando dentro do EasyPanel, pronto para receber seus primeiros fluxos de automação.",
+  "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube-nocookie.com/embed/WS0RYx1WgZU?si=S3jCZ5OtHkCK05Hr\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+  "modulo": "Infraestrutura",
+  "link": null,
+  "free": true
+}

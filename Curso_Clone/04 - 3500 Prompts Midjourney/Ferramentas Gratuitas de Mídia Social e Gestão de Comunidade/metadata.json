@@ -1,0 +1,73 @@
+{
+  "id": 12,
+  "nome": "Ferramentas Gratuitas de Mídia Social e Gestão de Comunidade",
+  "descricao": "Um kit para planejar, produzir e analisar conteúdo social sem custos. Crie threads e imagens otimizadas para Twitter (WriteRack, Spruce, Click to Tweet), aumente tráfego e compartilhamentos (MyTweetLinks, Pinterest Pin It), agende posts no Instagram (Latergram), e monitore métricas de URL e seguidores (SharedCount, HowManyShares, Crowdfire, SocialRank). Para complementar, use extensões e análises de hashtags (RiteTag) e métricas no navegador (Social Analytics). Ideal para creators, social media e comunidades que buscam eficiência e crescimento orgânico.",
+  "categoria": "Mídias Sociais / Gestão de Comunidade e Conteúdo",
+  "conteudo": [
+    {
+      "link": "http://writerack.com/",
+      "titulo": "WriteRack",
+      "descricao": "Ferramenta para criar e publicar tweetstorms com formatação correta e em sequência."
+    },
+    {
+      "link": "http://www.tryspruce.com/",
+      "titulo": "Spruce",
+      "descricao": "Crie imagens prontas para o Twitter em segundos, otimizadas para compartilhamento."
+    },
+    {
+      "link": "http://coschedule.com/click-to-tweet",
+      "titulo": "CoSchedule — Click to Tweet",
+      "descricao": "Gere trechos clicáveis para aumentar compartilhamentos do seu conteúdo no Twitter."
+    },
+    {
+      "link": "http://mytweetlinks.com/",
+      "titulo": "MyTweetLinks",
+      "descricao": "Transforme links em CTAs para ampliar o tráfego e o engajamento no Twitter."
+    },
+    {
+      "link": "http://www.latergram.me/",
+      "titulo": "Latergram (Later)",
+      "descricao": "Planeje e agende facilmente postagens no Instagram com visualização do feed."
+    },
+    {
+      "link": "https://wordpress.org/plugins/pinterest-pin-it-button-for-images/",
+      "titulo": "Pinterest Pin It Button (WordPress)",
+      "descricao": "Adiciona botão “Pin It” às imagens do seu site para facilitar salvamentos no Pinterest."
+    },
+    {
+      "link": "https://www.sharedcount.com/",
+      "titulo": "SharedCount",
+      "descricao": "Rastreie compartilhamentos, curtidas e tweets de qualquer URL para medir alcance."
+    },
+    {
+      "link": "http://howmanyshares.com/",
+      "titulo": "How Many Shares",
+      "descricao": "Conte quantos compartilhamentos um URL possui nas principais redes em um só lugar."
+    },
+    {
+      "link": "http://www.crowdfireapp.com/",
+      "titulo": "Crowdfire",
+      "descricao": "Gerencie seguir/deixar de seguir e limpeza de inativos no Twitter e Instagram."
+    },
+    {
+      "link": "https://www.socialrank.com/",
+      "titulo": "SocialRank",
+      "descricao": "Identifique, organize e gerencie seus seguidores do Twitter por influência e engajamento."
+    },
+    {
+      "link": "http://blog.klout.com/2014/06/klout-browser-extensions/",
+      "titulo": "Klout — Browser Extensions (histórico)",
+      "descricao": "Extensão com pontuação de influência de mídia social (referência histórica)."
+    },
+    {
+      "link": "https://ritetag.com/hashtag-academy/ritetag-browser-extensions-scheduling-productivity",
+      "titulo": "RiteTag — Hashtag Academy & Extensions",
+      "descricao": "Análise instantânea de hashtags e extensões para produtividade e agendamento."
+    },
+    {
+      "link": "https://chrome.google.com/webstore/detail/social-analytics/pgckigmaefoaemjpijdepakcghjkggmg/intera%C3%A7%C3%B5es",
+      "titulo": "Social Analytics (Chrome)",
+      "descricao": "Extensão do Chrome que exibe métricas sociais de páginas e conteúdos."
+    }
+  ]
+}

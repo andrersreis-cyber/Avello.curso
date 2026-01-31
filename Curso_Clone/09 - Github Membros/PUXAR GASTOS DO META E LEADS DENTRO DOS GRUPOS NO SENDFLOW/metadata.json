@@ -1,0 +1,15 @@
+{
+  "id": "bd0aeb56-b948-4e8b-9e3a-4cd3f3ae9969",
+  "user_id": "369304fd-be46-4e82-a35b-e47879e33ee4",
+  "tipo": "fluxo",
+  "titulo": "PUXAR GASTOS DO META E LEADS DENTRO DOS GRUPOS NO SENDFLOW",
+  "descricao": "IMPLEMENTAR OS GASTOS DA META JUNTO COM QUANTIDADE DE LEADS DENTRO DOS GRUOPS DO SENDFLOW",
+  "categoria": "AUTOMAÇÃO",
+  "prioridade": "alta",
+  "status": "pendente",
+  "votos_positivos": 1,
+  "votos_negativos": 0,
+  "total_comentarios": 0,
+  "created_at": "2025-08-21T21:02:49.255055+00:00",
+  "updated_at": "2025-08-21T21:03:54.294759+00:00"
+}

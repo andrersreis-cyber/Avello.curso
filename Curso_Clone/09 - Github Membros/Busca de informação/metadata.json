@@ -1,0 +1,15 @@
+{
+  "id": "e5e3ac0f-8d06-49fa-b768-db46f96b310e",
+  "user_id": "1ccd8be5-18bd-49a0-b696-10ac6d1cec74",
+  "tipo": "fluxo",
+  "titulo": "Busca de informação",
+  "descricao": "Fluxo para busca de informação sobre uma empresa (surface web e dark web), o objetivo é o monitoramento da minha empresa. Sabe se o nome da empresa está sendo mencionado em algum site na internet, se está sendo mencionado na darkweb, verificar publicações de redes sociais a fim de evitar fraudes com o nome da minha empresa(s), verificar se há dados sendo vendidos na dark web, etc. Gerar um relatório e enviar por email.",
+  "categoria": null,
+  "prioridade": "alta",
+  "status": "pendente",
+  "votos_positivos": 0,
+  "votos_negativos": 0,
+  "total_comentarios": 0,
+  "created_at": "2025-08-19T12:30:55.222219+00:00",
+  "updated_at": "2025-08-19T12:30:55.222219+00:00"
+}

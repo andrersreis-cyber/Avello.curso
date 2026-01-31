@@ -1,0 +1,15 @@
+{
+  "id": "0002854b-372f-435c-ba5d-820e0d39f0db",
+  "user_id": "dd75c224-4151-495b-9fd8-29022351b2c7",
+  "tipo": "fluxo",
+  "titulo": "Atualização de banco de dados",
+  "descricao": "Disparo de mensagem pelo whatsapp automático para pessoas que estão faltando dados no banco de dados, atualiza, edita e apaga dados, tudo de forma automatica com uma rotina mensal",
+  "categoria": "Automação",
+  "prioridade": "alta",
+  "status": "pendente",
+  "votos_positivos": 0,
+  "votos_negativos": 0,
+  "total_comentarios": 0,
+  "created_at": "2025-08-18T16:46:45.730938+00:00",
+  "updated_at": "2025-08-18T16:46:45.730938+00:00"
+}

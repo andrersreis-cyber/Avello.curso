@@ -1,0 +1,59 @@
+{
+  "id": 7,
+  "nome": "Extensões e Apps para Turbinar seu Assistente Virtual",
+  "link": null,
+  "descricao": "Uma seleção de 10 ferramentas que ampliam a eficiência no dia a dia: descubra pautas e FAQs com AlsoAsked, organize ideias com mapas mentais (MindMeister), gerencie tarefas visualmente (Trello), salve leituras (Pocket) e centralize notas (Evernote/Google Keep). Eleve a qualidade dos textos (Grammarly), coordene redes sociais (Hootsuite), faça reuniões produtivas (Zoom) e transforme áudio em texto pesquisável (Otter.ai). Integre-as ao seu fluxo para acelerar entregas, reduzir retrabalho e manter tudo organizado.",
+  "imagem_url": "https://segredosdon8n.com/wp-content/uploads/2025/08/20250818_0113_Capa-Digital-Futurista_simple_compose_01k2xp16wxfrc9dcrr4kdpmktb.png",
+  "conteudo": [
+    {
+      "link": "https://alsoasked.com/",
+      "titulo": "AlsoAsked",
+      "descricao": "Extensão/serviço que revela perguntas relacionadas às buscas no Google para gerar ideias de conteúdo e FAQs."
+    },
+    {
+      "link": "https://www.mindmeister.com/",
+      "titulo": "MindMeister",
+      "descricao": "Mapas mentais colaborativos para organizar ideias, estratégias e fluxos de informação visualmente."
+    },
+    {
+      "link": "https://trello.com/",
+      "titulo": "Trello",
+      "descricao": "Quadros, listas e cartões para gerenciar projetos e acompanhar tarefas com o time."
+    },
+    {
+      "link": "https://getpocket.com/",
+      "titulo": "Pocket",
+      "descricao": "Salve artigos, vídeos e páginas para ler/ver mais tarde e mantenha sua pesquisa organizada."
+    },
+    {
+      "link": "https://evernote.com/",
+      "titulo": "Evernote",
+      "descricao": "Notas, imagens e arquivos centralizados em cadernos com busca poderosa e organização por tags."
+    },
+    {
+      "link": "https://www.grammarly.com/",
+      "titulo": "Grammarly",
+      "descricao": "Verifica gramática, ortografia, clareza e tom em tempo real no navegador e em apps."
+    },
+    {
+      "link": "https://keep.google.com/",
+      "titulo": "Google Keep",
+      "descricao": "Notas rápidas, listas e lembretes sincronizados no ecossistema Google."
+    },
+    {
+      "link": "https://hootsuite.com/",
+      "titulo": "Hootsuite",
+      "descricao": "Gerencie redes sociais, agende posts e acompanhe métricas de engajamento."
+    },
+    {
+      "link": "https://zoom.us/",
+      "titulo": "Zoom",
+      "descricao": "Videoconferência e webinars com chat, gravação e recursos de colaboração."
+    },
+    {
+      "link": "http://otter.ai/",
+      "titulo": "Otter.ai",
+      "descricao": "Transcrição automática de reuniões e entrevistas com busca por palavras-chave."
+    }
+  ]
+}

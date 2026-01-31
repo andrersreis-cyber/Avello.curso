@@ -1,0 +1,48 @@
+{
+  "id": 11,
+  "nome": "Guias e Cursos Gratuitos de Marketing, Vendas e Empreendedorismo",
+  "descricao": "Uma curadoria de conteúdos gratuitos para acelerar sua evolução em marketing digital, vendas e criação de produtos. Aprenda fundamentos práticos (Google Primer), aumente o LTV com um e-book dedicado (Receiptful), precifique melhor seus serviços (Double Your Freelancing), conquiste patrocínios (Get Sponsors), desenvolva habilidades de marketing e vendas para startups (Startup Sales Bootcamp), crie e lance cursos online (Teachery), aplique boas práticas de e-mail marketing (Mailcharts) e comece seu blog com o pé direito (FirstSiteGuide).",
+  "categoria": "Educação / Marketing e Empreendedorismo",
+  "conteudo": [
+    {
+      "link": "https://www.yourprimer.com/",
+      "titulo": "Google Primer",
+      "descricao": "Aulas curtas e práticas de marketing, sem jargões, cobrindo fundamentos de negócios e crescimento."
+    },
+    {
+      "link": "https://receiptful.com/customer-lifetime-value-book",
+      "titulo": "Customer Lifetime Value (Receiptful)",
+      "descricao": "E-book gratuito sobre estratégias para aumentar o valor de vida do cliente e maximizar receita."
+    },
+    {
+      "link": "http://doubleyourfreelancing.com/free-pricing-course/",
+      "titulo": "Free Pricing Course — Double Your Freelancing",
+      "descricao": "Curso gratuito de 9 dias para definir preços com confiança e cobrar o que você vale."
+    },
+    {
+      "link": "http://youcangetsponsors.com/producthunt",
+      "titulo": "Get Sponsors — Product Hunt Guide",
+      "descricao": "Guia prático para conseguir patrocínios para projetos, eventos e produtos."
+    },
+    {
+      "link": "http://buyin.startupsalesbootcamp.com/",
+      "titulo": "Startup Sales Bootcamp — Buy-In",
+      "descricao": "Curso gratuito para aprimorar habilidades de marketing e vendas em startups."
+    },
+    {
+      "link": "https://a-course-about-building-online-courses.teachery.co/default",
+      "titulo": "A Course About Building Online Courses",
+      "descricao": "Curso gratuito que ensina a planejar, criar e lançar um curso online."
+    },
+    {
+      "link": "http://www.mailcharts.com/email-marketing-best-practices",
+      "titulo": "Mailcharts — Email Marketing Best Practices",
+      "descricao": "Curso gratuito com práticas recomendadas para melhorar campanhas de e-mail."
+    },
+    {
+      "link": "http://firstsiteguide.com/blogging-intro/",
+      "titulo": "FirstSiteGuide — Blogging Intro",
+      "descricao": "Guia para iniciantes com passos essenciais para ter um blog de sucesso."
+    }
+  ]
+}

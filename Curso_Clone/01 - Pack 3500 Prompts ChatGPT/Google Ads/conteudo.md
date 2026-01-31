@@ -1,0 +1,177 @@
+# Google Ads
+
+**Descrição:** Coleção de prompts sobre Google Ads.
+
+**Categoria:** Google Ads
+
+## Prompt (PT-BR)
+```text
+Produto: [detalhes do seu produto]
+
+Crie um anúncio de pesquisa responsivo do Google para o meu produto acima.
+Crie 5 títulos exclusivos com no máximo 30 caracteres.
+Crie 4 descrições com no máximo 90 caracteres.
+Produto: [detalhes do seu produto]
+
+Crie 4 extensões de sitelink para anúncios do Google com URLs sugeridas.
+Cada link de site deve ter
+um título com no máximo 30 caracteres.
+Cada link de site deve ter 2 descrições com no máximo 25 caracteres cada.
+Produto: [detalhes do seu produto]
+
+Crie 10 extensões de chamada do Google Ads com no máximo 25 caracteres cada.
+Produto: [detalhes do seu produto]
+
+Crie 2 snippets estruturados do Google Ads.
+Cada snippet deve ter 5 valores.
+Cada valor deve ter no máximo 15 caracteres.
+O formato deve ser
+Digite: Valor 1, Valor 2, etc.
+Produto: [detalhes do seu produto]
+
+Crie uma lista de palavras-chave negativas do Google Ads
+Produto: [detalhes do seu produto]
+
+Quais segmentos de público-alvo do Google Ads devo segmentar para o meu produto acima?
+Produto: [detalhes do seu produto]
+
+Quais conversões meu site deve monitorar?
+Produto: [detalhes do seu produto]
+
+Crie uma lista de concorrentes para as Ferramentas de PPC e seus gastos mensais estimados com anúncios de pesquisa paga.
+Produto: [detalhes do seu produto]
+
+Forneça uma lista de palavras-chave com estimativa de cliques, CPC médio e concorrência.
+Produto: [detalhes do seu produto]
+
+Quais dados demográficos (idade, sexo, faixa etária, porcentagem de renda) devem ser segmentados para o meu produto acima?
+Produto: [detalhes do seu produto]
+
+Liste algumas frases de chamariz atraentes para meus anúncios do Google
+Produto: [detalhes do seu produto]
+
+Qual a porcentagem do orçamento que devo alocar para anúncios do Google e da Microsoft? Forneça uma justificativa detalhada para sua recomendação.
+Produto: [detalhes do seu produto]
+
+Forneça alguns segmentos de público-alvo de retargeting para testar com o meu produto.
+Produto: [detalhes do seu produto]
+
+Forneça exemplos de países que eu deveria segmentar para o meu produto acima e que teriam taxas de conversão mais altas.
+Produto: [detalhes do seu produto]
+
+Criar uma lista de canais do YouTube irrelevantes para o meu público-alvo como uma lista de exclusão. Fornecer exemplos de canais do YouTube.
+Produto: [detalhes do seu produto]
+
+Forneça-me um script de anúncios do Google que verifique o relatório de termos de pesquisa diariamente e marque todas as palavras-chave para as quais não estou dando lances como palavras-chave negativas.
+Produto: [detalhes do seu produto]
+
+Quais países não devo segmentar? Forneça exemplos de países e justificativas para cada um.
+Produto: [detalhes do seu produto]
+
+Quero criar um teste A/B para minha landing page. Quais variantes devo testar?
+Produto: [detalhes do seu produto]
+
+Escreva uma nota para o meu cliente explicando por que devemos aumentar o orçamento.
+```
+
+## Prompt (EN-US)
+```text
+Create a campaign structure with ad groups and keywords
+Product: [detail of your product]
+
+Create a 3 Google ads campaign for my product above.
+Each campaign should contain 2 ad groups with a theme.
+Each ad group should contain 3 keywords.
+Keywords should be unique
+The output should be in this format:
+
+Campaign
+Ad Group
+Keywords
+Create responsive search ads with ChatGPT
+Product: [detail of your product]
+
+Create a Google Responsive search ad for my product above.
+Create 5 unique headlines with no more than 30 characters.
+Create 4 descriptions with no more than 90 characters
+Create sitelink ad extensions with ChatGPT
+Product: [detail of your product]
+
+Create 4 Google ads sitelink extensions with suggested URLs.
+Each site link should have
+title with no more than 30 characters.
+Each site link should have 2 descriptions with no more than 25 characters each.
+Create call out extensions with ChatGPT
+Product: [detail of your product]
+
+Create 10 Google Ads Call Out extensions with no more than twenty five characters each.
+Create structured snippets with ChatGPT
+Product: [detail of your product]
+
+Create 2 Google Ads Structured Snippets.
+Each snippet should have 5 values.
+Each value should be no longer than 15 characters
+The format should be
+Type: Value 1, Value 2, etc.
+Create a list of negative keywords with ChatGPT
+Product: [detail of your product]
+
+Create a list of Google Ads negative keywords
+Create a list of in-market audience segments with ChatGPT
+Product: [detail of your product]
+
+What Google Ads in-market audience segments should I target for my product above?
+Paid search conversion tracking ideas with ChatGPT
+Product: [detail of your product]
+
+What conversions should track for my website?
+Google Ads competitive research with ChatGPT
+Product: [detail of your product]
+
+Create a list of competitors for PPC Tools and their estimated monthly paid search ad spend
+Create a list of keywords with estimated clicks, average CPC, and competition level
+Product: [detail of your product]
+
+Provide a keyword list with estimated clicks, average CPC and competition
+Specify demographic targets with ChatGPT
+Product: [detail of your product]
+
+What demographics (age, sex, age, income % level) should target for my product above?
+Create CTAs with ChatGPT
+Product: [detail of your product]
+
+List some compelling call to action phrases for my Google ads
+Budget allocation recommendations with ChatGPT
+Product: [detail of your product]
+
+How much budget % should I allocate to Google ads and Microsoft ads. Please provide detailed rationale for your recommendation.
+Create audience segment ideas for retargeting with ChatGPT
+Product: [detail of your product]
+
+Provide some retargeting audience segments to try for my product.
+Get ideas on countries/regions to target with ChatGPT
+Product: [detail of your product]
+
+Provide example countries I should target for my product above that will have higher conversion rates
+Create YouTube Exclusion list with ChatGPT
+Product: [detail of your product]
+
+Create a list of youtube channels that are irrelevant to my target audience as an exclusion list. Provide sample Youtube channels
+Create Google Ad Scripts with ChatGPT
+Product: [detail of your product]
+
+Provide me a Google ads script that checks the search term report daily and marks all keywords I am not bidding on a negative keyword
+Create a list of countries to exclude with ChatGPT
+Product: [detail of your product]
+
+What countries should I not target? Please provide example countries and rationale for each.
+Generate ideas for a/b testing
+Product: [detail of your product]
+
+I want to create an A/B test for my landing page. What variants should I test?
+Client communication is easier with ChatGPT
+Product: [detail of your product]
+
+Write a note to my client as to why we should increase the budget
+```
+

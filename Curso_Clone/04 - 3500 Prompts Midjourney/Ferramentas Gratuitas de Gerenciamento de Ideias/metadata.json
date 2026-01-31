@@ -1,0 +1,23 @@
+{
+  "id": 3,
+  "nome": "Ferramentas Gratuitas de Gerenciamento de Ideias",
+  "descricao": "Um conjunto prático para tirar ideias do papel: valide suposições de mercado e produto com o Experiment Board, estruture pensamentos em planos acionáveis no germ.io e comunique conceitos com rapidez usando anotações visuais no Skitch. Ideal para startups, times de produto e freelancers que buscam passar de hipótese a execução sem custos iniciais.",
+  "categoria": "Produto e Inovação",
+  "conteudo": [
+    {
+      "link": "http://www.javelin.com/experiment-board.html",
+      "titulo": "Javelin Experiment Board",
+      "descricao": "Quadro de experimentos para validar hipóteses de cliente, problema e solução rapidamente, reduzindo desperdício de tempo e dinheiro."
+    },
+    {
+      "link": "http://germ.io/",
+      "titulo": "germ.io",
+      "descricao": "Gestão de ideias do brainstorm à execução, organizando passos acionáveis e colaboração da equipe."
+    },
+    {
+      "link": "https://evernote.com/skitch/",
+      "titulo": "Evernote Skitch",
+      "descricao": "Captura e anotação de telas/imagens para comunicar ideias visualmente e iterar mais rápido."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": 5,
+  "nome": "Melhores Bancos de Imagens Gratuitas (Fotos & Vetores)",
+  "link": null,
+  "descricao": "Uma seleção confiável de fontes com fotos em alta resolução — e, em alguns casos, vetores e ilustrações — para acelerar a produção de criativos, posts, sites e apresentações. Explore acervos amplos (Unsplash, Pexels, Pixabay), opções criativas/autorais (Gratisography, SplitShire, Reshot, Kaboompics) e bibliotecas que também oferecem gráficos e planos premium (Freepik, Rawpixel). Sempre verifique os termos de uso/licenças de cada item antes de publicar ou redistribuir.",
+  "imagem_url": "https://segredosdon8n.com/wp-content/uploads/2025/08/20250818_0105_Capa-Futurista-de-SaaS_simple_compose_01k2xnk50efk1asx62j9q5wf29.png",
+  "conteudo": [
+    {
+      "link": "https://unsplash.com/",
+      "titulo": "Unsplash",
+      "descricao": "Banco de fotos gratuito com imagens em alta resolução enviadas por fotógrafos do mundo todo, ideal para projetos pessoais e comerciais."
+    },
+    {
+      "link": "https://www.pexels.com/",
+      "titulo": "Pexels",
+      "descricao": "Fotos e vídeos gratuitos de alta qualidade, com buscas por palavra-chave e coleções temáticas para qualquer tipo de projeto."
+    },
+    {
+      "link": "https://pixabay.com/",
+      "titulo": "Pixabay",
+      "descricao": "Plataforma com grande acervo de fotos, vetores, ilustrações e vídeos livres para uso em projetos diversos."
+    },
+    {
+      "link": "https://www.freepik.com/",
+      "titulo": "Freepik",
+      "descricao": "Biblioteca de recursos gráficos (fotos, vetores, mockups e PSDs) com opções gratuitas e plano premium."
+    },
+    {
+      "link": "https://gratisography.com/",
+      "titulo": "Gratisography",
+      "descricao": "Fotos criativas e diferenciadas em alta resolução, com curadoria autoral para dar personalidade aos projetos."
+    },
+    {
+      "link": "https://stocksnap.io/",
+      "titulo": "StockSnap",
+      "descricao": "Grande coleção de fotos em alta qualidade, atualizada frequentemente e organizada por categorias e tendências."
+    },
+    {
+      "link": "https://www.reshot.com/",
+      "titulo": "Reshot",
+      "descricao": "Coleção selecionada de fotos autênticas e modernas para uso pessoal e comercial, com foco em originalidade."
+    },
+    {
+      "link": "https://www.splitshire.com/",
+      "titulo": "SplitShire",
+      "descricao": "Banco com imagens de alta qualidade feitas por Daniel Nanescu, cobrindo temas como lifestyle, pessoas e paisagens."
+    },
+    {
+      "link": "https://kaboompics.com/",
+      "titulo": "Kaboompics",
+      "descricao": "Fotos gratuitas em alta resolução com destaque para lifestyle, interiores, produtos e moda."
+    },
+    {
+      "link": "https://www.rawpixel.com/",
+      "titulo": "Rawpixel",
+      "descricao": "Acervo de fotos, vetores e ilustrações; combina recursos gratuitos com opções premium para usos específicos."
+    }
+  ]
+}

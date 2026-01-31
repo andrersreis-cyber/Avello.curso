@@ -1,0 +1,53 @@
+{
+  "id": 9,
+  "nome": "Editores e Ferramentas Gratuitas para Criar Imagens",
+  "descricao": "Um conjunto de editores e utilitários para produzir visuais em minutos: edite fotos e crie designs do zero (Canva, Pixlr), anote e explique ideias em imagens (Skitch), monte infográficos (Easel.ly), gere formatos para redes e favicon (IM Ninjas), aplique mockups profissionais (Placeit), transforme frases em artes (Recite), crie memes em um clique (MemeGenerator) e acelere criativos para social (Pablo). Ideal para creators, social media e pequenos negócios que precisam de agilidade e qualidade sem custos.",
+  "categoria": "Design Visual / Criação de Imagens e Social Media",
+  "conteudo": [
+    {
+      "link": "https://www.canva.com/",
+      "titulo": "Canva",
+      "descricao": "Editor de design online simples para criar posts, banners, apresentações e materiais visuais rapidamente."
+    },
+    {
+      "link": "http://apps.pixlr.com/editor/",
+      "titulo": "Pixlr Editor",
+      "descricao": "Editor de fotos robusto no navegador com camadas, ajustes e ferramentas avançadas."
+    },
+    {
+      "link": "https://evernote.com/skitch/",
+      "titulo": "Skitch (Evernote)",
+      "descricao": "Anote, destaque e compartilhe ideias visualmente em capturas de tela e imagens."
+    },
+    {
+      "link": "https://www.easel.ly/",
+      "titulo": "Easel.ly",
+      "descricao": "Criação fácil de infográficos e recursos visuais para apresentar dados e ideias."
+    },
+    {
+      "link": "http://www.internetmarketingninjas.com/seo-tools/favicon-generator-crop-images/",
+      "titulo": "IM Ninjas — Social Image & Favicon",
+      "descricao": "Gere favicons e recortes otimizados para redes sociais a partir das suas imagens."
+    },
+    {
+      "link": "https://placeit.net/",
+      "titulo": "Placeit",
+      "descricao": "Mockups e modelos prontos para apresentar apps, sites, camisetas e produtos."
+    },
+    {
+      "link": "http://www.recite.com/",
+      "titulo": "Recite",
+      "descricao": "Transforme citações em artes visuais prontas para compartilhar."
+    },
+    {
+      "link": "http://memegenerator.net/",
+      "titulo": "MemeGenerator",
+      "descricao": "Crie memes rapidamente com modelos populares e texto personalizado."
+    },
+    {
+      "link": "https://buffer.com/pablo",
+      "titulo": "Pablo (Buffer)",
+      "descricao": "Crie imagens atraentes para redes sociais em segundos, com textos e layouts simples."
+    }
+  ]
+}

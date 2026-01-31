@@ -1,0 +1,57 @@
+{
+  "id": 12,
+  "nome_pt": "Obter detalhes de um fórum Disqus",
+  "descricao_pt": "Fluxo que, ao ser iniciado manualmente, consulta a API do Disqus para obter informações de um fórum específico.",
+  "funcionalidade_pt": "• Início manual: Permite executar o fluxo manualmente quando desejado.\n• Consulta de fórum Disqus: Recupera os detalhes de um fórum usando o identificador fornecido ('hackernoon').\n• Uso de credenciais API: Suporta configuração de credenciais para autenticar a chamada à API do Disqus.\n• Encadeamento simples: Executa a chamada à API imediatamente após o gatilho de execução.",
+  "ferramentas_pt": "• Disqus: Plataforma de comentários que fornece uma API para obter informações e metadados de fóruns.",
+  "link_drive": "https://drive.google.com/file/d/15XKhUEvozHr6E3Sd_F5Q38uw_jYPzrBT/view?usp=drivesdk",
+  "fluxo_json": {
+    "id": "119",
+    "name": "Get details of a forum in Disqus",
+    "nodes": [
+      {
+        "name": "On clicking 'execute'",
+        "type": "n8n-nodes-base.manualTrigger",
+        "position": [
+          250,
+          300
+        ],
+        "parameters": {},
+        "typeVersion": 1
+      },
+      {
+        "name": "Disqus",
+        "type": "n8n-nodes-base.disqus",
+        "position": [
+          450,
+          300
+        ],
+        "parameters": {
+          "id": "hackernoon",
+          "additionalFields": {}
+        },
+        "credentials": {
+          "disqusApi": ""
+        },
+        "typeVersion": 1
+      }
+    ],
+    "active": false,
+    "settings": {},
+    "connections": {
+      "On clicking 'execute'": {
+        "main": [
+          [
+            {
+              "node": "Disqus",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "free": false,
+  "thumbnail_url": "https://ksbinfxpmbklkvzsrfql.supabase.co/storage/v1/object/public/workflow-thumbnails/pack/12.svg"
+}

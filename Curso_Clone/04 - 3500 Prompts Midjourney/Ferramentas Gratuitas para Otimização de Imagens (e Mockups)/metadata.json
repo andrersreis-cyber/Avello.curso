@@ -1,0 +1,53 @@
+{
+  "id": 8,
+  "nome": "Ferramentas Gratuitas para Otimização de Imagens (e Mockups)",
+  "descricao": "Um kit enxuto para acelerar páginas e apresentar melhor seus visuais: compacte e otimize imagens para reduzir peso e tempo de carregamento (TinyJPG, TinyPNG, Compressor.io, Kraken.io, ImageOptimizer.net, ImageOptim), automatize a otimização dentro do WordPress (WP Smushit) e produza mockups profissionais para demos e portfólios (Dunnnk, InstaMockup). Ideal para creators, times de marketing e desenvolvedores focados em performance e boas apresentações.",
+  "categoria": "Performance Web / Design Visual",
+  "conteudo": [
+    {
+      "link": "https://tinyjpg.com/",
+      "titulo": "TinyJPG",
+      "descricao": "Compressão inteligente de imagens JPEG para reduzir tamanho sem perder qualidade perceptível."
+    },
+    {
+      "link": "https://tinypng.com/",
+      "titulo": "TinyPNG",
+      "descricao": "Compacte imagens PNG (e formatos populares) mantendo transparência e boa qualidade."
+    },
+    {
+      "link": "https://compressor.io/",
+      "titulo": "Compressor.io",
+      "descricao": "Otimiza e comprime imagens online com suporte a vários formatos para melhorar o carregamento."
+    },
+    {
+      "link": "https://kraken.io/web-interface",
+      "titulo": "Kraken.io (Web Interface)",
+      "descricao": "Otimização de imagens em massa com modos lossless e lossy para acelerar sites."
+    },
+    {
+      "link": "http://www.imageoptimizer.net/Pages/Home.aspx",
+      "titulo": "ImageOptimizer.net",
+      "descricao": "Redimensione, comprima e otimize arquivos de imagem diretamente no navegador."
+    },
+    {
+      "link": "https://imageoptim.com/",
+      "titulo": "ImageOptim",
+      "descricao": "Remove metadados e comprime imagens para ocupar menos espaço e carregar mais rápido."
+    },
+    {
+      "link": "https://wordpress.org/plugins/wp-smushit/",
+      "titulo": "WP Smushit (WordPress)",
+      "descricao": "Plugin para otimização automática de imagens no WordPress, incluindo compressão e redimensionamento."
+    },
+    {
+      "link": "http://dunnnk.com/",
+      "titulo": "Dunnnk",
+      "descricao": "Gere maquetes elegantes para apresentar suas imagens e designs em dispositivos."
+    },
+    {
+      "link": "http://www.instamockup.com/",
+      "titulo": "InstaMockup",
+      "descricao": "Crie screenshots e mockups bonitos do seu app ou site para apresentações."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Gerador de Prompts Específicos de IA (Chatgptsaas)
+
+**Descrição:**
+Uma ferramenta online focada em criar prompts de IA sob medida, ajudando você a produzir instruções claras e reutilizáveis para diferentes casos — de marketing e conteúdo a automações e suporte. Ideal para acelerar testes, padronizar qualidade e ganhar escala em processos que dependem de boa engenharia de prompt.
+
+**Link:** [Acessar Ferramenta](https://chatgptsaas.netlify.app)
+
+![Imagem](https://segredosdon8n.com/wp-content/uploads/2025/08/20250818_0110_Design-Futurista-Premium_simple_compose_01k2xnwyezefrr8bheccs0z13x.png)
+

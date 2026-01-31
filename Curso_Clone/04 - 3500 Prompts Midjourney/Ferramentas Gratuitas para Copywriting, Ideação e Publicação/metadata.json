@@ -1,0 +1,93 @@
+{
+  "id": 5,
+  "nome": "Ferramentas Gratuitas para Copywriting, Ideação e Publicação",
+  "descricao": "Um kit prático para produzir e distribuir conteúdo com mais qualidade e menos fricção. Edite e clareie seus textos (Hemingway, Grammarly), foque na escrita sem distrações (ZenPen, Blank Page), planeje e gerencie o calendário editorial (Editorial Calendar), colabore e publique para ganhar audiência (Medium, Story Wars, Known, Wattpad), teste e otimize títulos (Headline Analyzer), use utilitários que aceleram o processo (E.ggTimer, a5.gg, Free Summarizer) e, quando necessário, gere e-books diretamente do Drive (Liber.io). Ideal para creators, blogs e times de marketing que precisam elevar consistência, ritmo e impacto do conteúdo.",
+  "categoria": "Marketing de Conteúdo / Escrita e Publicação",
+  "conteudo": [
+    {
+      "link": "http://www.hemingwayapp.com/",
+      "titulo": "Hemingway App",
+      "descricao": "Editor que destaca frases longas, voz passiva e palavras complexas para tornar sua escrita clara e direta."
+    },
+    {
+      "link": "https://www.grammarly.com/",
+      "titulo": "Grammarly",
+      "descricao": "Verificador de gramática, ortografia, estilo e tom para melhorar textos em tempo real."
+    },
+    {
+      "link": "https://medium.com/",
+      "titulo": "Medium",
+      "descricao": "Plataforma para publicar artigos e descobrir ideias de autores do mundo todo."
+    },
+    {
+      "link": "http://www.zenpen.io/",
+      "titulo": "ZenPen",
+      "descricao": "Editor minimalista sem distrações para foco total na escrita."
+    },
+    {
+      "link": "http://liber.io/",
+      "titulo": "Liber.io",
+      "descricao": "Ferramenta para criar e publicar e-books diretamente a partir do Google Drive."
+    },
+    {
+      "link": "https://wordpress.org/plugins/editorial-calendar/",
+      "titulo": "Editorial Calendar (WordPress)",
+      "descricao": "Calendário editorial para visualizar posts, arrastar e soltar e gerir o cronograma do blog."
+    },
+    {
+      "link": "https://www.storywars.net/",
+      "titulo": "Story Wars",
+      "descricao": "Escrita colaborativa de histórias com capítulos criados em conjunto."
+    },
+    {
+      "link": "https://wordpress.org/plugins/wp-hide-post/",
+      "titulo": "WP Hide Post (WordPress)",
+      "descricao": "Controle granular de visibilidade de posts e páginas no WordPress."
+    },
+    {
+      "link": "https://wordpress.org/plugins/social-locker/",
+      "titulo": "Social Locker (WordPress)",
+      "descricao": "Bloqueie conteúdo e libere mediante ações sociais (curtir, tweetar, etc.)."
+    },
+    {
+      "link": "http://e.ggtimer.com/",
+      "titulo": "E.ggTimer",
+      "descricao": "Temporizador online simples com presets para sessões de escrita e foco."
+    },
+    {
+      "link": "https://blankpage.io/",
+      "titulo": "Blank Page",
+      "descricao": "Ferramenta de escrita simplificada com metas e foco para criar hábito diário."
+    },
+    {
+      "link": "https://www.wattpad.com/signup",
+      "titulo": "Wattpad",
+      "descricao": "Comunidade global para leitores e escritores compartilharem e descobrirem histórias."
+    },
+    {
+      "link": "https://withknown.com/",
+      "titulo": "Known (withknown)",
+      "descricao": "Publicação em um único site com possibilidade de distribuição para outras redes."
+    },
+    {
+      "link": "https://www.dbook.org/",
+      "titulo": "dbook",
+      "descricao": "Escrita estruturada e colaborativa para documentos e projetos longos."
+    },
+    {
+      "link": "http://coschedule.com/headline-analyzer",
+      "titulo": "CoSchedule Headline Analyzer",
+      "descricao": "Analisa títulos de posts e sugere melhorias para aumentar cliques e engajamento."
+    },
+    {
+      "link": "http://a5.gg/",
+      "titulo": "a5.gg",
+      "descricao": "Bloco de notas rápido no navegador que mantém seu texto salvo ao retornar."
+    },
+    {
+      "link": "http://freesummarizer.com/",
+      "titulo": "Free Summarizer",
+      "descricao": "Resumo automático de textos online em poucos segundos."
+    }
+  ]
+}

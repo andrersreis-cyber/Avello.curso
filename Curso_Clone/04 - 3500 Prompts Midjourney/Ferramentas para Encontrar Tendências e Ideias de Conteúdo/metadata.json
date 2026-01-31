@@ -1,0 +1,58 @@
+{
+  "id": 6,
+  "nome": "Ferramentas para Encontrar Tendências e Ideias de Conteúdo",
+  "descricao": "Um arsenal prático para nunca ficar sem pauta: gere títulos instantâneos (Portent), monitore buscas em alta (Google Trends), descubra o que mais engaja por tema ou concorrente (BuzzSumo), receba sugestões de tópicos para blog (HubSpot), e garimpe conteúdos quentes nas redes e comunidades (Twitter Trends, Quora, Reddit, Swayy e Ruzzit). Ideal para creators, blogs e equipes de marketing que precisam abastecer o calendário editorial com temas relevantes e atuais.",
+  "categoria": "Marketing de Conteúdo / Pesquisa de Tendências e Ideação",
+  "conteudo": [
+    {
+      "link": "http://www.portent.com/tools/title-maker",
+      "titulo": "Portent Title Maker",
+      "descricao": "Gerador de ideias de títulos para posts e conteúdos a partir de uma palavra-chave."
+    },
+    {
+      "link": "https://www.google.com/trends/hottrends/visualize?pn=p1",
+      "titulo": "Google Trends (Hottrends Visualize)",
+      "descricao": "Visualização de pesquisas em alta para identificar assuntos que estão bombando agora."
+    },
+    {
+      "link": "http://buzzsumo.com/",
+      "titulo": "BuzzSumo",
+      "descricao": "Analisa quais conteúdos performam melhor por tópico ou concorrente e mostra engajamento."
+    },
+    {
+      "link": "https://www.hubspot.com/blog-topic-generator",
+      "titulo": "HubSpot Blog Topic Generator",
+      "descricao": "Sugestões automáticas de ideias de posts com base em termos inseridos."
+    },
+    {
+      "link": "http://www.swayy.co/",
+      "titulo": "Swayy",
+      "descricao": "Descubra conteúdos mais envolventes para compartilhar; gratuito para 1 usuário do painel."
+    },
+    {
+      "link": "https://mobile.twitter.com/trends",
+      "titulo": "Twitter Trends (mobile)",
+      "descricao": "Acompanhe tópicos em alta no Twitter para inspirar posts e pautas rápidas."
+    },
+    {
+      "link": "https://www.quora.com/Content-Strategy",
+      "titulo": "Quora — Content Strategy",
+      "descricao": "Discussões e respostas sobre estratégia de conteúdo para identificar dores e ideias."
+    },
+    {
+      "link": "https://www.reddit.com/",
+      "titulo": "Reddit",
+      "descricao": "Comunidades e threads para descobrir temas quentes e insights de audiência."
+    },
+    {
+      "link": "http://www.ruzzit.com/",
+      "titulo": "Ruzzit",
+      "descricao": "Agregador para encontrar o conteúdo mais compartilhado na web."
+    },
+    {
+      "link": "https://plus.google.com/explore/",
+      "titulo": "Google+ Explore",
+      "descricao": "Exploração de tópicos e tendências (histórico)."
+    }
+  ]
+}

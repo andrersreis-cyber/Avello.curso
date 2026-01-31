@@ -1,0 +1,134 @@
+{
+  "id": 3,
+  "nome_pt": "Verificação periódica de site com notificação",
+  "descricao_pt": "Verifica periodicamente o conteúdo de uma página web e envia uma notificação via Discord quando a string monitorada não é encontrada.",
+  "funcionalidade_pt": "• Agendamento periódicos: executa a verificação a cada hora.\n• Requisição HTTP ao site alvo: busca o conteúdo da página configurada.\n• Verificação de conteúdo: procura pela string \"Out Of Stock\" na resposta.\n• Notificação condicional: quando a resposta NÃO contém \"Out Of Stock\", envia uma mensagem \"value not found\" para um webhook do Discord.\n• Notificação positiva configurada (inativa): existe uma mensagem \"value found\" preparada para envio, porém o fluxo dessa ação não está conectado.",
+  "ferramentas_pt": "• Site alvo (HTTP): página web monitorada para verificação de conteúdo.\n• Discord: canal para envio de notificações via webhook.",
+  "link_drive": "https://drive.google.com/file/d/1FJxVAqnHe8KR1Xi2TzWv_bnONj2TzVUC/view?usp=drivesdk",
+  "fluxo_json": {
+    "id": "1",
+    "name": "Website check",
+    "nodes": [
+      {
+        "name": "HTTP Request",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          400,
+          300
+        ],
+        "parameters": {
+          "url": "",
+          "options": {},
+          "responseFormat": "string"
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "IF",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          550,
+          300
+        ],
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{$node[\"HTTP Request\"].json[\"data\"]}}",
+                "value2": "Out Of Stock",
+                "operation": "contains"
+              }
+            ]
+          }
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Discord",
+        "type": "n8n-nodes-base.discord",
+        "position": [
+          700,
+          300
+        ],
+        "parameters": {
+          "text": "value found",
+          "webhookUri": ""
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Discord1",
+        "type": "n8n-nodes-base.discord",
+        "position": [
+          700,
+          450
+        ],
+        "parameters": {
+          "text": "value not found",
+          "webhookUri": ""
+        },
+        "typeVersion": 1
+      },
+      {
+        "name": "Cron",
+        "type": "n8n-nodes-base.cron",
+        "position": [
+          210,
+          300
+        ],
+        "parameters": {
+          "triggerTimes": {
+            "item": [
+              {
+                "mode": "everyHour"
+              }
+            ]
+          }
+        },
+        "typeVersion": 1
+      }
+    ],
+    "active": false,
+    "settings": {
+      "timezone": "America/Los_Angeles"
+    },
+    "connections": {
+      "IF": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Discord1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Cron": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "IF",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "free": false,
+  "thumbnail_url": "https://ksbinfxpmbklkvzsrfql.supabase.co/storage/v1/object/public/workflow-thumbnails/pack/3.svg"
+}
