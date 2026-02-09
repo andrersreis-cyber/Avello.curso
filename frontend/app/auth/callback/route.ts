@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error && data.user) {
-      // Verificar se usuário já tem perfil, se não, criar um
+      // Verificar se usuário já tem perfil
       const { data: existingProfile } = await supabase
         .from('usuarios')
         .select('id')
@@ -50,13 +50,21 @@ export async function GET(request: NextRequest) {
         .single()
 
       if (!existingProfile) {
-        // Criar perfil do usuário
-        await supabase.from('usuarios').insert({
-          id: data.user.id,
-          email: data.user.email!,
-          nome: data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'Usuário',
-          plano: 'free',
-        })
+        // Criar perfil via API route (usa service role, ignora RLS)
+        try {
+          await fetch(`${origin}/api/fix-profile`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: data.user.id,
+              email: data.user.email!,
+              nome: data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'Usuário',
+              plano: 'free',
+            }),
+          })
+        } catch (err) {
+          console.error('❌ Erro ao criar perfil via API:', err)
+        }
       }
     }
   }

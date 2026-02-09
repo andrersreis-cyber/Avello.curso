@@ -117,13 +117,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     if (!error && data.user) {
-      // Criar perfil do usuário
-      await supabase.from('usuarios').upsert({
-        id: data.user.id,
-        email,
-        nome,
-        plano: 'free',
-      })
+      // Criar perfil via API route (usa service role, ignora RLS)
+      try {
+        await fetch('/api/fix-profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: data.user.id,
+            email,
+            nome,
+            plano: 'free',
+          }),
+        })
+      } catch (err) {
+        console.error('❌ Erro ao criar perfil via API:', err)
+      }
     }
 
     return { error: error as Error | null }
