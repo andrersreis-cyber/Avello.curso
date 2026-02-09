@@ -1,9 +1,3 @@
 {
-  "mcpServers": {
-    "supabase": {
-      "description": "Supabase MCP - Projeto Curso AI",
-      "projectId": "pgjcvdmbpluewhpephhx",
-      "url": "https://pgjcvdmbpluewhpephhx.supabase.co"
-    }
-  }
+  "mcpServers": {}
 }
