@@ -13,11 +13,51 @@ import {
   Loader2
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { useAuth } from '@/contexts/auth-context'
 
 function SucessoContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [showConfetti, setShowConfetti] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(true)
+  const { isPremium, refreshProfile } = useAuth()
+  
+  // Polling inteligente para aguardar webhook processar
+  useEffect(() => {
+    let attempts = 0
+    const maxAttempts = 10 // 20 segundos máximo
+    
+    const checkPremiumStatus = async () => {
+      console.log(`🔄 Verificando status premium (tentativa ${attempts + 1}/${maxAttempts})`)
+      
+      // Revalidar perfil do usuário
+      await refreshProfile()
+      
+      attempts++
+      
+      // Se já é premium, parar polling
+      if (isPremium) {
+        console.log('✅ Usuário agora é premium!')
+        setIsProcessing(false)
+        return
+      }
+      
+      // Se atingiu máximo de tentativas, parar
+      if (attempts >= maxAttempts) {
+        console.log('⚠️ Máximo de tentativas atingido. Webhook pode estar atrasado.')
+        setIsProcessing(false)
+        return
+      }
+      
+      // Tentar novamente em 2 segundos
+      setTimeout(checkPremiumStatus, 2000)
+    }
+    
+    // Iniciar polling após 1 segundo (dar tempo pro webhook)
+    const timer = setTimeout(checkPremiumStatus, 1000)
+    
+    return () => clearTimeout(timer)
+  }, [])
   
   useEffect(() => {
     // Track Facebook Pixel - Purchase (conversão)
@@ -28,8 +68,8 @@ function SucessoContent() {
       })
     }
     
-    // Dispara confetti ao carregar
-    if (!showConfetti) {
+    // Dispara confetti ao carregar (apenas quando não está mais processando)
+    if (!showConfetti && !isProcessing) {
       setShowConfetti(true)
       
       const duration = 3000
@@ -58,7 +98,38 @@ function SucessoContent() {
       
       frame()
     }
-  }, [showConfetti])
+  }, [showConfetti, isProcessing])
+
+  // Mostrar loading enquanto processa
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
+        <div className="max-w-lg w-full text-center">
+          <div className="relative inline-flex items-center justify-center mb-8">
+            <div className="absolute inset-0 w-32 h-32 bg-cyan-500/20 rounded-full blur-xl animate-pulse" />
+            <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+              <Loader2 className="w-12 h-12 text-white animate-spin" />
+            </div>
+          </div>
+          
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            Processando seu pagamento...
+          </h1>
+          
+          <p className="text-zinc-400 mb-8">
+            Aguarde enquanto confirmamos sua compra e liberamos seu acesso premium.
+            <br />
+            Isso pode levar alguns segundos.
+          </p>
+          
+          <div className="flex items-center justify-center gap-2 text-sm text-zinc-500">
+            <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
+            <span>Verificando status...</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
@@ -76,7 +147,7 @@ function SucessoContent() {
 
         {/* Title */}
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          Pagamento Confirmado!
+          {isPremium ? 'Pagamento Confirmado!' : 'Pagamento Recebido!'}
         </h1>
         
         <p className="text-xl text-zinc-300 mb-2">

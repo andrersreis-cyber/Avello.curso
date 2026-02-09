@@ -22,6 +22,7 @@ type AuthContextType = {
   signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
+  refreshProfile: () => Promise<void> // ← NOVO: Revalidar perfil manualmente
   isPremium: boolean
   hasFullAccess: boolean // Premium há mais de 7 dias (conteúdo exclusivo liberado)
   daysUntilFullAccess: number // Dias restantes para acesso total
@@ -153,6 +154,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null)
   }
 
+  // Método para revalidar perfil manualmente (após pagamento, etc)
+  const refreshProfile = async () => {
+    if (!user) {
+      console.log('⚠️ Não há usuário logado para revalidar')
+      return
+    }
+    
+    console.log('🔄 Revalidando perfil do usuário...')
+    const userProfile = await fetchProfile(user.id)
+    setProfile(userProfile)
+    console.log('✅ Perfil revalidado:', userProfile)
+  }
+
   // Calcular se tem acesso total (premium há mais de 7 dias) - memoizado
   const { hasFullAccess, daysRemaining } = useMemo(() => {
     if (profile?.plano !== 'premium') return { hasFullAccess: false, daysRemaining: 0 }
@@ -183,6 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signUp,
     signInWithGoogle,
     signOut,
+    refreshProfile, // ← NOVO
     isPremium: profile?.plano === 'premium',
     hasFullAccess,
     daysUntilFullAccess: daysRemaining,
