@@ -37,3 +37,6 @@ Curso_Clone_Completo/
 # Misc
 *.log
 .vercel
+
+# Local Netlify folder
+.netlify
