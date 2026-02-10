@@ -3,12 +3,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowRight, Zap, Check, Gift } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowRight, Zap, Check, Gift, Phone } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import './phone-input.css'
 
 export default function CadastroPage() {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
+  const [telefone, setTelefone] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -29,7 +33,20 @@ export default function CadastroPage() {
       return
     }
 
-    const { error } = await signUp(email, password, nome)
+    // Validar telefone
+    if (!telefone) {
+      setError('Por favor, insira seu telefone.')
+      setLoading(false)
+      return
+    }
+
+    if (!isValidPhoneNumber(telefone, 'BR')) {
+      setError('Por favor, insira um telefone válido.')
+      setLoading(false)
+      return
+    }
+
+    const { error } = await signUp(email, password, nome, telefone)
 
     if (error) {
       if (error.message.includes('already registered')) {
@@ -164,6 +181,26 @@ export default function CadastroPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
                   className="w-full pl-12 pr-4 py-3.5 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Telefone */}
+            <div>
+              <label className="block text-sm font-medium text-zinc-300 mb-2">
+                Telefone
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 z-10" />
+                <PhoneInput
+                  international
+                  defaultCountry="BR"
+                  value={telefone}
+                  onChange={(value) => setTelefone(value || '')}
+                  placeholder="(11) 99999-9999"
+                  className="phone-input-custom"
+                  inputClassName="w-full pl-12 pr-4 py-3.5 bg-zinc-800 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
                   required
                 />
               </div>

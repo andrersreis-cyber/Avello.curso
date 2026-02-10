@@ -42,10 +42,10 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error && data.user) {
-      // Verificar se usuário já tem perfil
+      // Verificar se usuário já tem perfil e telefone
       const { data: existingProfile } = await supabase
         .from('usuarios')
-        .select('id')
+        .select('id, telefone')
         .eq('id', data.user.id)
         .single()
 
@@ -65,6 +65,14 @@ export async function GET(request: NextRequest) {
         } catch (err) {
           console.error('❌ Erro ao criar perfil via API:', err)
         }
+        
+        // Redirecionar para completar cadastro (telefone obrigatório)
+        return NextResponse.redirect(new URL('/completar-cadastro', origin))
+      }
+      
+      // Se perfil existe mas não tem telefone, redirecionar para completar cadastro
+      if (!existingProfile.telefone) {
+        return NextResponse.redirect(new URL('/completar-cadastro', origin))
       }
     }
   }

@@ -8,9 +8,9 @@ const supabase = createClient(
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, email, nome, plano } = await request.json()
+    const { userId, email, nome, telefone, plano } = await request.json()
     
-    console.log('🔧 Corrigindo perfil:', { userId, email, nome, plano })
+    console.log('🔧 Corrigindo perfil:', { userId, email, nome, telefone, plano })
     
     // Verificar se já existe
     const { data: existing } = await supabase
@@ -21,12 +21,19 @@ export async function POST(request: NextRequest) {
     
     if (existing) {
       // Atualizar
+      const updateData: any = { 
+        plano: plano || 'premium',
+        premium_since: new Date().toISOString()
+      }
+      
+      // Adicionar telefone se fornecido
+      if (telefone) {
+        updateData.telefone = telefone
+      }
+      
       const { data, error } = await supabase
         .from('usuarios')
-        .update({ 
-          plano: plano || 'premium',
-          premium_since: new Date().toISOString()
-        })
+        .update(updateData)
         .eq('id', userId)
         .select()
       
@@ -40,15 +47,22 @@ export async function POST(request: NextRequest) {
     }
     
     // Criar novo
+    const insertData: any = {
+      id: userId,
+      email,
+      nome,
+      plano: plano || 'premium',
+      premium_since: plano === 'premium' ? new Date().toISOString() : null
+    }
+    
+    // Adicionar telefone se fornecido
+    if (telefone) {
+      insertData.telefone = telefone
+    }
+    
     const { data, error } = await supabase
       .from('usuarios')
-      .insert({
-        id: userId,
-        email,
-        nome,
-        plano: plano || 'premium',
-        premium_since: plano === 'premium' ? new Date().toISOString() : null
-      })
+      .insert(insertData)
       .select()
     
     if (error) throw error

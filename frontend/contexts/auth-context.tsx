@@ -8,6 +8,7 @@ type UserProfile = {
   id: string
   email: string
   nome: string
+  telefone?: string | null
   plano: 'free' | 'premium'
   premium_since?: string | null
   created_at: string
@@ -19,7 +20,7 @@ type AuthContextType = {
   session: Session | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
-  signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>
+  signUp: (email: string, password: string, nome: string, telefone: string) => Promise<{ error: Error | null }>
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void> // ← NOVO: Revalidar perfil manualmente
@@ -43,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log('🔍 Buscando perfil para userId:', userId)
     const { data, error } = await supabase
       .from('usuarios')
-      .select('id,email,nome,plano,premium_since,created_at')
+      .select('id,email,nome,telefone,plano,premium_since,created_at')
       .eq('id', userId)
       .single()
 
@@ -103,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error as Error | null }
   }
 
-  const signUp = async (email: string, password: string, nome: string) => {
+  const signUp = async (email: string, password: string, nome: string, telefone: string) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -112,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         data: {
           nome,
           full_name: nome,
+          telefone,
         },
       },
     })
@@ -126,6 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             userId: data.user.id,
             email,
             nome,
+            telefone,
             plano: 'free',
           }),
         })
