@@ -58,6 +58,18 @@ export default function CadastroPage() {
       return
     }
 
+    // Enviar dados para n8n (automação de follow-up)
+    console.log('🚀 Enviando para n8n webhook lead_new...')
+    console.log('📦 Dados:', { nome, email, telefone, plano: 'free' })
+    fetch('https://n8nwebhook.agenteflowia.com/webhook/lead_new', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ nome, email, telefone, plano: 'free' }),
+    })
+      .then(() => console.log('✅ Requisição enviada para n8n (no-cors)'))
+      .catch(err => console.error('❌ Erro n8n:', err))
+
     // Redireciona direto para a home (sem verificação de email)
     router.push('/')
   }
