@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { ContentCard } from './content-card'
 import { WorkflowModal } from './workflow-modal'
 import { PromptModal } from './prompt-modal'
@@ -151,12 +152,12 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
               <p className="text-sm text-zinc-400">Visualize o conteúdo, mas faça upgrade para acessar</p>
             </div>
           </div>
-          <button 
-            onClick={() => setShowUpgradeModal(true)}
+          <Link
+            href="/loja"
             className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium text-sm transition-all"
           >
             Fazer Upgrade
-          </button>
+          </Link>
         </div>
       )}
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { 
   Server, Database, Mail, Cloud, Shield, Video,
   FileText, MessageSquare, Calendar, Music, Image,
@@ -240,13 +241,13 @@ export function SelfHostedDirectory({ isLocked = false }: SelfHostedDirectoryPro
               <p className="text-sm text-zinc-400">Visualize a prévia, mas faça upgrade para acessar os links</p>
             </div>
           </div>
-          <button 
-            onClick={() => setShowUpgradeModal(true)}
+          <Link
+            href="/loja"
             className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium text-sm transition-all flex items-center gap-2"
           >
             <Zap className="w-4 h-4" />
             Fazer Upgrade
-          </button>
+          </Link>
         </div>
       )}
 

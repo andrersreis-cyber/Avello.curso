@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Lightbulb, Palette, FileCode, Sparkles, Lock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UpgradeModal } from './upgrade-modal'
@@ -370,12 +371,12 @@ export function CategoryGrid({ categories, onCategorySelect, type, isLocked = fa
               <p className="text-sm text-zinc-400">Visualize as categorias, mas faça upgrade para acessar</p>
             </div>
           </div>
-          <button 
-            onClick={() => setShowUpgradeModal(true)}
+          <Link
+            href="/loja"
             className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium text-sm transition-all"
           >
             Fazer Upgrade
-          </button>
+          </Link>
         </div>
       )}
       
