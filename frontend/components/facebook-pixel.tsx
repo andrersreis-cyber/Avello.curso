@@ -3,12 +3,6 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-declare global {
-  interface Window {
-    fbq: any
-  }
-}
-
 export function FacebookPixel() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
