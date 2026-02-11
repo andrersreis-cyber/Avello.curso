@@ -458,13 +458,10 @@ export function CategoryGrid({ categories, onCategorySelect, type, isLocked = fa
               </p>
             </div>
             
-            {/* Overlay de bloqueio */}
+            {/* Ícone de cadeado no canto superior direito — card permanece visível */}
             {isLocked && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px] rounded-xl">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/90 rounded-full border border-zinc-700">
-                  <Lock className="w-4 h-4 text-yellow-400" />
-                  <span className="text-xs font-medium text-zinc-300">Premium</span>
-                </div>
+              <div className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900/90 border border-zinc-700 z-10">
+                <Lock className="w-4 h-4 text-yellow-400" />
               </div>
             )}
           </button>

@@ -349,11 +349,11 @@ export function ContentCard({
             alt={title}
             className={cn(
               "w-full h-full object-cover group-hover:scale-105 transition-transform",
-              isLocked && "opacity-50"
+              isLocked && "opacity-80"
             )}
           />
         ) : (
-          <div className={cn(isLocked && "opacity-50")}>
+          <div className={cn(isLocked && "opacity-80")}>
             <CardVisualPattern type={type} seed={seed} />
           </div>
         )}
@@ -364,14 +364,11 @@ export function ContentCard({
         )}>
           {config.label}
         </span>
-        
-        {/* Overlay de bloqueio */}
+
+        {/* Ícone de cadeado no canto superior direito */}
         {isLocked && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/90 rounded-full border border-zinc-700">
-              <Lock className="w-4 h-4 text-yellow-400" />
-              <span className="text-xs font-medium text-zinc-300">Premium</span>
-            </div>
+          <div className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900/90 border border-zinc-700">
+            <Lock className="w-4 h-4 text-yellow-400" />
           </div>
         )}
       </div>
@@ -405,8 +402,14 @@ export function ContentCard({
         <div className="flex items-center gap-2 pt-2 border-t border-zinc-700/50">
           {onDownload && (
             <button 
-              onClick={onDownload}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-medium transition-colors"
+              onClick={isLocked ? undefined : onDownload}
+              disabled={isLocked}
+              className={cn(
+                "flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors",
+                isLocked
+                  ? "bg-zinc-700/50 text-zinc-500 cursor-not-allowed opacity-50"
+                  : "bg-purple-600 hover:bg-purple-500 text-white"
+              )}
             >
               <Download className="w-4 h-4" />
               Download
@@ -439,28 +442,44 @@ export function ContentCard({
           
           {/* Botão de download para SaaS */}
           {url && type === 'saas' && (
-            <a 
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex-1 flex items-center justify-center gap-2 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              Baixar SaaS
-            </a>
+            isLocked ? (
+              <span
+                className="flex-1 flex items-center justify-center gap-2 py-2 bg-zinc-700/50 text-zinc-500 rounded-lg text-sm font-medium opacity-50 cursor-not-allowed"
+              >
+                <Download className="w-4 h-4" />
+                Baixar SaaS
+              </span>
+            ) : (
+              <a 
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 flex items-center justify-center gap-2 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Baixar SaaS
+              </a>
+            )
           )}
           
           {/* Botão de link para outros tipos */}
           {url && type !== 'saas' && (
-            <a 
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
+            isLocked ? (
+              <span className="p-2 bg-zinc-700/50 text-zinc-500 rounded-lg opacity-50 cursor-not-allowed inline-flex">
+                <ExternalLink className="w-4 h-4" />
+              </span>
+            ) : (
+              <a 
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="p-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )
           )}
         </div>
       </div>

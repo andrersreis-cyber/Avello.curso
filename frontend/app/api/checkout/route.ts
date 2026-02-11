@@ -4,7 +4,7 @@ import { products, ProductId, STRIPE_PRICE_IDS } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
-    const { productId, affiliateCode } = await request.json()
+    const { productId, affiliateCode, customerEmail } = await request.json()
     
     if (!productId || !products[productId as ProductId]) {
       return NextResponse.json(
@@ -24,22 +24,23 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Configuração da sessão usando Price ID fixo
     const sessionConfig: any = {
       payment_method_types: ['card'],
       billing_address_collection: 'required',
       success_url: `${origin}/loja/sucesso?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/loja?canceled=true`,
       line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
+        { price: priceId, quantity: 1 },
       ],
       metadata: {
         productId: product.id,
         affiliateCode: affiliateCode || '',
       },
+    }
+
+    // Pré-preenche o email do usuário logado para garantir que o webhook encontre o registro
+    if (customerEmail && typeof customerEmail === 'string') {
+      sessionConfig.customer_email = customerEmail
     }
     
     // Define o modo baseado no tipo de produto

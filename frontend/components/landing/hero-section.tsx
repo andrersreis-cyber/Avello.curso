@@ -22,18 +22,16 @@ export function HeroSection() {
 
         {/* Headline */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          A maior biblioteca de automações
+          Pare de criar automações do zero.
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
-            e prompts de IA pronta para usar
+            Copie, cole e fature.
           </span>
-          <br />
-          no Brasil
         </h1>
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto mb-8 leading-relaxed">
-          Entre grátis e descubra como empreendedores estão <span className="text-white font-semibold">economizando centenas por mês</span> e criando novas fontes de renda com IA.
+          +6.000 templates de automação, chatbots, prompts e SaaS prontos para usar no seu negócio. Comece grátis em 30 segundos.
         </p>
 
         {/* CTA Buttons */}
@@ -64,19 +62,32 @@ export function HeroSection() {
           </a>
         </div>
 
-        {/* Microcopy */}
-        <div className="flex items-center justify-center gap-2 text-sm text-zinc-500 mb-6">
-          <span className="flex items-center gap-1">
-            ✓ Sem cartão
-          </span>
-          <span className="text-zinc-700">•</span>
-          <span className="flex items-center gap-1">
-            ✓ Acesso imediato
-          </span>
-          <span className="text-zinc-700">•</span>
-          <span className="flex items-center gap-1">
-            ✓ Atualizado toda semana
-          </span>
+        {/* Microcopy + Tech stack - compacto e elegante */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+              ✓ Sem cartão
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+              ✓ Acesso imediato
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+              ✓ Atualizado toda semana
+            </span>
+          </div>
+          <span className="hidden sm:inline text-zinc-600">|</span>
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <span className="text-xs text-zinc-500 uppercase tracking-wider">Integra com</span>
+            <span className="text-xs font-medium text-zinc-500">n8n</span>
+            <span className="text-xs text-zinc-600">•</span>
+            <span className="text-xs font-medium text-zinc-500">ChatGPT</span>
+            <span className="text-xs text-zinc-600">•</span>
+            <span className="text-xs font-medium text-zinc-500">Midjourney</span>
+            <span className="text-xs text-zinc-600">•</span>
+            <span className="text-xs font-medium text-zinc-500">Typebot</span>
+            <span className="text-xs text-zinc-600">•</span>
+            <span className="text-xs font-medium text-zinc-500">WhatsApp</span>
+          </div>
         </div>
 
         {/* Social Proof */}

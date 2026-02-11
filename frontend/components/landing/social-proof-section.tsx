@@ -22,6 +22,18 @@ const whatsappTestimonials = [
     image: '/images/social-proof/matheus.png',
     highlight: '"Cobrei R$500 + R$300/mês... Tá muito barato, R$39 no plano anual"',
     role: 'Desenvolvedor'
+  },
+  {
+    name: 'Cliente',
+    image: '/images/demo/prova-social-1.png',
+    highlight: '"Isso não é gasto nem investimento. Mudei a forma de trampar. Organização e tudo!"',
+    role: 'WhatsApp'
+  },
+  {
+    name: 'Cliente',
+    image: '/images/demo/prova-social-2.png',
+    highlight: '"Muito surpreso com a quantidade de coisa boa. Essa SaaS roda perfeito. Automatizei meus canais de corte no YouTube"',
+    role: 'WhatsApp'
   }
 ]
 
@@ -43,9 +55,8 @@ export function SocialProofSection() {
           </p>
         </div>
 
-        {/* Grid */}
+        {/* Grid - provas sociais (depoimentos WhatsApp + vídeos) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* WhatsApp Prints */}
           {whatsappTestimonials.map((testimonial, index) => (
             <div
               key={index}
@@ -81,12 +92,19 @@ export function SocialProofSection() {
             </div>
           ))}
 
-          {/* Video Testimonial */}
-          <div className="md:col-span-1">
+          {/* Vídeos - prova social */}
+          <div>
             <VideoThumbnail
               videoId="g9T6TSR30Tc"
               title="Depoimento em Vídeo"
               description="Assista ao depoimento completo"
+            />
+          </div>
+          <div>
+            <VideoThumbnail
+              videoId="7tx1_fW5Y9M"
+              title="Plataforma em ação"
+              description="Veja o que nossos clientes usam"
             />
           </div>
         </div>

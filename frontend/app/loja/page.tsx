@@ -21,6 +21,7 @@ import {
 import { products, ProductId } from '@/lib/stripe'
 import { getAffiliateCookie } from '@/lib/affiliate'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/contexts/auth-context'
 
 const productIcons: Record<ProductId, React.ReactNode> = {
   lowtik: <Crown className="w-6 h-6" />,
@@ -43,8 +44,8 @@ const productColors: Record<ProductId, string> = {
 export default function LojaPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const [affiliateCode, setAffiliateCode] = useState<string | null>(null)
+  const { user } = useAuth()
   
-  // Captura código do afiliado do cookie
   useEffect(() => {
     const code = getAffiliateCookie()
     if (code) setAffiliateCode(code)
@@ -71,7 +72,7 @@ export default function LojaPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId, affiliateCode }),
+        body: JSON.stringify({ productId, affiliateCode, customerEmail: user?.email }),
       })
       
       const data = await response.json()

@@ -27,6 +27,7 @@ const modules = [
     number: '+500', 
     name: 'Chatbots Prontos', 
     desc: 'Agentes de IA avançados',
+    examples: 'Atendimento WhatsApp restaurante, Qualificação de leads, Agendamento automático',
     color: 'from-orange-500 to-red-500'
   },
   { 
@@ -34,6 +35,7 @@ const modules = [
     number: '+2400', 
     name: 'Prompts ChatGPT', 
     desc: 'Prompts profissionais testados',
+    examples: 'Posts LinkedIn, Propostas comerciais, Roteiros de vídeo',
     color: 'from-emerald-500 to-green-500'
   },
   { 
@@ -41,6 +43,7 @@ const modules = [
     number: '+3500', 
     name: 'Prompts Midjourney', 
     desc: 'Prompts para imagens incríveis',
+    examples: 'Logos profissionais, Posts Instagram, Mockups de produto',
     color: 'from-purple-500 to-pink-500'
   },
   { 
@@ -48,6 +51,7 @@ const modules = [
     number: '+3000', 
     name: 'Templates Typebot', 
     desc: 'Chatbots conversacionais',
+    examples: 'Pesquisa de satisfação, Onboarding de cliente, Quiz interativo',
     color: 'from-violet-500 to-purple-500'
   },
   { 
@@ -55,6 +59,7 @@ const modules = [
     number: '+14 mil', 
     name: 'Ferramentas IA', 
     desc: 'Diretório completo de IA',
+    examples: 'Editores de vídeo, Geradores de imagem, Assistentes de código',
     color: 'from-cyan-500 to-blue-500'
   },
   { 
@@ -62,6 +67,7 @@ const modules = [
     number: '+350', 
     name: 'Self-Hosted', 
     desc: 'Softwares para seu servidor',
+    examples: 'CRM, Sistema de agendamento, Plataforma de cursos',
     color: 'from-rose-500 to-red-500'
   },
   { 
@@ -69,6 +75,7 @@ const modules = [
     number: '+30', 
     name: 'SaaS White Label', 
     desc: 'Prontos para revender',
+    examples: 'Agendamento, CRM, Automação de marketing',
     color: 'from-orange-500 to-amber-500'
   },
   { 
@@ -131,6 +138,11 @@ export function ModulesShowcase() {
                   <h3 className="text-lg font-semibold text-white">{module.name}</h3>
                 </div>
                 <p className="text-sm text-zinc-400 leading-relaxed">{module.desc}</p>
+                {module.examples && (
+                  <p className="text-xs text-zinc-500 mt-2 leading-relaxed">
+                    Ex: {module.examples}
+                  </p>
+                )}
 
                 {/* Hover glow effect */}
                 <div className={cn(

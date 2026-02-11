@@ -1,6 +1,6 @@
 'use client'
 
-import { X, Zap, Check, Crown } from 'lucide-react'
+import { X, Zap, Crown, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 type UpgradeModalProps = {
@@ -42,7 +42,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
             Conteúdo Premium
           </h2>
           <p className="text-zinc-400 mb-6">
-            Este recurso está disponível apenas para membros Premium. Faça upgrade e desbloqueie todos os recursos!
+            Este recurso faz parte do Plano Premium. Desbloqueie todos os 6.000+ recursos por R$ 3,25/mês.
           </p>
 
           {/* Preço */}
@@ -57,42 +57,23 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
             <p className="text-cyan-400 text-sm mt-1">Apenas R$ 3,25/mês</p>
           </div>
 
-          {/* Benefícios */}
-          <div className="text-left space-y-3 mb-6">
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">+3500 Prompts ChatGPT</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">+3500 Prompts Midjourney</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">+3000 Templates Typebot</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">+58 Super Fluxos de IA</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">+30 SaaS White Label</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-cyan-400 shrink-0" />
-              <span className="text-zinc-300 text-sm">E muito mais...</span>
-            </div>
+          {/* CTAs */}
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/loja"
+              className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all"
+            >
+              <Zap className="w-5 h-5" />
+              Fazer Upgrade
+            </Link>
+            <button
+              onClick={onClose}
+              className="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl font-medium transition-all border border-zinc-700"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Voltar
+            </button>
           </div>
-
-          {/* CTA */}
-          <Link
-            href="/loja"
-            className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all"
-          >
-            <Zap className="w-5 h-5" />
-            Fazer Upgrade Agora
-          </Link>
 
           <p className="text-xs text-zinc-500 mt-4">
             Garantia de 7 dias ou seu dinheiro de volta

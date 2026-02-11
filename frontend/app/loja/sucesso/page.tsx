@@ -30,32 +30,26 @@ function SucessoContent() {
     const checkPremiumStatus = async () => {
       console.log(`🔄 Verificando status premium (tentativa ${attempts + 1}/${maxAttempts})`)
       
-      // Revalidar perfil do usuário
-      await refreshProfile()
-      
+      const updatedProfile = await refreshProfile()
       attempts++
       
-      // Se já é premium, parar polling
-      if (isPremium) {
+      // Usar o perfil retornado para evitar closure obsoleto
+      if (updatedProfile?.plano === 'premium') {
         console.log('✅ Usuário agora é premium!')
         setIsProcessing(false)
         return
       }
       
-      // Se atingiu máximo de tentativas, parar
       if (attempts >= maxAttempts) {
         console.log('⚠️ Máximo de tentativas atingido. Webhook pode estar atrasado.')
         setIsProcessing(false)
         return
       }
       
-      // Tentar novamente em 2 segundos
       setTimeout(checkPremiumStatus, 2000)
     }
     
-    // Iniciar polling após 1 segundo (dar tempo pro webhook)
     const timer = setTimeout(checkPremiumStatus, 1000)
-    
     return () => clearTimeout(timer)
   }, [])
   

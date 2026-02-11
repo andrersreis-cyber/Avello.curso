@@ -23,7 +23,7 @@ type AuthContextType = {
   signUp: (email: string, password: string, nome: string, telefone: string) => Promise<{ error: Error | null }>
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
-  refreshProfile: () => Promise<void> // ← NOVO: Revalidar perfil manualmente
+  refreshProfile: () => Promise<UserProfile | null> // Revalidar perfil e retornar o perfil atualizado
   isPremium: boolean
   hasFullAccess: boolean // Premium há mais de 7 dias (conteúdo exclusivo liberado)
   daysUntilFullAccess: number // Dias restantes para acesso total
@@ -166,16 +166,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   // Método para revalidar perfil manualmente (após pagamento, etc)
-  const refreshProfile = async () => {
+  const refreshProfile = async (): Promise<UserProfile | null> => {
     if (!user) {
       console.log('⚠️ Não há usuário logado para revalidar')
-      return
+      return null
     }
     
     console.log('🔄 Revalidando perfil do usuário...')
     const userProfile = await fetchProfile(user.id)
     setProfile(userProfile)
     console.log('✅ Perfil revalidado:', userProfile)
+    return userProfile
   }
 
   // Calcular se tem acesso total (premium há mais de 7 dias) - memoizado

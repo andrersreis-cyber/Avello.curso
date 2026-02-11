@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { UrgencyBanner } from '@/components/landing/urgency-banner'
 import { HeroSection } from '@/components/landing/hero-section'
+import { DemoSection } from '@/components/landing/demo-section'
 import { ModulesShowcase } from '@/components/landing/modules-showcase'
 import { MoneyMakingSection } from '@/components/landing/money-making-section'
 import { PremiumComparison } from '@/components/landing/premium-comparison'
@@ -24,6 +25,7 @@ export default function LandingPage() {
           </div>
           
           <div className="hidden md:flex items-center gap-6">
+            <a href="#demo" className="text-zinc-400 hover:text-white transition-colors">Demo</a>
             <a href="#recursos" className="text-zinc-400 hover:text-white transition-colors">Recursos</a>
             <a href="#precos" className="text-zinc-400 hover:text-white transition-colors">Preços</a>
             <a href="#depoimentos" className="text-zinc-400 hover:text-white transition-colors">Depoimentos</a>
@@ -46,15 +48,18 @@ export default function LandingPage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Social Proof - MOVIDO PARA CIMA */}
+      {/* Social Proof - Depoimentos */}
       <div id="depoimentos">
         <SocialProofSection />
       </div>
 
-      {/* Modules Showcase */}
+      {/* Demo Section - Nova */}
+      <DemoSection />
+
+      {/* Modules Showcase - Recursos */}
       <ModulesShowcase />
 
-      {/* Money Making Section */}
+      {/* Money Making Section - Oportunidades */}
       <MoneyMakingSection />
 
       {/* Premium Comparison */}
@@ -73,28 +78,36 @@ export default function LandingPage() {
           <div className="space-y-4">
             {[
               {
+                q: 'O plano gratuito é realmente grátis para sempre?',
+                a: 'Sim! O plano gratuito é 100% grátis e vitalício. Você tem acesso a 100 templates n8n selecionados, 5 downloads por semana, uso comercial e visualização de todos os recursos. Sem cartão de crédito, sem pegadinhas.'
+              },
+              {
+                q: 'E se eu não gostar do Premium?',
+                a: 'Garantia de 7 dias. Se não gostar por qualquer motivo, devolvemos 100% do seu dinheiro, sem perguntas. Você não tem nada a perder.'
+              },
+              {
+                q: 'Como eu ganho dinheiro com a Avello?',
+                a: 'Use os templates para clientes (atendimento, automações, chatbots), revenda os SaaS white label, implemente fluxos n8n para empresas ou crie conteúdo com IA. Um único projeto paga o Premium inteiro.'
+              },
+              {
+                q: 'Os templates são atualizados?',
+                a: 'Sim! Adicionamos novos recursos toda semana. Com o Premium ou Premium Pro, você tem acesso a todas as atualizações durante o período da assinatura.'
+              },
+              {
                 q: 'O que está incluído no plano gratuito?',
-                a: 'O plano gratuito dá acesso completo aos +2500 templates n8n. Você pode baixar, usar e modificar todos os fluxos de automação sem qualquer limitação.'
+                a: '100 templates n8n selecionados, 5 downloads por semana, uso comercial, comunidade no Telegram e visualização de todos os recursos (para você decidir se vale upgrade).'
               },
               {
                 q: 'Preciso de cartão de crédito para o plano gratuito?',
-                a: 'Não! O plano gratuito é 100% grátis, sem necessidade de cartão de crédito ou qualquer pagamento. Basta criar sua conta e começar a usar.'
-              },
-              {
-                q: 'Por quanto tempo o plano gratuito é válido?',
-                a: 'O plano gratuito é vitalício. Você terá acesso aos templates n8n para sempre, sem prazo de validade.'
-              },
-              {
-                q: 'O que ganho ao fazer upgrade para o plano Premium?',
-                a: 'Com o Premium você desbloqueia todos os +6000 recursos: chatbots, prompts ChatGPT e Midjourney, templates Typebot, ferramentas IA, SaaS white label e bônus exclusivos.'
+                a: 'Não! O plano gratuito é 100% grátis. Basta criar sua conta e começar a usar, sem qualquer pagamento.'
               },
               {
                 q: 'Posso usar os recursos comercialmente?',
-                a: 'Sim! Todos os recursos podem ser usados comercialmente. Você pode implementar para clientes, revender SaaS e usar em seus próprios projetos.'
+                a: 'Sim! Todos os recursos podem ser usados comercialmente. Implemente para clientes, revenda SaaS e use em seus projetos.'
               },
               {
                 q: 'Tem garantia?',
-                a: 'Sim! O plano Premium tem 7 dias de garantia total. Se não gostar, devolvemos 100% do seu dinheiro, sem perguntas.'
+                a: 'Sim! O plano Premium tem 7 dias de garantia total. Não gostou? Devolvemos 100% do seu dinheiro.'
               },
             ].map((faq, index) => (
               <details
@@ -138,10 +151,10 @@ export default function LandingPage() {
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Pronto para automatizar seu negócio?
+            Ainda em dúvida? Comece grátis.
           </h2>
-          <p className="text-zinc-400 text-lg mb-8">
-            Entre grátis agora e tenha acesso a <span className="text-white font-semibold">+2500 templates n8n</span>
+          <p className="text-zinc-400 text-lg mb-8 max-w-2xl mx-auto">
+            Explore os templates, copie e cole, eleve o nível da sua empresa e crie renda recorrente. Veja a qualidade com seus próprios olhos — e decida se vale R$3,25/mês para desbloquear tudo.
           </p>
           
           <Link
@@ -153,7 +166,7 @@ export default function LandingPage() {
           </Link>
 
           <p className="text-sm text-zinc-500 mt-4">
-            Sem cartão de crédito • Acesso em menos de 1 minuto
+            Sem cartão de crédito · Acesso em 30 segundos
           </p>
         </div>
       </section>
