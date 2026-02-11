@@ -62,31 +62,31 @@ export function HeroSection() {
           </a>
         </div>
 
-        {/* Microcopy + Tech stack - compacto e elegante */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+        {/* Microcopy + Tech stack - em destaque */}
+        <div className="inline-flex flex-wrap items-center justify-center gap-4 px-6 py-4 mb-6 rounded-2xl bg-zinc-900/60 border border-zinc-700/80 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 text-sm font-medium text-green-400">
               ✓ Sem cartão
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-sm font-medium text-cyan-400">
               ✓ Acesso imediato
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-400">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-sm font-medium text-purple-400">
               ✓ Atualizado toda semana
             </span>
           </div>
-          <span className="hidden sm:inline text-zinc-600">|</span>
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            <span className="text-xs text-zinc-500 uppercase tracking-wider">Integra com</span>
-            <span className="text-xs font-medium text-zinc-500">n8n</span>
-            <span className="text-xs text-zinc-600">•</span>
-            <span className="text-xs font-medium text-zinc-500">ChatGPT</span>
-            <span className="text-xs text-zinc-600">•</span>
-            <span className="text-xs font-medium text-zinc-500">Midjourney</span>
-            <span className="text-xs text-zinc-600">•</span>
-            <span className="text-xs font-medium text-zinc-500">Typebot</span>
-            <span className="text-xs text-zinc-600">•</span>
-            <span className="text-xs font-medium text-zinc-500">WhatsApp</span>
+          <span className="hidden sm:inline w-px h-6 bg-zinc-600" />
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            <span className="text-sm text-zinc-400 font-medium uppercase tracking-wider">Integra com</span>
+            <span className="text-sm font-semibold text-white">n8n</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-sm font-semibold text-white">ChatGPT</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-sm font-semibold text-white">Midjourney</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-sm font-semibold text-white">Typebot</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-sm font-semibold text-white">WhatsApp</span>
           </div>
         </div>
 

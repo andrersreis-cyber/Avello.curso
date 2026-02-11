@@ -79,7 +79,7 @@ export default function LandingPage() {
             {[
               {
                 q: 'O plano gratuito é realmente grátis para sempre?',
-                a: 'Sim! O plano gratuito é 100% grátis e vitalício. Você tem acesso a 100 templates n8n selecionados, 5 downloads por semana, uso comercial e visualização de todos os recursos. Sem cartão de crédito, sem pegadinhas.'
+                a: 'Sim! O plano gratuito é 100% grátis e vitalício. Você tem acesso a 100 templates n8n selecionados, 5 downloads por semana, uso comercial, comunidade no Telegram e visualização de todos os recursos. Sem cartão de crédito, sem pegadinhas.'
               },
               {
                 q: 'E se eu não gostar do Premium?',

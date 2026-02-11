@@ -175,15 +175,8 @@ export default function LojaPage() {
               
               {/* Preço e CTA */}
               <div className="lg:w-72 flex flex-col items-center justify-center p-6 bg-zinc-800/50 rounded-2xl relative">
-                {/* Badge de desconto */}
-                <div className="absolute -top-3 -right-3 px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full rotate-12 shadow-lg">
-                  80% OFF
-                </div>
-                
                 <div className="text-center mb-6">
-                  {/* Preço original */}
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="text-lg text-zinc-500 line-through">R$ 199,00</span>
                     <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-bold rounded">LANÇAMENTO</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1">
@@ -192,9 +185,6 @@ export default function LojaPage() {
                   <p className="text-zinc-400 text-sm mt-1">por ano</p>
                   <p className="text-cyan-400 text-sm mt-2">
                     Apenas {formatPrice(mainProduct.price / 12)}/mês
-                  </p>
-                  <p className="text-green-400 text-xs mt-2 font-medium">
-                    Você economiza R$ 160,00!
                   </p>
                 </div>
                 

@@ -46,9 +46,10 @@ type ContentGridProps = {
   onBonusClick?: (bonus: BonusData) => void
   onWorkflowClick?: (item: ContentItem) => Promise<ContentItem> // Novo: carrega dados completos do workflow
   isLocked?: boolean // Módulo está bloqueado para usuários free
+  getItemLocked?: (item: ContentItem, index: number) => boolean // Bloqueio por item (ex: 100 primeiros liberados para free)
 }
 
-export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflowClick, isLocked = false }: ContentGridProps) {
+export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflowClick, isLocked = false, getItemLocked }: ContentGridProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const { isPremium } = useAuth()
@@ -105,9 +106,14 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
     }
   }
 
-  const handleCardClick = async (item: ContentItem) => {
-    // Se módulo está bloqueado e usuário não é premium, mostra modal de upgrade
-    if (isLocked && !isPremium) {
+  const isItemLocked = (item: ContentItem, index: number) => {
+    if (isLocked && !isPremium) return true
+    return getItemLocked?.(item, index) ?? false
+  }
+
+  const handleCardClick = async (item: ContentItem, index: number) => {
+    // Se item está bloqueado, mostra modal de upgrade
+    if (isItemLocked(item, index)) {
       setShowUpgradeModal(true)
       return
     }
@@ -131,9 +137,8 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
     }
   }
 
-  const handleDownloadClick = (item: ContentItem) => {
-    // Se módulo está bloqueado e usuário não é premium, mostra modal de upgrade
-    if (isLocked && !isPremium) {
+  const handleDownloadClick = (item: ContentItem, index: number) => {
+    if (isItemLocked(item, index)) {
       setShowUpgradeModal(true)
       return
     }
@@ -142,7 +147,7 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
 
   return (
     <>
-      {/* Banner de conteúdo bloqueado */}
+      {/* Banner de conteúdo bloqueado (módulo inteiro) */}
       {isLocked && !isPremium && (
         <div className="mb-4 p-4 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -161,26 +166,48 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
         </div>
       )}
 
+      {/* Banner parcial: 100 templates liberados para free */}
+      {!isLocked && getItemLocked && !isPremium && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">📦</span>
+            <div>
+              <p className="text-white font-medium">100 templates liberados</p>
+              <p className="text-sm text-zinc-400">Faça upgrade para desbloquear todos os +2.500 templates</p>
+            </div>
+          </div>
+          <Link
+            href="/loja"
+            className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium text-sm transition-all"
+          >
+            Fazer Upgrade
+          </Link>
+        </div>
+      )}
+
       <div className={cn(
         viewMode === 'grid' 
           ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           : "flex flex-col gap-3"
       )}>
-        {items.map((item) => (
-          <ContentCard
-            key={item.id}
-            title={item.title}
-            description={item.description}
-            tags={item.tags}
-            type={item.type}
-            imageUrl={item.imageUrl}
-            url={item.url}
-            copyContent={isLocked && !isPremium ? undefined : item.copyContent}
-            onClick={() => handleCardClick(item)}
-            onDownload={item.downloadData ? () => handleDownloadClick(item) : undefined}
-            isLocked={isLocked && !isPremium}
-          />
-        ))}
+        {items.map((item, index) => {
+          const locked = isItemLocked(item, index)
+          return (
+            <ContentCard
+              key={item.id}
+              title={item.title}
+              description={item.description}
+              tags={item.tags}
+              type={item.type}
+              imageUrl={item.imageUrl}
+              url={item.url}
+              copyContent={locked ? undefined : item.copyContent}
+              onClick={() => handleCardClick(item, index)}
+              onDownload={item.downloadData ? () => handleDownloadClick(item, index) : undefined}
+              isLocked={locked}
+            />
+          )
+        })}
       </div>
 
       {/* Modal para Workflows n8n */}

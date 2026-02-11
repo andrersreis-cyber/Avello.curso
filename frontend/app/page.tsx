@@ -21,6 +21,9 @@ import { useModuleCounts } from '@/hooks/use-module-counts'
 // Módulos gratuitos (disponíveis para todos)
 const FREE_MODULES = ['n8n-templates']
 
+// Limite de templates n8n para plano gratuito (os demais ficam bloqueados)
+const FREE_N8N_TEMPLATES_LIMIT = 100
+
 // Módulos que usam iframe externo
 const IFRAME_MODULES: Record<string, { url: string, title: string, description: string }> = {
   'ferramentas-ia': {
@@ -305,6 +308,11 @@ export default function MembersPage() {
         .select(columns[module.table as keyof typeof columns] || '*')
         .range(from, to)
       
+      // Ordenação consistente para limite de 100 no plano gratuito
+      if (module.table === 'n8n_workflows') {
+        query = query.order('id', { ascending: true })
+      }
+      
       // Filtrar por categoria selecionada
       if (selectedCategory && CATEGORY_MODULES.includes(activeModule)) {
         query = query.eq('categoria_prompt', selectedCategory)
@@ -549,11 +557,14 @@ export default function MembersPage() {
                 loading={loading}
                 onBonusClick={(bonus) => setSelectedBonus(bonus)}
                 onWorkflowClick={async (item) => {
-                  // Carregar arquivo_json do workflow
                   const jsonData = await loadWorkflowData(item.id)
                   return { ...item, downloadData: jsonData }
                 }}
                 isLocked={isModuleLocked}
+                getItemLocked={activeModule === 'n8n-templates' && !isPremium 
+                  ? (_, index) => index >= FREE_N8N_TEMPLATES_LIMIT 
+                  : undefined
+                }
               />
             )}
 

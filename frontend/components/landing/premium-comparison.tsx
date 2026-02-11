@@ -97,10 +97,6 @@ export function PremiumComparison() {
               MAIS POPULAR
             </div>
             
-            <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full rotate-12 shadow-lg">
-              80% OFF
-            </div>
-            
             <div className="mb-6 mt-2">
               <div className="flex items-center gap-2 mb-2">
                 <Crown className="w-5 h-5 text-cyan-400" />
@@ -110,8 +106,7 @@ export function PremiumComparison() {
             </div>
             
             <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-xl text-zinc-500 line-through">R$ 199</span>
+              <div className="flex items-center gap-2 mb-2">
                 <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded border border-red-500/30">
                   LANÇAMENTO
                 </span>
