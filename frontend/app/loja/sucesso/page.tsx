@@ -60,14 +60,30 @@ function SucessoContent() {
   }, [])
   
   useEffect(() => {
-    // Track Facebook Pixel - Purchase (conversão)
-    if (typeof window !== 'undefined' && window.fbq && sessionId) {
-      window.fbq('track', 'Purchase', {
-        content_type: 'product',
-        currency: 'BRL',
-      })
+    // Validar sessão com Stripe e disparar Pixel Purchase apenas se confirmado
+    const verifyAndTrack = async () => {
+      if (!sessionId) return
+
+      try {
+        const response = await fetch(`/api/stripe/verify-session?session_id=${sessionId}`)
+        const data = await response.json()
+
+        if (data.valid && window.fbq) {
+          window.fbq('track', 'Purchase', {
+            content_type: 'product',
+            currency: data.currency ? data.currency.toUpperCase() : 'BRL',
+            value: data.amount ? data.amount / 100 : undefined,
+            content_name: 'Plano Avello'
+          })
+          console.log('✅ Compra verificada e rastreada no Pixel')
+        }
+      } catch (error) {
+        console.error('Erro ao verificar sessão para Pixel:', error)
+      }
     }
-    
+
+    verifyAndTrack()
+
     // Dispara confetti ao carregar (apenas quando não está mais processando)
     if (!showConfetti && !isProcessing) {
       setShowConfetti(true)

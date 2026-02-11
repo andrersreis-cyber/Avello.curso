@@ -40,6 +40,14 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <Link
             href="/cadastro"
+            onClick={() => {
+              if (window.fbq) {
+                window.fbq('track', 'Lead', {
+                  content_name: 'Cadastro Gratuito Avello (Hero)',
+                  content_category: 'Landing Page'
+                })
+              }
+            }}
             className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
           >
             <Zap className="w-5 h-5" />

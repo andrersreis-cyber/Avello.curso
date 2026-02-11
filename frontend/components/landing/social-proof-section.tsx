@@ -98,6 +98,14 @@ export function SocialProofSection() {
           </p>
           <a
             href="/cadastro"
+            onClick={() => {
+              if (window.fbq) {
+                window.fbq('track', 'Lead', {
+                  content_name: 'Cadastro Gratuito Avello (Social Proof)',
+                  content_category: 'Landing Page'
+                })
+              }
+            }}
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
           >
             Começar Grátis Agora

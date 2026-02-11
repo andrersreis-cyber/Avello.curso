@@ -58,6 +58,14 @@ export default function CadastroPage() {
       return
     }
 
+    // Track Subscribe event (Facebook Pixel)
+    if (window.fbq) {
+      window.fbq('track', 'Subscribe', {
+        content_name: 'Novo Cadastro (Email)',
+        status: true
+      })
+    }
+
     // Enviar dados para n8n (automação de follow-up)
     console.log('🚀 Enviando para n8n webhook lead_new...')
     console.log('📦 Dados:', { nome, email, telefone, plano: 'free' })
@@ -77,6 +85,14 @@ export default function CadastroPage() {
   const handleGoogleSignUp = async () => {
     setError('')
     setLoadingGoogle(true)
+    
+    // Track initiation (Facebook Pixel)
+    if (window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'Início Cadastro Google',
+        content_category: 'Cadastro'
+      })
+    }
     
     const { error } = await signInWithGoogle()
     
