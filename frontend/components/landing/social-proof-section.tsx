@@ -9,31 +9,36 @@ const whatsappTestimonials = [
     name: 'Gustavo Fabre',
     image: '/images/social-proof/gustavo.png',
     highlight: '"É um atalho pronto... Depois que entrei, fiquei de bobeira."',
-    role: 'Empreendedor'
+    role: 'Empreendedor',
+    caseStudy: 'Explorou templates n8n e chatbots para acelerar projetos'
   },
   {
     name: 'Vitória',
     image: '/images/social-proof/vitoria.png',
     highlight: '"Cobrei R$250, paguei R$39... Já pagou a plataforma no primeiro job"',
-    role: 'Freelancer'
+    role: 'Freelancer',
+    caseStudy: 'Pegou um template n8n e vendeu automação por R$ 500'
   },
   {
     name: 'Matheus',
     image: '/images/social-proof/matheus.png',
     highlight: '"Cobrei R$500 + R$300/mês... Tá muito barato, R$39 no plano anual"',
-    role: 'Desenvolvedor'
+    role: 'Desenvolvedor',
+    caseStudy: 'Adaptou chatbot e implementou em cliente local'
   },
   {
     name: 'Cliente',
     image: '/images/demo/prova-social-1.png',
     highlight: '"Isso não é gasto nem investimento. Mudei a forma de trampar. Organização e tudo!"',
-    role: 'WhatsApp'
+    role: 'WhatsApp',
+    caseStudy: 'Usou templates para organizar operação e atendimento'
   },
   {
     name: 'Cliente',
     image: '/images/demo/prova-social-2.png',
     highlight: '"Muito surpreso com a quantidade de coisa boa. Essa SaaS roda perfeito. Automatizei meus canais de corte no YouTube"',
-    role: 'WhatsApp'
+    role: 'WhatsApp',
+    caseStudy: 'Usou white-label para criar oferta recorrente'
   }
 ]
 
@@ -84,6 +89,11 @@ export function SocialProofSection() {
                   <p className="text-white text-sm font-medium leading-relaxed mb-2">
                     {testimonial.highlight}
                   </p>
+                  {testimonial.caseStudy && (
+                    <p className="text-cyan-400 text-xs font-medium mb-2">
+                      {testimonial.caseStudy}
+                    </p>
+                  )}
                   <p className="text-zinc-300 text-xs">
                     — {testimonial.name}
                   </p>

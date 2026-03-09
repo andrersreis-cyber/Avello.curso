@@ -16,4 +16,8 @@ interface Window {
       [key: string]: any
     }
   ) => void
+  avelloPixel: {
+    cadastro: () => void
+    purchase: (plano?: string, valor?: number) => void
+  }
 }

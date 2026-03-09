@@ -21,11 +21,19 @@ export async function GET(request: Request) {
 
     // Verifica se o pagamento foi realizado
     if (session.payment_status === 'paid') {
+      const productId = session.metadata?.productId || 'lowtik'
+      const planoNomes: Record<string, string> = {
+        starter: 'Avello Starter',
+        lowtik: 'Avello Premium',
+        pack_premium: 'Avello Pro',
+      }
       return NextResponse.json({
         valid: true,
         amount: session.amount_total,
         currency: session.currency,
         customer_email: session.customer_details?.email,
+        productId,
+        planoNome: planoNomes[productId] || 'Avello Premium',
       })
     } else {
       return NextResponse.json({

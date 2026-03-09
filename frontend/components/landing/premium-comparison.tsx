@@ -65,7 +65,7 @@ export function PremiumComparison() {
                 <Shield className="w-5 h-5 text-zinc-400" />
                 <h3 className="text-xl font-bold text-white">Plano Starter</h3>
               </div>
-              <p className="text-zinc-400 text-sm">Perfeito para começar</p>
+              <p className="text-zinc-400 text-sm">Para conhecer a plataforma e começar com o essencial</p>
             </div>
 
             <div className="mb-6">
@@ -109,7 +109,7 @@ export function PremiumComparison() {
                 <Crown className="w-5 h-5 text-cyan-400" />
                 <h3 className="text-xl font-bold text-white">Plano Premium</h3>
               </div>
-              <p className="text-zinc-400 text-sm">Acesso completo por 12 meses</p>
+              <p className="text-zinc-400 text-sm">O plano ideal para quem quer transformar IA em renda — vender, implementar e escalar</p>
             </div>
             
             <div className="mb-6">
@@ -161,7 +161,7 @@ export function PremiumComparison() {
                 <Star className="w-5 h-5 text-amber-400" />
                 <h3 className="text-xl font-bold text-white">Plano Premium Pro</h3>
               </div>
-              <p className="text-zinc-400 text-sm">Para quem quer acelerar</p>
+              <p className="text-zinc-400 text-sm">Para agências, implementadores e quem quer aceleração com suporte próximo</p>
             </div>
             
             <div className="mb-6">

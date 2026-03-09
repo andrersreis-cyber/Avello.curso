@@ -9,7 +9,7 @@ type UserProfile = {
   email: string
   nome: string
   telefone?: string | null
-  plano: 'starter' | 'premium' | 'premium_pro'
+  plano: 'pendente' | 'starter' | 'premium' | 'premium_pro'
   premium_since?: string | null
   created_at: string
 }
@@ -26,6 +26,7 @@ type AuthContextType = {
   refreshProfile: () => Promise<UserProfile | null> // Revalidar perfil e retornar o perfil atualizado
   isStarter: boolean
   isPremium: boolean
+  isPendente: boolean
   isPremiumPro: boolean
   hasFullAccess: boolean // Premium há mais de 7 dias (conteúdo exclusivo liberado)
   daysUntilFullAccess: number // Dias restantes para acesso total
@@ -66,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 userId: authUser.id,
                 email: authUser.email,
                 nome: authUser.user_metadata?.full_name || authUser.user_metadata?.name || authUser.email?.split('@')[0] || 'Usuário',
-                plano: 'starter',
+                plano: 'pendente',
               }),
             })
             if (res.ok) {
@@ -162,7 +163,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             email,
             nome,
             telefone,
-            plano: 'starter',
+            plano: 'pendente',
           }),
         })
       } catch (err) {
@@ -245,6 +246,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     refreshProfile,
     isStarter: profile?.plano === 'starter',
     isPremium: profile?.plano === 'premium' || profile?.plano === 'premium_pro',
+    isPendente: profile?.plano === 'pendente',
     isPremiumPro: profile?.plano === 'premium_pro',
     hasFullAccess,
     daysUntilFullAccess: daysRemaining,

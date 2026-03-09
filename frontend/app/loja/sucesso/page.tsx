@@ -95,14 +95,10 @@ function SucessoContent() {
         const response = await fetch(`/api/stripe/verify-session?session_id=${sessionId}`)
         const data = await response.json()
 
-        if (data.valid && window.fbq) {
-          window.fbq('track', 'Purchase', {
-            content_type: 'product',
-            currency: data.currency ? data.currency.toUpperCase() : 'BRL',
-            value: data.amount ? data.amount / 100 : undefined,
-            content_name: 'Plano Avello'
-          })
-          console.log('✅ Compra verificada e rastreada no Pixel')
+        if (data.valid && window.avelloPixel) {
+          const valor = data.amount ? data.amount / 100 : 39
+          window.avelloPixel.purchase(data.planoNome || 'Avello Premium', valor)
+          console.log('✅ Compra verificada e rastreada no Pixel:', data.planoNome, valor)
         }
       } catch (error) {
         console.error('Erro ao verificar sessão para Pixel:', error)

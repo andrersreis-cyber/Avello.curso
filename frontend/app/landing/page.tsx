@@ -7,6 +7,7 @@ import { DemoSection } from '@/components/landing/demo-section'
 import { ModulesShowcase } from '@/components/landing/modules-showcase'
 import { MoneyMakingSection } from '@/components/landing/money-making-section'
 import { PremiumComparison } from '@/components/landing/premium-comparison'
+import { HowItWorksSection } from '@/components/landing/how-it-works-section'
 import { SocialProofSection } from '@/components/landing/social-proof-section'
 import { Zap, Shield, Star } from 'lucide-react'
 
@@ -25,6 +26,7 @@ export default function LandingPage() {
           </div>
           
           <div className="hidden md:flex items-center gap-6">
+            <a href="#como-funciona" className="text-zinc-400 hover:text-white transition-colors">Como funciona</a>
             <a href="#demo" className="text-zinc-400 hover:text-white transition-colors">Demo</a>
             <a href="#recursos" className="text-zinc-400 hover:text-white transition-colors">Recursos</a>
             <a href="#precos" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Premium</a>
@@ -48,6 +50,9 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Como funciona */}
+      <HowItWorksSection />
 
       {/* Social Proof - Depoimentos */}
       <div id="depoimentos">
@@ -96,7 +101,19 @@ export default function LandingPage() {
               },
               {
                 q: 'Vale a pena pagar R$39 pelo Premium?',
-                a: 'Sim! Com um único projeto de R$250, você já paga o ano inteiro. O restante é lucro. E se não gostar, garantia de 7 dias com reembolso total.'
+                a: 'Um único uso relevante já tende a pagar o investimento. O Premium foi montado para quem quer liberdade total de monetização — vender automações, implementar chatbots, usar IA em clientes. Se não gostar, garantia de 7 dias com reembolso total.'
+              },
+              {
+                q: 'Isso serve para iniciantes?',
+                a: 'Sim! A maioria dos recursos vem pronta para usar. Você escolhe, personaliza e entrega. Não precisa ser técnico para começar.'
+              },
+              {
+                q: 'Como isso se paga?',
+                a: 'Um projeto de R$ 250 ou uma implementação de chatbot já cobre o ano. O restante é lucro. E se não gostar, garantia de 7 dias.'
+              },
+              {
+                q: 'Qual plano faz mais sentido para mim?',
+                a: 'Starter: para conhecer a plataforma. Premium: para quem quer transformar IA em renda — vender, implementar e escalar. É a escolha da maioria.'
               },
               {
                 q: 'Posso fazer upgrade do Starter para Premium depois?',

@@ -31,7 +31,7 @@ export function HeroSection() {
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto mb-8 leading-relaxed">
-          Copie um chatbot WhatsApp pronto, venda por R$500 para seu cliente e pague a plataforma com 1 projeto. +6.000 templates prontos para usar.
+          Biblioteca pronta para vender automações, implementar chatbots e usar IA com velocidade. Escolha um recurso, personalize para seu nicho e monetize — sem começar do zero.
         </p>
 
         {/* CTA Buttons */}

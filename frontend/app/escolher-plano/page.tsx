@@ -8,7 +8,7 @@ import { getAffiliateCookie } from '@/lib/affiliate'
 
 export default function EscolherPlanoPage() {
   const [loading, setLoading] = useState<string | null>(null)
-  const { user } = useAuth()
+  const { user, isPendente, signOut } = useAuth()
 
   const handleCheckout = async (productId: string) => {
     setLoading(productId)
@@ -62,16 +62,23 @@ export default function EscolherPlanoPage() {
       <div className="max-w-4xl w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 rounded-full border border-cyan-500/30 mb-4">
-            <Zap className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm text-cyan-400 font-medium">Conta criada com sucesso!</span>
-          </div>
+          {isPendente ? (
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/30 mb-4">
+              <Zap className="w-4 h-4 text-yellow-400" />
+              <span className="text-sm text-yellow-400 font-medium">Escolha um plano para acessar a plataforma</span>
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 rounded-full border border-cyan-500/30 mb-4">
+              <Zap className="w-4 h-4 text-cyan-400" />
+              <span className="text-sm text-cyan-400 font-medium">Conta criada com sucesso!</span>
+            </div>
+          )}
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Escolha seu plano para continuar
+            Você já entrou. Agora pegue o pacote completo que acelera sua monetização.
           </h1>
           <p className="text-zinc-400 text-lg">
-            Por apenas <span className="text-white font-semibold">+R$24</span> você desbloqueia
-            <span className="text-cyan-400 font-semibold"> todos os 6.000+ recursos</span>
+            O Premium é o plano ideal para quem quer transformar IA em renda. Por apenas <span className="text-white font-semibold">+R$24</span> você desbloqueia
+            <span className="text-cyan-400 font-semibold"> liberdade total de monetização</span>. Ou comece com o Starter e faça upgrade quando quiser.
           </p>
         </div>
 
@@ -165,9 +172,17 @@ export default function EscolherPlanoPage() {
         </div>
 
         {/* Trust */}
-        <p className="text-center text-zinc-500 text-sm mt-6">
-          Garantia de 7 dias em ambos os planos • Pagamento seguro via Stripe
-        </p>
+        <div className="text-center mt-6">
+          <p className="text-zinc-500 text-sm">
+            Garantia de 7 dias em ambos os planos • Pagamento seguro via Stripe
+          </p>
+          <button
+            onClick={signOut}
+            className="text-zinc-600 hover:text-zinc-400 text-xs mt-4 transition-colors"
+          >
+            Sair da conta
+          </button>
+        </div>
       </div>
     </div>
   )

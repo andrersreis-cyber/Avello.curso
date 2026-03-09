@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession()
 
   // Rotas públicas (não precisam de autenticação)
-  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro']
+  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/oferta-especial', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro']
   const isPublicRoute = publicRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
@@ -57,11 +57,32 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Se está logado e tenta acessar login/cadastro/landing, redireciona para home
-  if (session && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro' || request.nextUrl.pathname === '/landing')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    return NextResponse.redirect(url)
+  // Se está logado
+  if (session) {
+    // Se tenta acessar login/cadastro/landing, redireciona para home
+    if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro' || request.nextUrl.pathname === '/landing') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+
+    // Verificar se plano é 'pendente' — redirecionar para /escolher-plano
+    const allowedForPendente = ['/escolher-plano', '/oferta-especial', '/api', '/auth', '/loja/sucesso']
+    const isAllowedRoute = allowedForPendente.some(route => request.nextUrl.pathname.startsWith(route))
+
+    if (!isAllowedRoute) {
+      const { data: perfil } = await supabase
+        .from('usuarios')
+        .select('plano')
+        .eq('id', session.user.id)
+        .single()
+
+      if (perfil?.plano === 'pendente') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/escolher-plano'
+        return NextResponse.redirect(url)
+      }
+    }
   }
 
   return response

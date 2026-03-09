@@ -7,7 +7,7 @@ const opportunities = [
   {
     icon: DollarSign,
     title: 'Vender Automações',
-    description: 'Use templates prontos de n8n e chatbots para implementar automações para clientes. Cobre pela implementação e suporte.',
+    description: 'Implemente fluxos de WhatsApp, atendimento, captação e integração para pequenos negócios. Cobre pela implementação e suporte.',
     earnings: 'R$ 250 - 500',
     period: 'por projeto',
     color: 'from-green-500 to-emerald-500',
@@ -20,7 +20,7 @@ const opportunities = [
   {
     icon: Rocket,
     title: 'Criar Micro SaaS',
-    description: 'Pegue SaaS white label, customize com sua marca e revenda para clientes recorrentes. Crie sua própria fonte de renda passiva.',
+    description: 'Pegue um app white-label, personalize com sua marca e cobre mensalidade recorrente (R$ 97/mês por cliente).',
     earnings: 'R$ 300+',
     period: 'por cliente/mês',
     color: 'from-blue-500 to-cyan-500',
@@ -33,7 +33,7 @@ const opportunities = [
   {
     icon: Target,
     title: 'Prestar Serviços IA',
-    description: 'Use prompts profissionais e ferramentas para oferecer consultoria, criação de conteúdo e soluções com IA para empresas.',
+    description: 'Ofereça criação de conteúdo, otimização de processos, consultoria e automação comercial com IA.',
     earnings: 'R$ 500+',
     period: 'por projeto',
     color: 'from-purple-500 to-pink-500',
@@ -73,7 +73,7 @@ export function MoneyMakingSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           {opportunities.map((opportunity, index) => {
             const Icon = opportunity.icon
             return (
@@ -122,6 +122,10 @@ export function MoneyMakingSection() {
             )
           })}
         </div>
+
+        <p className="text-center text-zinc-400 max-w-2xl mx-auto mb-12">
+          Você não precisa usar tudo. Só precisa de um modelo, um nicho e uma oferta para recuperar o investimento.
+        </p>
 
         {/* CTA */}
         <div className="text-center">

@@ -35,6 +35,15 @@ export function FacebookPixelScript({ pixelId }: { pixelId: string }) {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '${pixelId}');
+
+            window.avelloPixel = {
+              cadastro: function(){
+                fbq('track', 'CompleteRegistration', {content_name:'Avello', currency:'BRL', value:0});
+              },
+              purchase: function(plano, valor){
+                fbq('track', 'Purchase', {content_name: plano || 'Avello Premium', currency:'BRL', value: valor || 39});
+              }
+            };
           `,
         }}
       />

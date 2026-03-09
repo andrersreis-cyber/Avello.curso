@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Criar novo
-    const plan = plano || 'starter'
+    const plan = plano || 'pendente'
     const insertData: any = {
       id: userId,
       email,
