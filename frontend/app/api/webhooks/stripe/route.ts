@@ -75,16 +75,25 @@ export async function POST(request: NextRequest) {
             .single()
           
           if (usuario) {
-            // Atualizar para premium com data de início
+            // Determinar plano baseado no produto comprado
+            const productId = session.metadata?.productId
+            let plano: 'starter' | 'premium' | 'premium_pro' = 'premium'
+
+            if (productId === 'starter') {
+              plano = 'starter'
+            } else if (productId === 'pack_premium') {
+              plano = 'premium_pro'
+            }
+
             await supabase
               .from('usuarios')
-              .update({ 
-                plano: 'premium',
+              .update({
+                plano,
                 premium_since: now
               })
               .eq('id', usuario.id)
-            
-            console.log(`✅ Usuário ${session.customer_email} atualizado para premium`)
+
+            console.log(`✅ Usuário ${session.customer_email} atualizado para ${plano}`)
           } else {
             console.log(`⚠️ Usuário não encontrado: ${session.customer_email}`)
           }
@@ -122,6 +131,45 @@ export async function POST(request: NextRequest) {
         const invoice = event.data.object as Stripe.Invoice
         console.log('⚠️ Falha no pagamento:', invoice.id)
         // TODO: Notificar usuário sobre falha
+        break
+      }
+
+      case 'checkout.session.expired': {
+        const session = event.data.object as Stripe.Checkout.Session
+        console.log('⏰ Checkout abandonado:', session.id)
+        console.log('   Email:', session.customer_email)
+        console.log('   Produto:', session.metadata?.productId)
+
+        // Enviar para n8n para sequência de recuperação
+        if (session.customer_email) {
+          const { data: usuario } = await supabase
+            .from('usuarios')
+            .select('nome, telefone')
+            .eq('email', session.customer_email)
+            .single()
+
+          const webhookData = {
+            email: session.customer_email,
+            nome: usuario?.nome || '',
+            telefone: usuario?.telefone || '',
+            productId: session.metadata?.productId || 'lowtik',
+            valor: (session.amount_total || 0) / 100,
+            sessionId: session.id,
+            abandonedAt: new Date().toISOString(),
+          }
+
+          try {
+            await fetch('https://n8nwebhook.agenteflowia.com/webhook/checkout_abandonado', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(webhookData),
+            })
+            console.log('✅ Dados de abandono enviados para n8n')
+          } catch (err) {
+            console.error('❌ Erro ao enviar para n8n:', err)
+          }
+        }
+
         break
       }
       

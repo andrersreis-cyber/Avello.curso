@@ -20,10 +20,11 @@ export async function POST(request: NextRequest) {
       .single()
     
     if (existing) {
-      // Atualizar
+      // Atualizar — preserva plano existente se não fornecido
+      const plan = plano ?? existing.plano ?? 'starter'
       const updateData: any = { 
-        plano: plano || 'premium',
-        premium_since: new Date().toISOString()
+        plano: plan,
+        premium_since: (plan === 'premium' || plan === 'premium_pro') ? new Date().toISOString() : existing.premium_since
       }
       
       // Adicionar telefone se fornecido
@@ -47,12 +48,13 @@ export async function POST(request: NextRequest) {
     }
     
     // Criar novo
+    const plan = plano || 'starter'
     const insertData: any = {
       id: userId,
       email,
       nome,
-      plano: plano || 'premium',
-      premium_since: plano === 'premium' ? new Date().toISOString() : null
+      plano: plan,
+      premium_since: (plan === 'premium' || plan === 'premium_pro') ? new Date().toISOString() : null
     }
     
     // Adicionar telefone se fornecido

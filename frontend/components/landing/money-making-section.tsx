@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { DollarSign, Rocket, Target, TrendingUp } from 'lucide-react'
+import { DollarSign, Rocket, Target, TrendingUp, Zap } from 'lucide-react'
 
 const opportunities = [
   {
@@ -125,15 +125,31 @@ export function MoneyMakingSection() {
 
         {/* CTA */}
         <div className="text-center">
-          <Link
-            href="/cadastro"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
-          >
-            <Rocket className="w-5 h-5" />
-            Entrar grátis e explorar agora
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/loja"
+              onClick={() => {
+                if (window.fbq) {
+                  window.fbq('track', 'Lead', {
+                    content_name: 'CTA Premium (Money Making)',
+                    content_category: 'Landing Page'
+                  })
+                }
+              }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
+            >
+              <Zap className="w-5 h-5" />
+              Desbloquear tudo — R$ 39/ano
+            </Link>
+            <Link
+              href="/cadastro"
+              className="inline-flex items-center gap-2 px-6 py-3 text-zinc-400 hover:text-white transition-colors"
+            >
+              Ou começar por R$ 14,90
+            </Link>
+          </div>
           <p className="text-sm text-zinc-500 mt-4">
-            Sem cartão de crédito • Acesso imediato aos +2500 templates n8n
+            R$ 39 = menos que 1 projeto. O resto é lucro puro.
           </p>
         </div>
       </div>

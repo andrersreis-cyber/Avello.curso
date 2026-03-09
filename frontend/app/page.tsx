@@ -13,16 +13,17 @@ import { FreeToolsDirectory } from '@/components/free-tools-directory'
 import { BonusModal } from '@/components/bonus-modal'
 import { TimeLockedModule } from '@/components/time-locked-module'
 import { MobileDrawer } from '@/components/mobile-drawer'
+import { UpgradeBanner } from '@/components/upgrade-banner'
 import { modules } from '@/lib/modules'
 import { createClient } from '@/lib/supabase-browser'
 import { useAuth } from '@/contexts/auth-context'
 import { useModuleCounts } from '@/hooks/use-module-counts'
 
-// Módulos gratuitos (disponíveis para todos)
-const FREE_MODULES = ['n8n-templates']
+// Módulos disponíveis no plano Starter
+const STARTER_MODULES = ['n8n-templates']
 
-// Limite de templates n8n para plano gratuito (os demais ficam bloqueados)
-const FREE_N8N_TEMPLATES_LIMIT = 100
+// Limite de templates n8n para plano Starter (os demais ficam bloqueados)
+const STARTER_N8N_TEMPLATES_LIMIT = 20
 
 // Módulos que usam iframe externo
 const IFRAME_MODULES: Record<string, { url: string, title: string, description: string }> = {
@@ -87,7 +88,7 @@ export default function MembersPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const mainRef = useRef<HTMLElement>(null)
   
-  const { isPremium, hasFullAccess, daysUntilFullAccess } = useAuth()
+  const { isPremium, isStarter, hasFullAccess, daysUntilFullAccess } = useAuth()
   const supabase = createClient()
   
   // Usar React Query para contagens (com cache)
@@ -100,7 +101,7 @@ export default function MembersPage() {
   const currentModuleConfig = modules.find(m => m.id === activeModule)
   
   // Verificar se módulo atual está bloqueado para usuários free
-  const isModuleLocked = !FREE_MODULES.includes(activeModule) && !isPremium
+  const isModuleLocked = !STARTER_MODULES.includes(activeModule) && !isPremium
   
   // Verificar se módulo requer acesso total (7 dias de premium)
   const requiresFullAccess = currentModuleConfig?.requiresFullAccess || false
@@ -308,7 +309,7 @@ export default function MembersPage() {
         .select(columns[module.table as keyof typeof columns] || '*')
         .range(from, to)
       
-      // Ordenação consistente para limite de 100 no plano gratuito
+      // Ordenação consistente para limite no plano Starter
       if (module.table === 'n8n_workflows') {
         query = query.order('id', { ascending: true })
       }
@@ -433,6 +434,14 @@ export default function MembersPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <Header onMenuClick={() => setIsMobileMenuOpen(true)} />
+
+      {isStarter && (
+        <UpgradeBanner
+          moduleName={isModuleLocked ? currentModuleConfig?.name : undefined}
+          templateCount={items.length}
+          limit={activeModule === 'n8n-templates' ? STARTER_N8N_TEMPLATES_LIMIT : undefined}
+        />
+      )}
       
       {/* Mobile Drawer */}
       <MobileDrawer 
@@ -561,8 +570,8 @@ export default function MembersPage() {
                   return { ...item, downloadData: jsonData }
                 }}
                 isLocked={isModuleLocked}
-                getItemLocked={activeModule === 'n8n-templates' && !isPremium 
-                  ? (_, index) => index >= FREE_N8N_TEMPLATES_LIMIT 
+getItemLocked={activeModule === 'n8n-templates' && isStarter
+                  ? (_, index) => index >= STARTER_N8N_TEMPLATES_LIMIT
                   : undefined
                 }
               />

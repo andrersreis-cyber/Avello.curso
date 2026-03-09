@@ -22,8 +22,10 @@ import { products, ProductId } from '@/lib/stripe'
 import { getAffiliateCookie } from '@/lib/affiliate'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/auth-context'
+import { ExitIntentPopup } from '@/components/exit-intent-popup'
 
 const productIcons: Record<ProductId, React.ReactNode> = {
+  starter: <Shield className="w-6 h-6" />,
   lowtik: <Crown className="w-6 h-6" />,
   consultoria: <Clock className="w-6 h-6" />,
   setup_n8n: <Server className="w-6 h-6" />,
@@ -33,6 +35,7 @@ const productIcons: Record<ProductId, React.ReactNode> = {
 }
 
 const productColors: Record<ProductId, string> = {
+  starter: 'from-green-500 to-emerald-600',
   lowtik: 'from-cyan-500 to-blue-600',
   consultoria: 'from-purple-500 to-pink-600',
   setup_n8n: 'from-orange-500 to-red-600',
@@ -44,7 +47,7 @@ const productColors: Record<ProductId, string> = {
 export default function LojaPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const [affiliateCode, setAffiliateCode] = useState<string | null>(null)
-  const { user } = useAuth()
+  const { user, isStarter } = useAuth()
   
   useEffect(() => {
     const code = getAffiliateCookie()
@@ -97,7 +100,7 @@ export default function LojaPage() {
     }).format(price / 100)
   }
   
-  // Separar produtos
+  // Separar produtos: Premium como principal, Starter e serviços como adicionais
   const mainProduct = products.lowtik
   const additionalProducts = Object.entries(products).filter(([id]) => id !== 'lowtik')
 
@@ -139,6 +142,13 @@ export default function LojaPage() {
       {/* Plano Principal */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-6">
+          {isStarter && (
+            <div className="mb-6 p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-center">
+              <p className="text-cyan-400 font-medium">
+                Faça upgrade para desbloquear todos os 6.000+ recursos
+              </p>
+            </div>
+          )}
           <div className="relative bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-3xl p-8 border border-cyan-500/30 overflow-hidden">
             {/* Destaque */}
             <div className="absolute top-0 right-0 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-bl-2xl">
@@ -216,12 +226,12 @@ export default function LojaPage() {
         </div>
       </section>
 
-      {/* Serviços Adicionais */}
+      {/* Planos e Serviços Adicionais */}
       <section className="py-12 bg-zinc-900/50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-2">Serviços Adicionais</h2>
-            <p className="text-zinc-400">Potencialize ainda mais seus resultados</p>
+            <h2 className="text-3xl font-bold mb-2">Plano Starter e Serviços</h2>
+            <p className="text-zinc-400">Comece pelo Starter ou potencialize com serviços adicionais</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -328,6 +338,11 @@ export default function LojaPage() {
           © 2026 Avello. Todos os direitos reservados.
         </div>
       </footer>
+
+      <ExitIntentPopup
+        onCheckout={handleCheckout}
+        loading={loading !== null}
+      />
     </div>
   )
 }

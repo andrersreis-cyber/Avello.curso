@@ -113,10 +113,10 @@ export function ModulesShowcase() {
                   "bg-zinc-800/50 backdrop-blur-sm border-zinc-700 hover:border-zinc-600 hover:shadow-lg hover:shadow-zinc-900/50"
                 )}
               >
-                {/* Badge Free/Premium */}
+                {/* Badge Starter/Premium */}
                 {module.free ? (
                   <div className="absolute -top-3 left-4 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg">
-                    GRÁTIS
+                    STARTER
                   </div>
                 ) : (
                   <div className="absolute -top-3 left-4 px-3 py-1 bg-zinc-700/90 backdrop-blur-sm text-zinc-300 text-xs font-bold rounded-full border border-zinc-600">

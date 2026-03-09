@@ -6,21 +6,54 @@ import Link from 'next/link'
 import { 
   CheckCircle2, 
   ArrowRight, 
-  Mail, 
   MessageCircle,
   Sparkles,
   PartyPopper,
-  Loader2
+  Loader2,
+  Crown,
+  Zap
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { useAuth } from '@/contexts/auth-context'
+import { getAffiliateCookie } from '@/lib/affiliate'
 
 function SucessoContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [showConfetti, setShowConfetti] = useState(false)
   const [isProcessing, setIsProcessing] = useState(true)
-  const { isPremium, refreshProfile } = useAuth()
+  const [loading, setLoading] = useState<string | null>(null)
+  const { user, profile, isPremium, refreshProfile } = useAuth()
+
+  const handleCheckout = async (productId: string) => {
+    setLoading(productId)
+    if (window.fbq) {
+      window.fbq('track', 'InitiateCheckout', {
+        content_name: 'Premium (Upsell Pós-Compra)',
+        value: 39,
+        currency: 'BRL',
+      })
+    }
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId,
+          affiliateCode: getAffiliateCookie(),
+          customerEmail: user?.email,
+        }),
+      })
+      const data = await response.json()
+      if (data.url) window.location.href = data.url
+      else alert(data.error || 'Erro ao processar pagamento')
+    } catch (error) {
+      console.error('Erro:', error)
+      alert('Erro ao conectar com o servidor')
+    } finally {
+      setLoading(null)
+    }
+  }
   
   // Polling inteligente para aguardar webhook processar
   useEffect(() => {
@@ -34,7 +67,7 @@ function SucessoContent() {
       attempts++
       
       // Usar o perfil retornado para evitar closure obsoleto
-      if (updatedProfile?.plano === 'premium') {
+      if (['premium', 'premium_pro', 'starter'].includes(updatedProfile?.plano || '')) {
         console.log('✅ Usuário agora é premium!')
         setIsProcessing(false)
         return
@@ -127,7 +160,7 @@ function SucessoContent() {
           </h1>
           
           <p className="text-zinc-400 mb-8">
-            Aguarde enquanto confirmamos sua compra e liberamos seu acesso premium.
+            Aguarde enquanto confirmamos sua compra e liberamos seu acesso.
             <br />
             Isso pode levar alguns segundos.
           </p>
@@ -207,6 +240,31 @@ function SucessoContent() {
             </div>
           </div>
         </div>
+
+        {/* Upsell para Premium (apenas para Starter) */}
+        {profile?.plano === 'starter' && (
+          <div className="mt-8 p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/30">
+            <div className="text-center">
+              <Crown className="w-10 h-10 text-cyan-400 mx-auto mb-3" />
+              <h3 className="text-xl font-bold text-white mb-2">
+                Quer desbloquear tudo?
+              </h3>
+              <p className="text-zinc-400 mb-4">
+                Por apenas <span className="text-white font-semibold">+R$24</span>, desbloqueie
+                todos os 6.000+ recursos. Um projeto de R$250 já paga o upgrade.
+              </p>
+              <button
+                onClick={() => handleCheckout('lowtik')}
+                disabled={loading !== null}
+                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 mx-auto disabled:opacity-50"
+              >
+                <Zap className="w-5 h-5" />
+                Fazer Upgrade para Premium — R$ 39/ano
+              </button>
+              <p className="text-xs text-zinc-500 mt-3">Garantia de 7 dias • Acesso imediato</p>
+            </div>
+          </div>
+        )}
 
         {/* CTAs */}
         <div className="space-y-3">

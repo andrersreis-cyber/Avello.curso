@@ -9,7 +9,7 @@ type UserProfile = {
   email: string
   nome: string
   telefone?: string | null
-  plano: 'free' | 'premium'
+  plano: 'starter' | 'premium' | 'premium_pro'
   premium_since?: string | null
   created_at: string
 }
@@ -24,7 +24,9 @@ type AuthContextType = {
   signInWithGoogle: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<UserProfile | null> // Revalidar perfil e retornar o perfil atualizado
+  isStarter: boolean
   isPremium: boolean
+  isPremiumPro: boolean
   hasFullAccess: boolean // Premium há mais de 7 dias (conteúdo exclusivo liberado)
   daysUntilFullAccess: number // Dias restantes para acesso total
 }
@@ -129,7 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             email,
             nome,
             telefone,
-            plano: 'free',
+            plano: 'starter',
           }),
         })
       } catch (err) {
@@ -179,9 +181,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return userProfile
   }
 
-  // Calcular se tem acesso total (premium há mais de 7 dias) - memoizado
+  // Calcular se tem acesso total (premium/premium_pro há mais de 7 dias) - memoizado
   const { hasFullAccess, daysRemaining } = useMemo(() => {
-    if (profile?.plano !== 'premium') return { hasFullAccess: false, daysRemaining: 0 }
+    if (profile?.plano !== 'premium' && profile?.plano !== 'premium_pro') return { hasFullAccess: false, daysRemaining: 0 }
     
     if (!profile.premium_since) {
       // Se não tem data, considera que tem acesso total (usuário antigo)
@@ -209,8 +211,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signUp,
     signInWithGoogle,
     signOut,
-    refreshProfile, // ← NOVO
-    isPremium: profile?.plano === 'premium',
+    refreshProfile,
+    isStarter: profile?.plano === 'starter',
+    isPremium: profile?.plano === 'premium' || profile?.plano === 'premium_pro',
+    isPremiumPro: profile?.plano === 'premium_pro',
     hasFullAccess,
     daysUntilFullAccess: daysRemaining,
   }

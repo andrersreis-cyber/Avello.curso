@@ -94,7 +94,7 @@ export default function TermosPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-4">4. Planos e Pagamentos</h2>
             <p className="mb-4">
-              Oferecemos planos gratuitos e premium. Para planos pagos:
+              Oferecemos planos Starter, Premium e Premium Pro. Para planos pagos:
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>Os pagamentos são processados de forma segura via Stripe</li>

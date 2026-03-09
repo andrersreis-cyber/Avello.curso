@@ -122,17 +122,13 @@ export function UpgradeBanner() {
         <div className="flex items-center gap-3">
           <Sparkles className="w-5 h-5 text-cyan-400" />
           <span className="text-sm text-zinc-300">
-            <span className="text-white font-medium">Plano Gratuito</span> - Faça upgrade para desbloquear todos os recursos
-          </span>
-          <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded animate-pulse">
-            80% OFF
+            <span className="text-white font-medium">Plano Starter</span> - Faça upgrade para desbloquear todos os recursos
           </span>
         </div>
         <Link
           href="/loja"
           className="flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-sm rounded-lg font-medium transition-all"
         >
-          <span className="line-through text-white/60 text-xs">R$199</span>
           <span>R$ 39/ano</span>
         </Link>
       </div>

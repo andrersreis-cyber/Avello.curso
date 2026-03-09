@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { ContentCard } from './content-card'
 import { WorkflowModal } from './workflow-modal'
@@ -9,6 +9,7 @@ import { TypebotModal } from './typebot-modal'
 import { UpgradeModal } from './upgrade-modal'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/auth-context'
+import { getDownloadCount, incrementDownload, canDownload, DOWNLOAD_LIMIT } from '@/lib/download-tracker'
 
 type BonusData = {
   id: number
@@ -52,7 +53,10 @@ type ContentGridProps = {
 export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflowClick, isLocked = false, getItemLocked }: ContentGridProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
-  const { isPremium } = useAuth()
+  const [downloadCountVersion, setDownloadCountVersion] = useState(0)
+  const { isPremium, isStarter } = useAuth()
+
+  const refreshDownloadCount = useCallback(() => setDownloadCountVersion(v => v + 1), [])
 
   if (loading) {
     return (
@@ -103,6 +107,10 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
+      if (isStarter) {
+        incrementDownload()
+        refreshDownloadCount()
+      }
     }
   }
 
@@ -142,6 +150,11 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
       setShowUpgradeModal(true)
       return
     }
+    // Starter: limite de 3 downloads/semana
+    if (isStarter && !canDownload(isStarter)) {
+      setShowUpgradeModal(true)
+      return
+    }
     handleDownload(item)
   }
 
@@ -166,14 +179,19 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
         </div>
       )}
 
-      {/* Banner parcial: 100 templates liberados para free */}
-      {!isLocked && getItemLocked && !isPremium && (
-        <div className="mb-4 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      {/* Banner parcial: templates liberados para Starter + contador de downloads */}
+      {!isLocked && getItemLocked && isStarter && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3 flex-1">
             <span className="text-2xl">📦</span>
             <div>
-              <p className="text-white font-medium">100 templates liberados</p>
-              <p className="text-sm text-zinc-400">Faça upgrade para desbloquear todos os +2.500 templates</p>
+              <p className="text-white font-medium">20 templates liberados</p>
+              <p className="text-sm text-zinc-400">
+                Faça upgrade para desbloquear todos os +2.500 templates •{' '}
+                <span className="text-cyan-400 font-medium">
+                  {getDownloadCount()}/{DOWNLOAD_LIMIT} downloads esta semana
+                </span>
+              </p>
             </div>
           </div>
           <Link
@@ -219,6 +237,30 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
           description={selectedItem.description}
           jsonData={selectedItem.downloadData}
           tags={selectedItem.tags}
+          onDownload={
+            isStarter
+              ? () => {
+                  if (!canDownload(isStarter)) {
+                    setSelectedItem(null)
+                    setShowUpgradeModal(true)
+                    return
+                  }
+                  if (selectedItem.downloadData) {
+                    const blob = new Blob([JSON.stringify(selectedItem.downloadData, null, 2)], { type: 'application/json' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `${selectedItem.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.json`
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                    URL.revokeObjectURL(url)
+                    incrementDownload()
+                    refreshDownloadCount()
+                  }
+                }
+              : undefined
+          }
         />
       )}
 

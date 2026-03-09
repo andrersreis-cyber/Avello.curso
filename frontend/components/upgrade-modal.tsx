@@ -42,19 +42,16 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
             Conteúdo Premium
           </h2>
           <p className="text-zinc-400 mb-6">
-            Este recurso faz parte do Plano Premium. Desbloqueie todos os 6.000+ recursos por R$ 3,25/mês.
+            Desbloqueie todos os 6.000+ recursos. Um único projeto paga o Premium inteiro.
           </p>
 
           {/* Preço */}
           <div className="bg-zinc-800/50 rounded-xl p-4 mb-6">
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <span className="text-zinc-500 line-through">R$ 199</span>
-              <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded">80% OFF</span>
-            </div>
             <div className="text-3xl font-bold text-white">
               R$ 39<span className="text-lg text-zinc-400">/ano</span>
             </div>
             <p className="text-cyan-400 text-sm mt-1">Apenas R$ 3,25/mês</p>
+            <p className="text-zinc-500 text-xs mt-2">Um projeto de R$250 já paga o ano inteiro</p>
           </div>
 
           {/* CTAs */}

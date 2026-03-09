@@ -107,7 +107,7 @@ export default function ComunidadePage() {
             {/* Stats */}
             <div className="flex items-center justify-center gap-8 mt-10">
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">Grátis</div>
+                <div className="text-3xl font-bold text-white">Incluso</div>
                 <div className="text-sm text-zinc-500">Para membros</div>
               </div>
               <div className="w-px h-12 bg-zinc-700" />
@@ -187,7 +187,7 @@ export default function ComunidadePage() {
               className="flex items-center justify-center gap-3 w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all"
             >
               <Zap className="w-5 h-5" />
-              Entrar Agora - É Grátis!
+              Entrar Agora - Incluso no plano
             </a>
           </div>
         </div>

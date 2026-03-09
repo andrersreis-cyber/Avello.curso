@@ -33,7 +33,7 @@ export function UrgencyBanner() {
           <div className="flex items-center gap-3 flex-1">
             <AlertTriangle className="w-5 h-5 text-white flex-shrink-0" />
             <p className="text-sm md:text-base text-white font-medium">
-              <span className="font-bold">ATENÇÃO:</span> Preço atual de R$39 pode subir a qualquer momento conforme novos recursos são adicionados. <span className="font-bold">Quem entrar agora mantém o valor atual mesmo com novas atualizações.</span>
+              Preço de lançamento: Premium por R$39/ano. Após 1.000 membros, sobe para R$97/ano.
             </p>
           </div>
           <button

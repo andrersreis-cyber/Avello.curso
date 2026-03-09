@@ -27,6 +27,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-6">
             <a href="#demo" className="text-zinc-400 hover:text-white transition-colors">Demo</a>
             <a href="#recursos" className="text-zinc-400 hover:text-white transition-colors">Recursos</a>
+            <a href="#precos" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Premium</a>
             <a href="#precos" className="text-zinc-400 hover:text-white transition-colors">Preços</a>
             <a href="#depoimentos" className="text-zinc-400 hover:text-white transition-colors">Depoimentos</a>
           </div>
@@ -36,10 +37,10 @@ export default function LandingPage() {
               Entrar
             </Link>
             <Link 
-              href="/cadastro"
+              href="#precos"
               className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-500/25"
             >
-              Começar Grátis
+              Ver Planos
             </Link>
           </div>
         </div>
@@ -78,8 +79,8 @@ export default function LandingPage() {
           <div className="space-y-4">
             {[
               {
-                q: 'O plano gratuito é realmente grátis para sempre?',
-                a: 'Sim! O plano gratuito é 100% grátis e vitalício. Você tem acesso a 100 templates n8n selecionados, 5 downloads por semana, uso comercial, comunidade no Telegram e visualização de todos os recursos. Sem cartão de crédito, sem pegadinhas.'
+                q: 'O que está incluído no Plano Starter?',
+                a: 'O Starter custa R$14,90/ano e inclui 20 templates n8n selecionados, 3 downloads por semana, uso comercial e acesso à comunidade Telegram. É perfeito para conhecer a plataforma antes de fazer upgrade.'
               },
               {
                 q: 'E se eu não gostar do Premium?',
@@ -94,12 +95,12 @@ export default function LandingPage() {
                 a: 'Sim! Adicionamos novos recursos toda semana. Com o Premium ou Premium Pro, você tem acesso a todas as atualizações durante o período da assinatura.'
               },
               {
-                q: 'O que está incluído no plano gratuito?',
-                a: '100 templates n8n selecionados, 5 downloads por semana, uso comercial, comunidade no Telegram e visualização de todos os recursos (para você decidir se vale upgrade).'
+                q: 'Vale a pena pagar R$39 pelo Premium?',
+                a: 'Sim! Com um único projeto de R$250, você já paga o ano inteiro. O restante é lucro. E se não gostar, garantia de 7 dias com reembolso total.'
               },
               {
-                q: 'Preciso de cartão de crédito para o plano gratuito?',
-                a: 'Não! O plano gratuito é 100% grátis. Basta criar sua conta e começar a usar, sem qualquer pagamento.'
+                q: 'Posso fazer upgrade do Starter para Premium depois?',
+                a: 'Sim! A qualquer momento você pode fazer upgrade. E o melhor: por apenas R$24 a mais (diferença de R$14,90 para R$39), você desbloqueia todos os 6.000+ recursos.'
               },
               {
                 q: 'Posso usar os recursos comercialmente?',
@@ -142,7 +143,7 @@ export default function LandingPage() {
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <span>+800 usuários</span>
+              <span>20+ membros</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <Zap className="w-5 h-5 text-cyan-400" />
@@ -151,22 +152,30 @@ export default function LandingPage() {
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ainda em dúvida? Comece grátis.
+            Um único projeto paga o ano inteiro
           </h2>
           <p className="text-zinc-400 text-lg mb-8 max-w-2xl mx-auto">
-            Explore os templates, copie e cole, eleve o nível da sua empresa e crie renda recorrente. Veja a qualidade com seus próprios olhos — e decida se vale R$3,25/mês para desbloquear tudo.
+            Copie um template, venda por R$250+ e o Premium já se pagou. Garantia de 7 dias — não gostou, devolvemos 100%.
           </p>
-          
-          <Link
-            href="/cadastro"
-            className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-xl transition-all shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105"
-          >
-            <Zap className="w-6 h-6" />
-            Começar Grátis Agora
-          </Link>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/loja"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-xl transition-all shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105"
+            >
+              <Zap className="w-6 h-6" />
+              Acesso Completo — R$ 39/ano
+            </Link>
+            <Link
+              href="/cadastro"
+              className="text-zinc-400 hover:text-white text-lg transition-colors"
+            >
+              Ou começar por R$ 14,90
+            </Link>
+          </div>
 
           <p className="text-sm text-zinc-500 mt-4">
-            Sem cartão de crédito · Acesso em 30 segundos
+            Garantia 7 dias · Acesso imediato · Cancele quando quiser
           </p>
         </div>
       </section>

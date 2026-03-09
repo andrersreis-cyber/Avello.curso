@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
               userId: data.user.id,
               email: data.user.email!,
               nome: data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'Usuário',
-              plano: 'free',
+              plano: 'starter',
             }),
           })
         } catch (err) {

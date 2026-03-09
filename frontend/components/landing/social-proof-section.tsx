@@ -112,22 +112,30 @@ export function SocialProofSection() {
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
           <p className="text-zinc-400 mb-4">
-            Junte-se a centenas de empreendedores que já estão lucrando com a Avello
+            Junte-se aos empreendedores que já estão lucrando com a Avello
           </p>
-          <a
-            href="/cadastro"
-            onClick={() => {
-              if (window.fbq) {
-                window.fbq('track', 'Lead', {
-                  content_name: 'Cadastro Gratuito Avello (Social Proof)',
-                  content_category: 'Landing Page'
-                })
-              }
-            }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
-          >
-            Começar Grátis Agora
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="/loja"
+              onClick={() => {
+                if (window.fbq) {
+                  window.fbq('track', 'Lead', {
+                    content_name: 'CTA Premium (Social Proof)',
+                    content_category: 'Landing Page'
+                  })
+                }
+              }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
+            >
+              Acesso Completo — R$ 39/ano
+            </a>
+            <a
+              href="/cadastro"
+              className="text-zinc-400 hover:text-white transition-colors"
+            >
+              Ou começar por R$ 14,90
+            </a>
+          </div>
         </div>
       </div>
     </section>

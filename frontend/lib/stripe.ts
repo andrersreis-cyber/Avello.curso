@@ -12,6 +12,7 @@ export const getStripe = () => {
 
 // IDs dos preços no Stripe (criados via script)
 export const STRIPE_PRICE_IDS = {
+  starter: 'price_1T96RtHFr5u9PsVJDnXC0vR4',
   lowtik: 'price_1Sv50RHFr5u9PsVJJkc1AV1O',
   consultoria: 'price_1Sv50SHFr5u9PsVJLJbKqfmR',
   setup_n8n: 'price_1Sv50SHFr5u9PsVJce95MAwD',
@@ -25,6 +26,24 @@ export type ProductType = 'subscription' | 'one_time'
 
 // Produtos disponíveis
 export const products = {
+  starter: {
+    id: 'starter',
+    name: 'Plano Starter',
+    description: 'Acesso básico por 12 meses. Perfeito para explorar a plataforma.',
+    price: 1490, // R$ 14,90
+    currency: 'brl',
+    type: 'subscription' as ProductType,
+    interval: 'year' as const,
+    features: [
+      '20 Templates n8n selecionados',
+      '3 downloads/semana',
+      'Uso comercial permitido',
+      'Comunidade Telegram',
+      'Visualização de todos os recursos',
+    ],
+    highlight: false,
+  },
+
   // Assinatura principal
   lowtik: {
     id: 'lowtik',

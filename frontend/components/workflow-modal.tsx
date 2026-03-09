@@ -12,9 +12,10 @@ type WorkflowModalProps = {
   description?: string
   jsonData?: object
   tags?: string[]
+  onDownload?: () => void
 }
 
-export function WorkflowModal({ isOpen, onClose, title, description, jsonData, tags }: WorkflowModalProps) {
+export function WorkflowModal({ isOpen, onClose, title, description, jsonData, tags, onDownload }: WorkflowModalProps) {
   const [copied, setCopied] = useState(false)
   const [activeTab, setActiveTab] = useState<'preview' | 'json'>('preview')
 
@@ -294,7 +295,7 @@ export function WorkflowModal({ isOpen, onClose, title, description, jsonData, t
             )}
           </button>
           <button
-            onClick={handleDownload}
+            onClick={onDownload ?? handleDownload}
             disabled={!jsonString}
             className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white rounded-lg text-sm font-medium transition-colors"
           >

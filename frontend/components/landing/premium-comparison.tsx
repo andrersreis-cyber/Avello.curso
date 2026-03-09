@@ -3,16 +3,17 @@
 import Link from 'next/link'
 import { Check, Zap, Crown, Shield, Star } from 'lucide-react'
 
-const freeFeatures = [
-  '100 Templates n8n selecionados',
-  '5 downloads/semana',
+const starterFeatures = [
+  '20 Templates n8n selecionados',
+  '3 downloads/semana',
   'Uso comercial permitido',
   'Comunidade Telegram',
   'Visualização de todos os recursos'
 ]
 
 const premiumFeatures = [
-  'Tudo do plano Gratuito',
+  'Tudo do Starter +',
+  '+2500 Templates n8n completos',
   '+500 Chatbots prontos',
   '+2400 Prompts ChatGPT',
   '+3500 Prompts Midjourney',
@@ -48,47 +49,53 @@ export function PremiumComparison() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Comece grátis, upgrade quando quiser
+            Escolha seu plano e comece agora
           </h2>
           <p className="text-zinc-400 text-lg">
-            Sem pegadinhas. Plano gratuito <span className="text-white font-semibold">vitalício</span>.
+            Todos os planos com <span className="text-white font-semibold">garantia de 7 dias</span>. Não gostou? Devolvemos 100%.
           </p>
         </div>
 
         {/* Comparison Grid - 3 planos */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {/* Plano Gratuito */}
+          {/* Plano Starter */}
           <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-zinc-800">
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <Shield className="w-5 h-5 text-zinc-400" />
-                <h3 className="text-xl font-bold text-white">Plano Gratuito</h3>
+                <h3 className="text-xl font-bold text-white">Plano Starter</h3>
               </div>
               <p className="text-zinc-400 text-sm">Perfeito para começar</p>
             </div>
-            
+
             <div className="mb-6">
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-white">R$ 0</span>
-                <span className="text-zinc-500">/para sempre</span>
+                <span className="text-5xl font-bold text-white">R$ 14,90</span>
+                <span className="text-zinc-500">/ano</span>
               </div>
+              <p className="text-zinc-400 text-sm mt-2">R$ 1,24/mês</p>
             </div>
-            
+
             <ul className="space-y-3 mb-8">
-              {freeFeatures.map((feature, index) => (
+              {starterFeatures.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                   <span className="text-zinc-300 text-sm">{feature}</span>
                 </li>
               ))}
             </ul>
-            
+
             <Link
               href="/cadastro"
               className="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-medium transition-all border border-zinc-700"
             >
-              Criar Conta Grátis
+              Começar por R$ 14,90/ano
             </Link>
+
+            <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
+              <Shield className="w-3 h-3" />
+              Garantia de 7 dias
+            </p>
           </div>
 
           {/* Plano Premium - MAIS POPULAR */}
@@ -184,8 +191,9 @@ export function PremiumComparison() {
               Quero Premium Pro
             </Link>
             
-            <p className="text-center text-xs text-zinc-500 mt-4">
-              Produto em breve no Stripe
+            <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
+              <Shield className="w-3 h-3" />
+              Garantia de 7 dias
             </p>
           </div>
         </div>

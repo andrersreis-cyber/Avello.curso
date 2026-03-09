@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowRight, Zap, Check, Gift, Phone } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, User, Loader2, ArrowRight, Zap, Check, Phone } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
@@ -68,18 +68,18 @@ export default function CadastroPage() {
 
     // Enviar dados para n8n (automação de follow-up)
     console.log('🚀 Enviando para n8n webhook lead_new...')
-    console.log('📦 Dados:', { nome, email, telefone, plano: 'free' })
+    console.log('📦 Dados:', { nome, email, telefone, plano: 'starter' })
     fetch('https://n8nwebhook.agenteflowia.com/webhook/lead_new', {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ nome, email, telefone, plano: 'free' }),
+      body: JSON.stringify({ nome, email, telefone, plano: 'starter' }),
     })
       .then(() => console.log('✅ Requisição enviada para n8n (no-cors)'))
       .catch(err => console.error('❌ Erro n8n:', err))
 
-    // Redireciona direto para a home (sem verificação de email)
-    router.push('/')
+    // Redireciona para /escolher-plano (upsell Starter vs Premium)
+    router.push('/escolher-plano')
   }
 
   const handleGoogleSignUp = async () => {
@@ -112,15 +112,15 @@ export default function CadastroPage() {
         </div>
         
         <div className="relative max-w-lg">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-8">
-            <Gift className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-8">
+            <Zap className="w-8 h-8 text-white" />
           </div>
           
           <h2 className="text-3xl font-bold text-white mb-4">
-            Comece grátis agora
+            Crie sua conta para continuar
           </h2>
           <p className="text-zinc-400 text-lg mb-8">
-            Crie sua conta e tenha acesso imediato a +2000 templates n8n gratuitamente.
+            Cadastre-se para acessar a plataforma e escolher seu plano.
           </p>
 
           {/* Benefits */}
@@ -129,13 +129,7 @@ export default function CadastroPage() {
               <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
                 <Check className="w-4 h-4 text-green-400" />
               </div>
-              <span className="text-zinc-300">+2000 Templates n8n grátis</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-                <Check className="w-4 h-4 text-green-400" />
-              </div>
-              <span className="text-zinc-300">Download ilimitado</span>
+              <span className="text-zinc-300">20 Templates n8n inclusos no Starter</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
@@ -147,7 +141,13 @@ export default function CadastroPage() {
               <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
                 <Check className="w-4 h-4 text-green-400" />
               </div>
-              <span className="text-zinc-300">Sem cartão de crédito</span>
+              <span className="text-zinc-300">Garantia de 7 dias em todos os planos</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                <Check className="w-4 h-4 text-green-400" />
+              </div>
+              <span className="text-zinc-300">Planos a partir de R$ 14,90/ano</span>
             </div>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function CadastroPage() {
           </Link>
 
           <h1 className="text-3xl font-bold text-white mb-2">
-            Criar conta grátis
+            Crie sua conta
           </h1>
           <p className="text-zinc-400 mb-8">
             Preencha seus dados para começar
@@ -286,7 +286,7 @@ export default function CadastroPage() {
                 </>
               ) : (
                 <>
-                  Criar conta grátis
+                  Criar conta e continuar
                   <ArrowRight className="w-5 h-5" />
                 </>
               )}

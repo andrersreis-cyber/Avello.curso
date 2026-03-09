@@ -57,7 +57,7 @@ export default function CompletarCadastroPage() {
           email: user?.email,
           nome: profile?.nome || user?.user_metadata?.nome || user?.user_metadata?.full_name,
           telefone,
-          plano: profile?.plano || 'free',
+          plano: profile?.plano || 'starter',
         }),
       })
 

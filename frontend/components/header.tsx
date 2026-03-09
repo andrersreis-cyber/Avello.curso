@@ -134,7 +134,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                       Premium
                     </>
                   ) : (
-                    'Plano Gratuito'
+                    'Plano Starter'
                   )}
                 </span>
               </div>
