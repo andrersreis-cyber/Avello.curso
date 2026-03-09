@@ -52,10 +52,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (error) {
       console.error('❌ Erro ao buscar perfil:', error)
+
+      // Se não encontrou (406/PGRST116), tentar criar via fix-profile
+      if (error.code === 'PGRST116') {
+        console.log('🔧 Perfil não encontrado, tentando criar...')
+        const { data: { user: authUser } } = await supabase.auth.getUser()
+        if (authUser) {
+          try {
+            const res = await fetch('/api/fix-profile', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId: authUser.id,
+                email: authUser.email,
+                nome: authUser.user_metadata?.full_name || authUser.user_metadata?.name || authUser.email?.split('@')[0] || 'Usuário',
+                plano: 'starter',
+              }),
+            })
+            if (res.ok) {
+              // Buscar perfil novamente após criação
+              const { data: retryData } = await supabase
+                .from('usuarios')
+                .select('id,email,nome,telefone,plano,premium_since,created_at')
+                .eq('id', userId)
+                .single()
+              return retryData as UserProfile | null
+            }
+          } catch (err) {
+            console.error('❌ Erro ao criar perfil via fallback:', err)
+          }
+        }
+      }
+
       return null
     }
-    
-    console.log('✅ Perfil carregado:', data)
+
     return data as UserProfile
   }
 

@@ -83,7 +83,7 @@ export default function LojaPage() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        alert(data.error || 'Erro ao processar pagamento')
+        alert('Erro ao processar pagamento. Tente novamente em instantes.')
       }
     } catch (error) {
       console.error('Erro:', error)

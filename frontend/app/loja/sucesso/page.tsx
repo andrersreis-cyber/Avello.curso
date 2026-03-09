@@ -46,7 +46,7 @@ function SucessoContent() {
       })
       const data = await response.json()
       if (data.url) window.location.href = data.url
-      else alert(data.error || 'Erro ao processar pagamento')
+      else alert('Erro ao processar pagamento. Tente novamente em instantes.')
     } catch (error) {
       console.error('Erro:', error)
       alert('Erro ao conectar com o servidor')
