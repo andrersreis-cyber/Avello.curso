@@ -17,27 +17,34 @@ export function FacebookPixel() {
 }
 
 export function FacebookPixelScript({ pixelId }: { pixelId: string }) {
-  const handleLoad = () => {
-    if (typeof window.fbq === 'function') {
-      window.fbq('init', pixelId)
-      window.avelloPixel = {
-        cadastro: function () {
-          window.fbq('track', 'CompleteRegistration', { content_name: 'Avello', currency: 'BRL', value: 0 })
-        },
-        purchase: function (plano?: string, valor?: number) {
-          window.fbq('track', 'Purchase', { content_name: plano || 'Avello Premium', currency: 'BRL', value: valor || 39 })
-        },
-      }
-    }
-  }
-
   return (
     <>
+      {/* Bootstrap: cria o stub fbq ANTES de carregar o SDK */}
+      <Script
+        id="fb-pixel-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];}(window,document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init','${pixelId}');
+            fbq('track','PageView');
+            window.avelloPixel={
+              cadastro:function(){fbq('track','CompleteRegistration',{content_name:'Avello',currency:'BRL',value:0})},
+              purchase:function(p,v){fbq('track','Purchase',{content_name:p||'Avello Premium',currency:'BRL',value:v||39})}
+            };
+          `,
+        }}
+      />
+      {/* Carrega o SDK depois que o stub esta pronto */}
       <Script
         id="fb-sdk"
         src="https://connect.facebook.net/en_US/fbevents.js"
         strategy="afterInteractive"
-        onLoad={handleLoad}
       />
       <noscript>
         <img

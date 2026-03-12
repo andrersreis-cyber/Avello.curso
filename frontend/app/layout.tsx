@@ -24,12 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <head>
+      <body className={`${inter.variable} font-sans antialiased`}>
         {process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID && (
           <FacebookPixelScript pixelId={process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID} />
         )}
-      </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
         <QueryProvider>
           <AuthProvider>
             <AffiliateTracker />
