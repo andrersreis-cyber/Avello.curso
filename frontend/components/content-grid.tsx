@@ -141,9 +141,9 @@ export function ContentGrid({ items, viewMode, loading, onBonusClick, onWorkflow
     } else if (item.type === 'bonus' && item.bonusData && onBonusClick) {
       // Para bônus, abre o modal de detalhes
       onBonusClick(item.bonusData)
-    } else if (item.url) {
-      // Para SaaS, tools com URL, abre em nova aba
-      window.open(item.url, '_blank')
+    } else if (item.url && (item.url.startsWith('https://') || item.url.startsWith('http://'))) {
+      // Para SaaS, tools com URL, abre em nova aba (validado para segurança)
+      window.open(item.url, '_blank', 'noopener,noreferrer')
     }
   }
 

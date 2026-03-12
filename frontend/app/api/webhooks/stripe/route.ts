@@ -207,7 +207,8 @@ export async function POST(request: NextRequest) {
           }
 
           try {
-            await fetch('https://n8nwebhook.agenteflowia.com/webhook/checkout_abandonado', {
+            const n8nBase = process.env.N8N_WEBHOOK_BASE_URL || 'https://n8nwebhook.agenteflowia.com'
+            await fetch(`${n8nBase}/webhook/checkout_abandonado`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(webhookData),

@@ -64,7 +64,8 @@ export default function CadastroPage() {
     }
 
     // Enviar dados para n8n (automação de follow-up)
-    fetch('https://n8nwebhook.agenteflowia.com/webhook/lead_new', {
+    const n8nBase = process.env.NEXT_PUBLIC_N8N_WEBHOOK_BASE_URL || 'https://n8nwebhook.agenteflowia.com'
+    fetch(`${n8nBase}/webhook/lead_new`, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },

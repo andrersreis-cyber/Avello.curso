@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, Suspense, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { 
@@ -21,6 +21,7 @@ function SucessoContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [showConfetti, setShowConfetti] = useState(false)
+  const frameRef = useRef<number | undefined>(undefined)
   const [isProcessing, setIsProcessing] = useState(true)
   const [loading, setLoading] = useState<string | null>(null)
   const { user, profile, isPremium, refreshProfile } = useAuth()
@@ -127,13 +128,17 @@ function SucessoContent() {
         })
         
         if (Date.now() < end) {
-          requestAnimationFrame(frame)
+          frameRef.current = requestAnimationFrame(frame)
         }
       }
       
-      frame()
+      frameRef.current = requestAnimationFrame(frame)
+
+      return () => {
+        if (frameRef.current) cancelAnimationFrame(frameRef.current)
+      }
     }
-  }, [showConfetti, isProcessing])
+  }, [isProcessing])
 
   // Mostrar loading enquanto processa
   if (isProcessing) {
