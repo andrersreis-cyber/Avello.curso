@@ -64,15 +64,13 @@ export default function CadastroPage() {
     }
 
     // Enviar dados para n8n (automação de follow-up)
-    console.log('🚀 Enviando para n8n webhook lead_new...')
-    console.log('📦 Dados:', { nome, email, telefone, plano: 'pendente' })
     fetch('https://n8nwebhook.agenteflowia.com/webhook/lead_new', {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ nome, email, telefone, plano: 'pendente' }),
     })
-      .then(() => console.log('✅ Requisição enviada para n8n (no-cors)'))
+      .then(() => {})
       .catch(err => console.error('❌ Erro n8n:', err))
 
     // Redireciona para /escolher-plano (upsell Starter vs Premium)

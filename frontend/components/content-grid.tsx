@@ -1,12 +1,14 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { ContentCard } from './content-card'
-import { WorkflowModal } from './workflow-modal'
-import { PromptModal } from './prompt-modal'
-import { TypebotModal } from './typebot-modal'
 import { UpgradeModal } from './upgrade-modal'
+
+const WorkflowModal = dynamic(() => import('./workflow-modal').then(m => ({ default: m.WorkflowModal })), { ssr: false })
+const PromptModal = dynamic(() => import('./prompt-modal').then(m => ({ default: m.PromptModal })), { ssr: false })
+const TypebotModal = dynamic(() => import('./typebot-modal').then(m => ({ default: m.TypebotModal })), { ssr: false })
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/auth-context'
 import { getDownloadCount, incrementDownload, canDownload, DOWNLOAD_LIMIT } from '@/lib/download-tracker'

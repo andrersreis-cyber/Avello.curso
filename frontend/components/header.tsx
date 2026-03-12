@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { LogOut, Users, ShoppingBag, Heart, HelpCircle, Search, Sparkles, LogIn, Menu } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -53,11 +54,13 @@ export function Header({ onMenuClick }: HeaderProps) {
         )}
 
         <Link href="/" className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
-          <div className="relative hidden sm:block">
-            <img 
+          <div className="relative hidden sm:block w-10 h-10">
+            <Image 
               src="/images/logo-avello.png" 
               alt="Avello" 
-              className="h-10 w-10 object-contain rounded-lg transition-transform group-hover:scale-105"
+              width={40}
+              height={40}
+              className="object-contain rounded-lg transition-transform group-hover:scale-105"
             />
           </div>
           <div className="flex flex-col">

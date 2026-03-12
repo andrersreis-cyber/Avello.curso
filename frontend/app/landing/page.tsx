@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { UrgencyBanner } from '@/components/landing/urgency-banner'
 import { HeroSection } from '@/components/landing/hero-section'
@@ -21,7 +22,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-40 bg-zinc-950/80 backdrop-blur-lg border-b border-zinc-800">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/images/logo-avello.png" alt="Avello" className="h-8 w-8 rounded-lg" />
+            <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
             <span className="text-xl font-bold text-cyan-400">AVELLO</span>
           </div>
           
@@ -202,7 +203,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <img src="/images/logo-avello.png" alt="Avello" className="h-8 w-8 rounded-lg" />
+              <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
               <span className="text-lg font-bold text-cyan-400">AVELLO</span>
             </div>
             

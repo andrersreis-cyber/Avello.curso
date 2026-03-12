@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Header } from '@/components/header'
@@ -10,14 +11,15 @@ import { CategoryGrid, Category } from '@/components/category-grid'
 import { ExternalDirectory } from '@/components/external-directory'
 import { SelfHostedDirectory } from '@/components/selfhosted-directory'
 import { FreeToolsDirectory } from '@/components/free-tools-directory'
-import { BonusModal } from '@/components/bonus-modal'
-import { TimeLockedModule } from '@/components/time-locked-module'
-import { MobileDrawer } from '@/components/mobile-drawer'
-import { UpgradeBanner } from '@/components/upgrade-banner'
 import { modules } from '@/lib/modules'
 import { createClient } from '@/lib/supabase-browser'
 import { useAuth } from '@/contexts/auth-context'
 import { useModuleCounts } from '@/hooks/use-module-counts'
+
+const BonusModal = dynamic(() => import('@/components/bonus-modal').then(m => ({ default: m.BonusModal })), { ssr: false })
+import { TimeLockedModule } from '@/components/time-locked-module'
+import { MobileDrawer } from '@/components/mobile-drawer'
+import { UpgradeBanner } from '@/components/upgrade-banner'
 
 // Módulos disponíveis no plano Starter
 const STARTER_MODULES = ['n8n-templates']

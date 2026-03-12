@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
   try {
     const { userId, email, nome, telefone, plano } = await request.json()
     
-    console.log('🔧 Corrigindo perfil:', { userId, email, nome, telefone, plano })
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔧 Corrigindo perfil:', { userId, email, nome, telefone, plano })
+    }
     
     // Verificar se já existe
     const { data: existing } = await supabase

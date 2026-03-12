@@ -44,7 +44,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Buscar perfil do usuário (apenas campos necessários)
   const fetchProfile = async (userId: string) => {
-    console.log('🔍 Buscando perfil para userId:', userId)
     const { data, error } = await supabase
       .from('usuarios')
       .select('id,email,nome,telefone,plano,premium_since,created_at')
@@ -56,7 +55,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Se não encontrou (406/PGRST116), tentar criar via fix-profile
       if (error.code === 'PGRST116') {
-        console.log('🔧 Perfil não encontrado, tentando criar...')
         const { data: { user: authUser } } = await supabase.auth.getUser()
         if (authUser) {
           try {
@@ -202,14 +200,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Método para revalidar perfil manualmente (após pagamento, etc)
   const refreshProfile = async (): Promise<UserProfile | null> => {
     if (!user) {
-      console.log('⚠️ Não há usuário logado para revalidar')
       return null
     }
     
-    console.log('🔄 Revalidando perfil do usuário...')
     const userProfile = await fetchProfile(user.id)
     setProfile(userProfile)
-    console.log('✅ Perfil revalidado:', userProfile)
     return userProfile
   }
 

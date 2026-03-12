@@ -11,6 +11,12 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+const devLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(...args)
+  }
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.text()
   const signature = request.headers.get('stripe-signature')
@@ -47,10 +53,10 @@ export async function POST(request: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session
-        console.log('✅ Pagamento concluído:', session.id)
-        console.log('   Cliente:', session.customer_email)
-        console.log('   Produto:', session.metadata?.productId)
-        console.log('   Afiliado:', session.metadata?.affiliateCode)
+        devLog('✅ Pagamento concluído:', session.id)
+        devLog('   Cliente:', session.customer_email)
+        devLog('   Produto:', session.metadata?.productId)
+        devLog('   Afiliado:', session.metadata?.affiliateCode)
         
         // Processa comissão do afiliado se houver código
         const affiliateCode = session.metadata?.affiliateCode
@@ -93,9 +99,9 @@ export async function POST(request: NextRequest) {
               })
               .eq('id', usuario.id)
 
-            console.log(`✅ Usuário ${session.customer_email} atualizado para ${plano}`)
+            devLog(`✅ Usuário ${session.customer_email} atualizado para ${plano}`)
           } else {
-            console.log(`⚠️ Usuário não encontrado: ${session.customer_email}`)
+            devLog(`⚠️ Usuário não encontrado: ${session.customer_email}`)
           }
         }
         
@@ -104,19 +110,19 @@ export async function POST(request: NextRequest) {
       
       case 'customer.subscription.created': {
         const subscription = event.data.object as Stripe.Subscription
-        console.log('📅 Nova assinatura:', subscription.id)
+        devLog('📅 Nova assinatura:', subscription.id)
         break
       }
       
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription
-        console.log('🔄 Assinatura atualizada:', subscription.id, subscription.status)
+        devLog('🔄 Assinatura atualizada:', subscription.id, subscription.status)
         break
       }
       
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription
-        console.log('❌ Assinatura cancelada:', subscription.id)
+        devLog('❌ Assinatura cancelada:', subscription.id)
         const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
         if (customerId) {
           try {
@@ -133,9 +139,9 @@ export async function POST(request: NextRequest) {
                   .from('usuarios')
                   .update({ plano: 'pendente', premium_since: null })
                   .eq('id', usuario.id)
-                console.log(`✅ Acesso revogado para ${email}`)
+                devLog(`✅ Acesso revogado para ${email}`)
               } else {
-                console.log(`⚠️ Usuário não encontrado: ${email}`)
+                devLog(`⚠️ Usuário não encontrado: ${email}`)
               }
             }
           } catch (err) {
@@ -147,13 +153,13 @@ export async function POST(request: NextRequest) {
       
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice
-        console.log('💰 Pagamento de fatura:', invoice.id)
+        devLog('💰 Pagamento de fatura:', invoice.id)
         break
       }
       
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
-        console.log('⚠️ Falha no pagamento:', invoice.id)
+        devLog('⚠️ Falha no pagamento:', invoice.id)
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
         if (customerId) {
           try {
@@ -166,7 +172,7 @@ export async function POST(request: NextRequest) {
                 .eq('email', email)
                 .single()
               if (usuario) {
-                console.log(`⚠️ Falha de pagamento para usuário: ${email}`)
+                devLog(`⚠️ Falha de pagamento para usuário: ${email}`)
               }
             }
           } catch (err) {
@@ -178,9 +184,9 @@ export async function POST(request: NextRequest) {
 
       case 'checkout.session.expired': {
         const session = event.data.object as Stripe.Checkout.Session
-        console.log('⏰ Checkout abandonado:', session.id)
-        console.log('   Email:', session.customer_email)
-        console.log('   Produto:', session.metadata?.productId)
+        devLog('⏰ Checkout abandonado:', session.id)
+        devLog('   Email:', session.customer_email)
+        devLog('   Produto:', session.metadata?.productId)
 
         // Enviar para n8n para sequência de recuperação
         if (session.customer_email) {
@@ -206,7 +212,7 @@ export async function POST(request: NextRequest) {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(webhookData),
             })
-            console.log('✅ Dados de abandono enviados para n8n')
+            devLog('✅ Dados de abandono enviados para n8n')
           } catch (err) {
             console.error('❌ Erro ao enviar para n8n:', err)
           }
@@ -216,7 +222,7 @@ export async function POST(request: NextRequest) {
       }
       
       default:
-        console.log(`Evento não tratado: ${event.type}`)
+        devLog(`Evento não tratado: ${event.type}`)
     }
     
     return NextResponse.json({ received: true })
@@ -248,7 +254,7 @@ async function processAffiliateCommission(
       .single()
     
     if (affiliateError || !affiliate) {
-      console.log('⚠️ Afiliado não encontrado:', affiliateCode)
+      devLog('⚠️ Afiliado não encontrado:', affiliateCode)
       return
     }
     
@@ -289,7 +295,7 @@ async function processAffiliateCommission(
       })
       .eq('id', affiliate.id)
     
-    console.log(`💰 Comissão registrada: R$ ${valorComissao.toFixed(2)} para afiliado ${affiliateCode}`)
+    devLog(`💰 Comissão registrada: R$ ${valorComissao.toFixed(2)} para afiliado ${affiliateCode}`)
   } catch (error) {
     console.error('Erro ao processar comissão do afiliado:', error)
   }

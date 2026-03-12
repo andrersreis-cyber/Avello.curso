@@ -61,20 +61,17 @@ function SucessoContent() {
     const maxAttempts = 10 // 20 segundos máximo
     
     const checkPremiumStatus = async () => {
-      console.log(`🔄 Verificando status premium (tentativa ${attempts + 1}/${maxAttempts})`)
       
       const updatedProfile = await refreshProfile()
       attempts++
       
       // Usar o perfil retornado para evitar closure obsoleto
       if (['premium', 'premium_pro', 'starter'].includes(updatedProfile?.plano || '')) {
-        console.log('✅ Usuário agora é premium!')
         setIsProcessing(false)
         return
       }
       
       if (attempts >= maxAttempts) {
-        console.log('⚠️ Máximo de tentativas atingido. Webhook pode estar atrasado.')
         setIsProcessing(false)
         return
       }
@@ -98,7 +95,6 @@ function SucessoContent() {
         if (data.valid && window.avelloPixel) {
           const valor = data.amount ? data.amount / 100 : 39
           window.avelloPixel.purchase(data.planoNome || 'Avello Premium', valor)
-          console.log('✅ Compra verificada e rastreada no Pixel:', data.planoNome, valor)
         }
       } catch (error) {
         console.error('Erro ao verificar sessão para Pixel:', error)
