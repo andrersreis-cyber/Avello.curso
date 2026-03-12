@@ -1,5 +1,6 @@
 'use client'
 
+import Script from 'next/script'
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
@@ -8,44 +9,35 @@ export function FacebookPixel() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Aguardar o script do pixel carregar
     if (typeof window.fbq === 'undefined') return
-
-    // Track pageview
     window.fbq('track', 'PageView')
   }, [pathname, searchParams])
 
   return null
 }
 
-// Script do Pixel - adicionar no <head>
 export function FacebookPixelScript({ pixelId }: { pixelId: string }) {
+  const handleLoad = () => {
+    if (typeof window.fbq === 'function') {
+      window.fbq('init', pixelId)
+      window.avelloPixel = {
+        cadastro: function () {
+          window.fbq('track', 'CompleteRegistration', { content_name: 'Avello', currency: 'BRL', value: 0 })
+        },
+        purchase: function (plano?: string, valor?: number) {
+          window.fbq('track', 'Purchase', { content_name: plano || 'Avello Premium', currency: 'BRL', value: valor || 39 })
+        },
+      }
+    }
+  }
+
   return (
     <>
-      <script
-        id="facebook-pixel"
-        dangerouslySetInnerHTML={{
-          __html: `
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelId}');
-
-            window.avelloPixel = {
-              cadastro: function(){
-                fbq('track', 'CompleteRegistration', {content_name:'Avello', currency:'BRL', value:0});
-              },
-              purchase: function(plano, valor){
-                fbq('track', 'Purchase', {content_name: plano || 'Avello Premium', currency:'BRL', value: valor || 39});
-              }
-            };
-          `,
-        }}
+      <Script
+        id="fb-sdk"
+        src="https://connect.facebook.net/en_US/fbevents.js"
+        strategy="afterInteractive"
+        onLoad={handleLoad}
       />
       <noscript>
         <img

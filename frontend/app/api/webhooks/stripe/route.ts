@@ -117,7 +117,31 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription
         console.log('❌ Assinatura cancelada:', subscription.id)
-        // TODO: Revogar acesso do usuário
+        const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
+        if (customerId) {
+          try {
+            const customer = await stripe.customers.retrieve(customerId)
+            const email = customer.deleted ? null : (customer as Stripe.Customer).email
+            if (email) {
+              const { data: usuario } = await supabase
+                .from('usuarios')
+                .select('id')
+                .eq('email', email)
+                .single()
+              if (usuario) {
+                await supabase
+                  .from('usuarios')
+                  .update({ plano: 'pendente', premium_since: null })
+                  .eq('id', usuario.id)
+                console.log(`✅ Acesso revogado para ${email}`)
+              } else {
+                console.log(`⚠️ Usuário não encontrado: ${email}`)
+              }
+            }
+          } catch (err) {
+            console.error('❌ Erro ao revogar acesso:', err)
+          }
+        }
         break
       }
       
@@ -130,7 +154,25 @@ export async function POST(request: NextRequest) {
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
         console.log('⚠️ Falha no pagamento:', invoice.id)
-        // TODO: Notificar usuário sobre falha
+        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
+        if (customerId) {
+          try {
+            const customer = await stripe.customers.retrieve(customerId)
+            const email = customer.deleted ? null : (customer as Stripe.Customer).email
+            if (email) {
+              const { data: usuario } = await supabase
+                .from('usuarios')
+                .select('id')
+                .eq('email', email)
+                .single()
+              if (usuario) {
+                console.log(`⚠️ Falha de pagamento para usuário: ${email}`)
+              }
+            }
+          } catch (err) {
+            console.error('❌ Erro ao processar invoice.payment_failed:', err)
+          }
+        }
         break
       }
 

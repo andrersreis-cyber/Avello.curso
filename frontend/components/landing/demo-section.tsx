@@ -54,7 +54,18 @@ export function DemoSection() {
                     if (parent && !parent.querySelector('.demo-placeholder')) {
                       const placeholder = document.createElement('div')
                       placeholder.className = 'demo-placeholder absolute inset-0 flex flex-col items-center justify-center bg-zinc-800/80 text-zinc-500 text-center p-4'
-                      placeholder.innerHTML = `<span class="text-3xl mb-2">🖥️</span><span class="text-sm">${pagina.label}</span><span class="text-xs mt-1 opacity-70">Adicione demo-pagina-${index + 1}.png</span>`
+                      const emoji = document.createElement('span')
+                      emoji.className = 'text-3xl mb-2'
+                      emoji.textContent = '🖥️'
+                      const label = document.createElement('span')
+                      label.className = 'text-sm'
+                      label.textContent = pagina.label
+                      const hint = document.createElement('span')
+                      hint.className = 'text-xs mt-1 opacity-70'
+                      hint.textContent = `Adicione demo-pagina-${index + 1}.png`
+                      placeholder.appendChild(emoji)
+                      placeholder.appendChild(label)
+                      placeholder.appendChild(hint)
                       parent.appendChild(placeholder)
                     }
                   }}
