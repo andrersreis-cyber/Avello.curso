@@ -42,6 +42,31 @@ body {
   outline-offset: 2px;
 }
 
+/* Preferência por menos movimento (acessibilidade) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* FAQ: animação suave ao abrir/fechar */
+details[open] > div {
+  animation: faqFadeIn 200ms ease-out;
+}
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Smooth transitions */
 * {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;

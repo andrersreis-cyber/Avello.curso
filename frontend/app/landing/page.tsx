@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { UrgencyBanner } from '@/components/landing/urgency-banner'
@@ -10,9 +11,41 @@ import { MoneyMakingSection } from '@/components/landing/money-making-section'
 import { PremiumComparison } from '@/components/landing/premium-comparison'
 import { HowItWorksSection } from '@/components/landing/how-it-works-section'
 import { SocialProofSection } from '@/components/landing/social-proof-section'
-import { Zap, Shield, Star } from 'lucide-react'
+import { Zap, Shield, Star, Menu, X } from 'lucide-react'
+
+const NAV_LINKS = [
+  { href: '#como-funciona', label: 'Como funciona', ariaLabel: 'Ir para seção Como Funciona' },
+  { href: '#demo', label: 'Demo', ariaLabel: 'Ir para seção Demo' },
+  { href: '#recursos', label: 'Recursos', ariaLabel: 'Ir para seção Recursos' },
+  { href: '#precos', label: 'Preços', ariaLabel: 'Ir para seção Preços' },
+  { href: '#depoimentos', label: 'Depoimentos', ariaLabel: 'Ir para seção Depoimentos' },
+]
 
 export default function LandingPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [stickyCtaVisible, setStickyCtaVisible] = useState(false)
+  const [precosInView, setPrecosInView] = useState(false)
+
+  // Sticky CTA: visível após 500px scroll, esconde quando #precos está na viewport
+  useEffect(() => {
+    const handleScroll = () => setStickyCtaVisible(typeof window !== 'undefined' && window.scrollY > 500)
+    const el = typeof document !== 'undefined' ? document.getElementById('precos') : null
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setPrecosInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
+  }, [])
+
+  const showStickyCta = stickyCtaVisible && !precosInView
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       {/* Urgency Banner (sticky após scroll) */}
@@ -27,27 +60,90 @@ export default function LandingPage() {
           </div>
           
           <div className="hidden md:flex items-center gap-6">
-            <a href="#como-funciona" className="text-zinc-400 hover:text-white transition-colors">Como funciona</a>
-            <a href="#demo" className="text-zinc-400 hover:text-white transition-colors">Demo</a>
-            <a href="#recursos" className="text-zinc-400 hover:text-white transition-colors">Recursos</a>
-            <a href="#precos" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Premium</a>
-            <a href="#precos" className="text-zinc-400 hover:text-white transition-colors">Preços</a>
-            <a href="#depoimentos" className="text-zinc-400 hover:text-white transition-colors">Depoimentos</a>
+            {NAV_LINKS.map((link) => (
+              <a key={link.href} href={link.href} className="py-2 px-3 text-zinc-400 hover:text-white transition-colors" aria-label={link.ariaLabel}>
+                {link.label}
+              </a>
+            ))}
           </div>
           
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-zinc-400 hover:text-white transition-colors hidden sm:block">
+            <Link href="/login" className="py-2 px-3 min-h-[44px] flex items-center text-zinc-400 hover:text-white transition-colors hidden sm:block" aria-label="Ir para página de login">
               Entrar
             </Link>
             <Link 
-              href="#precos"
-              className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-500/25"
+              href="/cadastro"
+              className="px-4 py-2 min-h-[44px] flex items-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-500/25"
             >
-              Ver Planos
+              Começar Agora
             </Link>
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+              aria-label="Abrir menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </nav>
+
+      {/* Mobile menu drawer */}
+      {isMobileMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed top-0 right-0 bottom-0 z-50 w-72 max-w-[85vw] bg-zinc-950 border-l border-zinc-800 p-6 md:hidden">
+            <div className="flex justify-between items-center mb-6">
+              <span className="font-semibold text-white">Menu</span>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-zinc-400 hover:text-white transition-colors"
+                aria-label="Fechar menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <nav className="flex flex-col gap-2">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="py-3 px-4 min-h-[44px] flex items-center text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  aria-label={link.ariaLabel}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3 px-4 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors"
+              >
+                Entrar
+              </Link>
+            </nav>
+          </div>
+        </>
+      )}
+
+      {/* Sticky CTA mobile */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800 md:hidden transition-transform duration-300"
+        style={{ transform: showStickyCta ? 'translateY(0)' : 'translateY(100%)' }}
+      >
+        <Link
+          href="/loja"
+          className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-base shadow-lg shadow-cyan-500/25"
+        >
+          <Zap className="w-5 h-5" />
+          Acesso Completo — R$ 39/ano
+        </Link>
+      </div>
 
       {/* Hero Section */}
       <HeroSection />
@@ -55,12 +151,7 @@ export default function LandingPage() {
       {/* Como funciona */}
       <HowItWorksSection />
 
-      {/* Social Proof - Depoimentos */}
-      <div id="depoimentos">
-        <SocialProofSection />
-      </div>
-
-      {/* Demo Section - Nova */}
+      {/* Demo Section */}
       <DemoSection />
 
       {/* Modules Showcase - Recursos */}
@@ -68,6 +159,11 @@ export default function LandingPage() {
 
       {/* Money Making Section - Oportunidades */}
       <MoneyMakingSection />
+
+      {/* Social Proof - Depoimentos (validação antes do pricing) */}
+      <div id="depoimentos">
+        <SocialProofSection />
+      </div>
 
       {/* Premium Comparison */}
       <PremiumComparison />
@@ -161,7 +257,7 @@ export default function LandingPage() {
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <span>20+ membros</span>
+              <span>+18.000 recursos disponíveis</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <Zap className="w-5 h-5 text-cyan-400" />
@@ -186,7 +282,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/cadastro"
-              className="text-zinc-400 hover:text-white text-lg transition-colors"
+              className="inline-flex items-center justify-center py-3 min-h-[44px] text-zinc-400 hover:text-white text-lg transition-colors"
             >
               Ou começar por R$ 14,90
             </Link>

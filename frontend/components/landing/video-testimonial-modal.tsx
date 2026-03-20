@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { X, Play } from 'lucide-react'
 
 interface VideoTestimonialModalProps {
@@ -61,11 +62,16 @@ export function VideoThumbnail({ videoId, title = "Depoimento Real", description
         className="group relative w-full aspect-[9/16] rounded-2xl overflow-hidden bg-zinc-900 border-2 border-zinc-800 hover:border-cyan-500/50 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-cyan-500/20"
       >
         {/* Thumbnail from YouTube */}
-        <img
-          src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+        <div className="relative w-full h-full">
+          <Image
+            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 25vw"
+            unoptimized
+          />
+        </div>
 
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

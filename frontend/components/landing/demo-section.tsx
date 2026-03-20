@@ -54,16 +54,16 @@ export function DemoSection() {
                     if (parent && !parent.querySelector('.demo-placeholder')) {
                       const placeholder = document.createElement('div')
                       placeholder.className = 'demo-placeholder absolute inset-0 flex flex-col items-center justify-center bg-zinc-800/80 text-zinc-500 text-center p-4'
-                      const emoji = document.createElement('span')
-                      emoji.className = 'text-3xl mb-2'
-                      emoji.textContent = '🖥️'
+                      const iconWrapper = document.createElement('div')
+                      iconWrapper.className = 'w-8 h-8 mb-2 text-zinc-500'
+                      iconWrapper.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>'
                       const label = document.createElement('span')
                       label.className = 'text-sm'
                       label.textContent = pagina.label
                       const hint = document.createElement('span')
                       hint.className = 'text-xs mt-1 opacity-70'
                       hint.textContent = `Adicione demo-pagina-${index + 1}.png`
-                      placeholder.appendChild(emoji)
+                      placeholder.appendChild(iconWrapper)
                       placeholder.appendChild(label)
                       placeholder.appendChild(hint)
                       parent.appendChild(placeholder)

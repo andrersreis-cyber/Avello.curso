@@ -133,21 +133,21 @@ export function MoneyMakingSection() {
             <Link
               href="/loja"
               onClick={() => {
-                if (window.fbq) {
+                if (typeof window !== 'undefined' && window.fbq) {
                   window.fbq('track', 'Lead', {
                     content_name: 'CTA Premium (Money Making)',
                     content_category: 'Landing Page'
                   })
                 }
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
             >
               <Zap className="w-5 h-5" />
               Desbloquear tudo — R$ 39/ano
             </Link>
             <Link
               href="/cadastro"
-              className="inline-flex items-center gap-2 px-6 py-3 text-zinc-400 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-zinc-400 hover:text-white transition-colors"
             >
               Ou começar por R$ 14,90
             </Link>

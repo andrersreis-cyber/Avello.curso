@@ -24,7 +24,7 @@ export function UrgencyBanner() {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+      className={`fixed top-16 left-0 right-0 z-30 transition-transform duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
@@ -38,7 +38,7 @@ export function UrgencyBanner() {
           </div>
           <button
             onClick={() => setIsDismissed(true)}
-            className="text-white/80 hover:text-white transition-colors flex-shrink-0"
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-white/80 hover:text-white transition-colors flex-shrink-0"
             aria-label="Fechar aviso"
           >
             <X className="w-5 h-5" />

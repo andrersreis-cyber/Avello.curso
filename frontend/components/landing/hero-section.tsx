@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Zap, ArrowRight, Users } from 'lucide-react'
+import { Zap, ArrowRight } from 'lucide-react'
 
 export function HeroSection() {
   return (
@@ -14,10 +14,22 @@ export function HeroSection() {
       </div>
 
       <div className="relative max-w-6xl mx-auto px-6 text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full border border-cyan-500/30 mb-6 backdrop-blur-sm">
-          <Zap className="w-4 h-4 text-cyan-400" />
-          <span className="text-sm text-cyan-400 font-medium">Preço de lançamento — vagas limitadas</span>
+        {/* Badge + barra de progresso */}
+        <div className="mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full border border-cyan-500/30 backdrop-blur-sm">
+            <Zap className="w-4 h-4 text-cyan-400" />
+            <span className="text-sm text-cyan-400 font-medium">Preço de lançamento — vagas limitadas</span>
+          </div>
+          <div className="w-full max-w-xs mx-auto mt-2">
+            <div className="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>Membros atuais</span>
+              <span>Meta: 1.000</span>
+            </div>
+            <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full" style={{ width: '6%' }} />
+            </div>
+            <p className="text-xs text-orange-400 mt-1">60 de 1.000 vagas preenchidas</p>
+          </div>
         </div>
 
         {/* Headline */}
@@ -89,13 +101,6 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Social Proof */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900/50 backdrop-blur-sm rounded-full border border-zinc-800">
-          <Users className="w-4 h-4 text-cyan-400" />
-          <span className="text-sm text-zinc-400">
-            Mais de <span className="text-white font-semibold">20 empreendedores</span> já usam
-          </span>
-        </div>
       </div>
     </section>
   )

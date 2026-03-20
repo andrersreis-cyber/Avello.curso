@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Quote, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
 import { VideoThumbnail } from './video-testimonial-modal'
 
 const whatsappTestimonials = [
@@ -82,21 +82,13 @@ export function SocialProofSection() {
                 />
               </div>
 
-              {/* Overlay with highlight on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              {/* Overlay SEMPRE visível — depoimento legível no mobile (sem hover) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent">
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <Quote className="w-6 h-6 text-green-400 mb-2" />
-                  <p className="text-white text-sm font-medium leading-relaxed mb-2">
+                  <p className="text-white text-sm font-medium leading-relaxed line-clamp-3">
                     {testimonial.highlight}
                   </p>
-                  {testimonial.caseStudy && (
-                    <p className="text-cyan-400 text-xs font-medium mb-2">
-                      {testimonial.caseStudy}
-                    </p>
-                  )}
-                  <p className="text-zinc-300 text-xs">
-                    — {testimonial.name}
-                  </p>
+                  <p className="text-zinc-300 text-xs mt-1">— {testimonial.name}</p>
                 </div>
               </div>
             </div>
@@ -128,20 +120,20 @@ export function SocialProofSection() {
             <a
               href="/loja"
               onClick={() => {
-                if (window.fbq) {
+                if (typeof window !== 'undefined' && window.fbq) {
                   window.fbq('track', 'Lead', {
                     content_name: 'CTA Premium (Social Proof)',
                     content_category: 'Landing Page'
                   })
                 }
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
             >
               Acesso Completo — R$ 39/ano
             </a>
             <a
               href="/cadastro"
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center py-3 min-h-[44px] text-zinc-400 hover:text-white transition-colors"
             >
               Ou começar por R$ 14,90
             </a>

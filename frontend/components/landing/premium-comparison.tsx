@@ -37,12 +37,22 @@ export function PremiumComparison() {
   return (
     <section id="precos" className="py-20">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Urgency Banner */}
+        {/* Urgency Banner + barra de progresso */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500/10 rounded-lg border border-orange-500/30">
+          <div className="inline-flex flex-col items-center gap-2 px-6 py-3 bg-orange-500/10 rounded-lg border border-orange-500/30">
             <span className="text-sm text-orange-400 font-medium">
               Preço de lançamento. Após 1.000 membros, Premium sobe para R$97/ano...
             </span>
+            <div className="w-full max-w-xs">
+              <div className="flex justify-between text-xs text-zinc-500 mb-1">
+                <span>Membros atuais</span>
+                <span>Meta: 1.000</span>
+              </div>
+              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full" style={{ width: '6%' }} />
+              </div>
+              <p className="text-xs text-orange-400 mt-1">60 de 1.000 vagas preenchidas</p>
+            </div>
           </div>
         </div>
 
