@@ -14,22 +14,10 @@ export function HeroSection() {
       </div>
 
       <div className="relative max-w-6xl mx-auto px-6 text-center">
-        {/* Badge + barra de progresso */}
-        <div className="mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full border border-cyan-500/30 backdrop-blur-sm">
-            <Zap className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm text-cyan-400 font-medium">Preço de lançamento — vagas limitadas</span>
-          </div>
-          <div className="w-full max-w-xs mx-auto mt-2">
-            <div className="flex justify-between text-xs text-zinc-500 mb-1">
-              <span>Membros atuais</span>
-              <span>Meta: 1.000</span>
-            </div>
-            <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full" style={{ width: '6%' }} />
-            </div>
-            <p className="text-xs text-orange-400 mt-1">60 de 1.000 vagas preenchidas</p>
-          </div>
+        {/* Badge de urgência */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/15 to-red-500/10 rounded-full border border-orange-500/40 mb-6 backdrop-blur-sm">
+          <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+          <span className="text-sm text-orange-400 font-semibold">Preço de lançamento — sobe para R$97 após 1.000 membros</span>
         </div>
 
         {/* Headline */}
@@ -46,8 +34,8 @@ export function HeroSection() {
           Biblioteca pronta para vender automações, implementar chatbots e usar IA com velocidade. Escolha um recurso, personalize para seu nicho e monetize — sem começar do zero.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+        {/* CTA Principal único */}
+        <div className="flex flex-col items-center gap-3 mb-8">
           <Link
             href="/loja"
             onClick={() => {
@@ -58,18 +46,18 @@ export function HeroSection() {
                 })
               }
             }}
-            className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+            className="group flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
           >
-            <Zap className="w-5 h-5" />
+            <Zap className="w-6 h-6" />
             Acesso Completo — R$ 39/ano
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>
 
           <Link
             href="/cadastro"
-            className="flex items-center gap-2 px-8 py-4 bg-zinc-800/80 hover:bg-zinc-700/80 backdrop-blur-sm text-white rounded-xl font-medium text-lg transition-all border border-zinc-700 hover:border-zinc-600"
+            className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-4"
           >
-            Começar por R$ 14,90/ano
+            Ou começar pelo Starter — R$ 14,90/ano
           </Link>
         </div>
 
