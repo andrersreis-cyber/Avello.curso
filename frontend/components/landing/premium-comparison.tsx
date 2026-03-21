@@ -1,7 +1,47 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { Check, Zap, Crown, Shield, Star } from 'lucide-react'
+import { Check, Zap, Crown, Shield, Star, ShoppingCart } from 'lucide-react'
+
+const NOMES = [
+  'Lucas', 'Pedro', 'Gabriel', 'Mateus', 'Rafael', 'Thiago', 'Bruno', 'Diego',
+  'Felipe', 'Guilherme', 'João', 'Carlos', 'André', 'Rodrigo', 'Marcelo',
+  'Ana', 'Maria', 'Juliana', 'Fernanda', 'Patricia', 'Amanda', 'Camila',
+  'Beatriz', 'Larissa', 'Vanessa', 'Mariana', 'Leticia', 'Renata'
+]
+
+const CIDADES = [
+  'SP', 'RJ', 'BH', 'Curitiba', 'Porto Alegre', 'Fortaleza', 'Salvador',
+  'Recife', 'Goiânia', 'Florianópolis', 'Campinas', 'Natal', 'Belém'
+]
+
+function getRandom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
+function usePurchaseSimulator(initial = 940) {
+  const [vagas, setVagas] = useState(initial)
+  const [toast, setToast] = useState<{ id: number; text: string } | null>(null)
+  const [toastId, setToastId] = useState(0)
+
+  const fire = useCallback(() => {
+    const id = toastId + 1
+    setToastId(id)
+    setToast({ id, text: `${getRandom(NOMES)} de ${getRandom(CIDADES)} acabou de entrar` })
+    setVagas(prev => Math.max(prev - 1, 800))
+    setTimeout(() => setToast(null), 4000)
+  }, [toastId])
+
+  useEffect(() => {
+    const t = setTimeout(fire, 10000)
+    const interval = setInterval(fire, Math.random() * 35000 + 25000)
+    return () => { clearTimeout(t); clearInterval(interval) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return { vagas, toast }
+}
 
 const starterFeatures = [
   '20 Templates n8n selecionados',
@@ -34,24 +74,41 @@ const premiumProFeatures = [
 ]
 
 export function PremiumComparison() {
+  const { vagas, toast } = usePurchaseSimulator()
+  const preenchidas = 1000 - vagas
+  const percentual = (preenchidas / 1000) * 100
+
   return (
     <section id="precos" className="py-20">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Urgency Banner + barra de progresso */}
+        {/* Urgency Banner + barra de progresso com simulador */}
         <div className="text-center mb-8">
-          <div className="inline-flex flex-col items-center gap-2 px-6 py-3 bg-orange-500/10 rounded-lg border border-orange-500/30">
-            <span className="text-sm text-orange-400 font-medium">
-              Preço de lançamento. Após 1.000 membros, Premium sobe para R$97/ano...
+          <div className="inline-flex flex-col items-center gap-3 px-6 py-4 bg-orange-500/10 rounded-xl border border-orange-500/30 min-w-[320px]">
+            <span className="text-sm text-orange-400 font-semibold">
+              Preço de lançamento — sobe para R$97/ano após 1.000 membros
             </span>
             <div className="w-full max-w-xs">
-              <div className="flex justify-between text-xs text-zinc-500 mb-1">
-                <span>Membros atuais</span>
-                <span>Meta: 1.000</span>
+              <div className="flex justify-between text-xs text-zinc-400 mb-1.5">
+                <span className="font-medium text-orange-400">{preenchidas} membros</span>
+                <span>meta: 1.000</span>
               </div>
-              <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full" style={{ width: '6%' }} />
+              <div className="h-2.5 bg-zinc-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-1000"
+                  style={{ width: `${percentual}%` }}
+                />
               </div>
-              <p className="text-xs text-orange-400 mt-1">60 de 1.000 vagas preenchidas</p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-xs text-zinc-500">
+                  <span className="text-orange-400 font-bold">{vagas}</span> vagas restantes
+                </p>
+                {toast && (
+                  <div key={toast.id} className="flex items-center gap-1 text-xs text-green-400 animate-pulse">
+                    <ShoppingCart className="w-3 h-3" />
+                    <span>{toast.text}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -151,7 +208,7 @@ export function PremiumComparison() {
               className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40"
             >
               <Zap className="w-5 h-5" />
-              Fazer Upgrade Agora
+              Começar Agora
             </Link>
             
             <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
