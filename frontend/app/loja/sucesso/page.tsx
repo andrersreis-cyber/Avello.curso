@@ -28,9 +28,11 @@ function SucessoContent() {
 
   const handleCheckout = async (productId: string) => {
     setLoading(productId)
+    // Evento customizado para upsell — NAO usar InitiateCheckout aqui
+    // (evita Purchase > InitiateCheckout no relatorio Meta, que quebra o funil)
     if (window.fbq) {
-      window.fbq('track', 'InitiateCheckout', {
-        content_name: 'Premium (Upsell Pós-Compra)',
+      window.fbq('trackCustom', 'UpsellCheckout', {
+        content_name: 'Premium (Upsell Pos-Compra)',
         value: 39,
         currency: 'BRL',
       })
