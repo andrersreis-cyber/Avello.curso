@@ -77,6 +77,7 @@ export function PremiumComparison() {
   const { vagas, toast } = usePurchaseSimulator()
   const preenchidas = 1000 - vagas
   const percentual = (preenchidas / 1000) * 100
+  const [showProPlan, setShowProPlan] = useState(false)
 
   return (
     <section id="precos" className="py-20">
@@ -123,8 +124,8 @@ export function PremiumComparison() {
           </p>
         </div>
 
-        {/* Comparison Grid - 3 planos */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        {/* Comparison Grid - 2 planos principais (Hick's Law: menos opções = mais conversão) */}
+        <div className={`grid gap-6 lg:gap-8 ${showProPlan ? 'md:grid-cols-3' : 'md:grid-cols-2 max-w-3xl mx-auto'}`}>
           {/* Plano Starter */}
           <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-zinc-800">
             <div className="mb-6">
@@ -184,13 +185,17 @@ export function PremiumComparison() {
                 <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded border border-red-500/30">
                   LANÇAMENTO
                 </span>
+                <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs font-bold rounded border border-green-500/30">
+                  −60% OFF
+                </span>
               </div>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-3">
+                <span className="text-xl text-zinc-500 line-through font-medium">R$ 97</span>
                 <span className="text-5xl font-bold text-white">R$ 39</span>
                 <span className="text-zinc-500">/ano</span>
               </div>
               <p className="text-cyan-400 text-sm mt-2 font-medium">
-                R$ 3,25/mês • Garantia 7 dias
+                R$ 3,25/mês • Você economiza R$ 58/ano
               </p>
             </div>
             
@@ -217,53 +222,67 @@ export function PremiumComparison() {
             </p>
           </div>
 
-          {/* Plano Premium Pro */}
-          <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/30">
-            <div className="absolute -top-3 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-zinc-900 text-xs font-bold rounded-full">
-              NOVO
-            </div>
-            
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Star className="w-5 h-5 text-amber-400" />
-                <h3 className="text-xl font-bold text-white">Plano Premium Pro</h3>
+          {/* Plano Premium Pro — colapsado por padrão (Hick's Law) */}
+          {showProPlan && (
+            <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/30">
+              <div className="absolute -top-3 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-zinc-900 text-xs font-bold rounded-full">
+                NOVO
               </div>
-              <p className="text-zinc-400 text-sm">Para agências, implementadores e quem quer aceleração com suporte próximo</p>
-            </div>
-            
-            <div className="mb-6">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-white">R$ 97</span>
-                <span className="text-zinc-500">/ano</span>
+
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <Star className="w-5 h-5 text-amber-400" />
+                  <h3 className="text-xl font-bold text-white">Plano Premium Pro</h3>
+                </div>
+                <p className="text-zinc-400 text-sm">Para agências, implementadores e quem quer aceleração com suporte próximo</p>
               </div>
-              <p className="text-amber-400 text-sm mt-2 font-medium">
-                R$ 8,08/mês
+
+              <div className="mb-6">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-bold text-white">R$ 97</span>
+                  <span className="text-zinc-500">/ano</span>
+                </div>
+                <p className="text-amber-400 text-sm mt-2 font-medium">
+                  R$ 8,08/mês
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {premiumProFeatures.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-zinc-300 text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/loja?plano=premium-pro"
+                className="flex items-center justify-center gap-2 w-full py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-xl font-semibold transition-all border border-amber-500/40"
+              >
+                <Star className="w-5 h-5" />
+                Quero Premium Pro
+              </Link>
+
+              <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
+                <Shield className="w-3 h-3" />
+                Garantia de 7 dias
               </p>
             </div>
-            
-            <ul className="space-y-3 mb-8">
-              {premiumProFeatures.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-zinc-300 text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <Link
-              href="/loja?plano=premium-pro"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-xl font-semibold transition-all border border-amber-500/40"
-            >
-              <Star className="w-5 h-5" />
-              Quero Premium Pro
-            </Link>
-            
-            <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
-              <Shield className="w-3 h-3" />
-              Garantia de 7 dias
-            </p>
-          </div>
+          )}
         </div>
+
+        {/* Toggle Premium Pro — não poluir visão principal */}
+        {!showProPlan && (
+          <div className="text-center mt-4">
+            <button
+              onClick={() => setShowProPlan(true)}
+              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-4"
+            >
+              Ver também o Plano Premium Pro (agências e implementadores)
+            </button>
+          </div>
+        )}
 
         {/* Garantia e ROI */}
         <div className="mt-12 grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
