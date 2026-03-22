@@ -46,10 +46,17 @@ export function HeroSection() {
                 })
               }
             }}
-            className="group flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
+            className="group relative flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
           >
+            {/* Badge -60% OFF */}
+            <span className="absolute -top-3 -right-3 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
+              -60% OFF
+            </span>
             <Zap className="w-6 h-6" />
-            Acesso Completo — R$ 39/ano
+            <span className="flex flex-col items-start leading-tight">
+              <span className="text-white/60 text-sm font-medium line-through">R$ 97/ano</span>
+              <span>Acesso Completo — R$ 39/ano</span>
+            </span>
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>
 

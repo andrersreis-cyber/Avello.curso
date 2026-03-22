@@ -53,6 +53,19 @@ export default function LojaPage() {
     const code = getAffiliateCookie()
     if (code) setAffiliateCode(code)
   }, [])
+
+  // [PIXEL] ViewContent — dispara quando usuário chega na página da loja (intenção de compra)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'ViewContent', {
+        content_name: 'Avello Premium',
+        content_ids: ['lowtik'],
+        content_type: 'product',
+        value: 39,
+        currency: 'BRL',
+      })
+    }
+  }, [])
   
   const handleCheckout = async (productId: ProductId) => {
     setLoading(productId)
