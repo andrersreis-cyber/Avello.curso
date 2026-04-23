@@ -6,6 +6,7 @@ import { AtoWrapper } from '@/components/landing-game/shared/ato-wrapper'
 import { AchievementToast } from '@/components/landing-game/shared/achievement-toast'
 import { Ato1Hook } from '@/components/landing-game/atos/ato-1-hook'
 import { Ato2Quiz } from '@/components/landing-game/atos/ato-2-quiz'
+import { Ato3Arsenal } from '@/components/landing-game/atos/ato-3-arsenal'
 import { Agente0Modal } from '@/components/landing-game/ligacao/agente-0-modal'
 import { useGameStore } from '@/lib/game/store'
 import type { RespostasQuiz } from '@/lib/game/levels'
@@ -72,6 +73,16 @@ export default function LandingPage() {
     avancarPara(3)
   }, [avancarPara])
 
+  const handleEntrarAto3 = useCallback(() => {
+    playSfx('whoosh', somAtivo)
+    lancarConquista('arsenal_liberado', 'arsenal liberado')
+  }, [somAtivo, lancarConquista])
+
+  const handleEntrarAto4 = useCallback(() => {
+    playSfx('whoosh', somAtivo)
+    avancarPara(4)
+  }, [somAtivo, avancarPara])
+
   // Ambient sonoro de tensão toca durante toda a jornada.
   // Só dispara depois que o usuário ativou som (gesto explícito => permite autoplay).
   useEffect(() => {
@@ -126,32 +137,13 @@ export default function LandingPage() {
           <Ato2Quiz onConcluir={handleConcluirQuiz} somAtivo={somAtivo} />
         </AtoWrapper>
 
-        {atoAtual >= 3 && (
-          <section
-            aria-label="próximo ato em preparação"
-            className="min-h-[calc(100dvh-3.5rem)] flex items-center justify-center px-4 py-24 text-center"
-          >
-            <div className="max-w-xl">
-              <div className="font-hud text-[11px] uppercase tracking-[0.25em] text-zinc-500 mb-3">
-                próximo ato · em preparação
-              </div>
-              <h2 className="font-orbitron font-bold text-2xl md:text-3xl text-zinc-100 mb-3">
-                arsenal sendo liberado
-              </h2>
-              <p className="text-zinc-400 mb-6 max-w-md mx-auto">
-                você é <span className="text-neon-cyan">nível {nivel} · {classe?.toLowerCase()}</span>.
-                {' '}o ato 3 chega na próxima entrega. continue acompanhando.
-              </p>
-              <button
-                type="button"
-                onClick={() => avancarPara(1)}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-zinc-800 text-zinc-400 hover:text-neon-cyan hover:border-cyan-500/60 transition-colors font-hud text-xs uppercase tracking-wider"
-              >
-                reiniciar jornada
-              </button>
-            </div>
-          </section>
-        )}
+        <AtoWrapper atoId={3} atoAtual={atoAtual}>
+          <Ato3Arsenal
+            onEntrar={handleEntrarAto3}
+            onAvancar={handleEntrarAto4}
+            somAtivo={somAtivo}
+          />
+        </AtoWrapper>
       </div>
 
       <Agente0Modal
