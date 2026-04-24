@@ -14,6 +14,7 @@ export const getStripe = () => {
 export const STRIPE_PRICE_IDS = {
   starter: 'price_1T96RtHFr5u9PsVJDnXC0vR4',
   lowtik: 'price_1Sv50RHFr5u9PsVJJkc1AV1O',
+  operador_anual: 'price_1TPfSiHFr5u9PsVJD1vvdu2Y',
   consultoria: 'price_1Sv50SHFr5u9PsVJLJbKqfmR',
   setup_n8n: 'price_1Sv50SHFr5u9PsVJce95MAwD',
   pack_premium: 'price_1Sv50THFr5u9PsVJEFZ6OTfk',
@@ -64,6 +65,31 @@ export const products = {
       '+8 Bônus Exclusivos',
       'Comunidade no Telegram',
       'Atualizações por 12 meses',
+    ],
+    highlight: true,
+  },
+
+  // Oferta da landing gameficada — R$ 59,99/ano (Operador Completo)
+  operador_anual: {
+    id: 'operador_anual',
+    name: 'Operador Completo',
+    description:
+      'Acesso anual ao arsenal Avello: 14 mil ferramentas IA, 9 módulos, 30 SaaS white label.',
+    price: 5999, // em centavos (R$ 59,99)
+    currency: 'brl',
+    type: 'subscription' as ProductType,
+    interval: 'year' as const,
+    features: [
+      'Todos os 9 módulos desbloqueados',
+      '3.500 prompts ChatGPT',
+      '3.500 prompts Midjourney',
+      '3.000 templates Typebot',
+      '2.000 templates n8n (uso comercial)',
+      '14.000 ferramentas IA',
+      '350 softwares self-hosted',
+      'GitHub de membros',
+      'Infraestrutura completa',
+      'Bônus: 30 SaaS white label',
     ],
     highlight: true,
   },
