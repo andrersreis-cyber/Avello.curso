@@ -46,7 +46,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const email = session.customer_email?.toLowerCase().trim()
+    // Email pode vir em customer_email (pré-preenchido) ou customer_details.email (digitado)
+    const rawEmail = session.customer_email ?? session.customer_details?.email ?? null
+    const email = rawEmail?.toLowerCase().trim()
     if (!email) {
       return NextResponse.json(
         { error: 'email não encontrado na sessão' },

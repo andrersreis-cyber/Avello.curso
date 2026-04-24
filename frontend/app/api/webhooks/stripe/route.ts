@@ -58,6 +58,11 @@ export async function POST(request: NextRequest) {
         devLog('   Produto:', session.metadata?.productId)
         devLog('   Afiliado:', session.metadata?.affiliateCode)
 
+        // Email pode vir em customer_email (se foi pré-preenchido) OU
+        // customer_details.email (digitado pelo cliente no checkout)
+        const rawEmailFromSession =
+          session.customer_email ?? session.customer_details?.email ?? null
+
         // Processa comissão do afiliado se houver código
         const affiliateCode = session.metadata?.affiliateCode
         if (affiliateCode) {
@@ -65,12 +70,12 @@ export async function POST(request: NextRequest) {
             affiliateCode,
             session.id,
             session.amount_total || 0,
-            session.customer_email || ''
+            rawEmailFromSession || ''
           )
         }
 
         // Provisionar acesso: cria user auto + envia magic link se necessário
-        const rawEmail = session.customer_email
+        const rawEmail = rawEmailFromSession
         if (rawEmail) {
           const email = rawEmail.toLowerCase().trim()
           const now = new Date().toISOString()
