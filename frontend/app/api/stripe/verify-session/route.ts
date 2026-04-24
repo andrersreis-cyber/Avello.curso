@@ -16,6 +16,19 @@ export async function GET(request: Request) {
       )
     }
 
+    // Mock DEV: session_id começando com `mock_` retorna dados fake (só em development)
+    if (process.env.NODE_ENV === 'development' && sessionId.startsWith('mock_')) {
+      return NextResponse.json({
+        valid: true,
+        amount: 5999,
+        currency: 'brl',
+        customer_email: 'teste-mock@exemplo.com',
+        payment_status: 'paid',
+        productId: 'operador_anual',
+        planoNome: 'Operador Completo',
+      })
+    }
+
     // Recupera a sessão do Stripe
     const session = await stripe.checkout.sessions.retrieve(sessionId)
 

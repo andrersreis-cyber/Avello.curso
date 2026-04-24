@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession()
 
   // Rotas públicas (não precisam de autenticação)
-  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/oferta-especial', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro']
+  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/oferta-especial', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro', '/obrigado']
   const isPublicRoute = publicRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
