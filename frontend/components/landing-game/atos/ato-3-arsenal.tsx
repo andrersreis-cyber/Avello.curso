@@ -106,7 +106,7 @@ export function Ato3Arsenal({ onEntrar, onAvancar, somAtivo }: Ato3ArsenalProps)
           </div>
           <h2
             id="ato-3-titulo"
-            className="font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
+            className="scroll-mt-20 font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
           >
             coleta o que você precisa,{' '}
             <span className="text-neon-cyan neon-text-cyan">{nomeSaudacao}.</span>

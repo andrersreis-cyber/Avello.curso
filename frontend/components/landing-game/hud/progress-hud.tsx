@@ -78,7 +78,7 @@ export function ProgressHud({
 
         <motion.div
           id="hud-xp-target"
-          className="hidden sm:inline-flex items-center gap-1.5 font-hud text-[11px] uppercase tracking-wider text-neon-cyan tabular-nums shrink-0 border border-cyan-500/25 rounded-full px-2.5 py-0.5 bg-cyan-500/5"
+          className="inline-flex items-center gap-1 sm:gap-1.5 font-hud text-[10px] sm:text-[11px] uppercase tracking-wider text-neon-cyan tabular-nums shrink-0 border border-cyan-500/25 rounded-full px-2 sm:px-2.5 py-0.5 bg-cyan-500/5"
           key={xpTotal}
           initial={false}
           animate={{ scale: [1, 1.18, 1] }}
@@ -86,7 +86,8 @@ export function ProgressHud({
           aria-label={`xp total: ${xpTotal}`}
         >
           <Zap className="w-3 h-3" aria-hidden />
-          {formatarXp(xpTotal)} xp
+          <span className="tabular-nums">{formatarXp(xpTotal)}</span>
+          <span className="hidden sm:inline">xp</span>
         </motion.div>
 
         <div className="hidden lg:flex shrink-0">

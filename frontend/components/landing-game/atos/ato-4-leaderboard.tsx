@@ -37,7 +37,7 @@ export function Ato4Leaderboard({ onEntrar, onAvancar }: Ato4LeaderboardProps) {
           </div>
           <h2
             id="ato-4-titulo"
-            className="font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
+            className="scroll-mt-20 font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
           >
             leaderboard ·{' '}
             <span className="text-neon-cyan neon-text-cyan">últimos 90 dias.</span>

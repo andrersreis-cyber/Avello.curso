@@ -50,7 +50,7 @@ export function Ato5Ativacao({ onEntrar, onAtivar }: Ato5AtivacaoProps) {
           </div>
           <h2
             id="ato-5-titulo"
-            className="font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
+            className="scroll-mt-20 font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
           >
             hora de{' '}
             <span className="text-neon-cyan neon-text-cyan">ativar.</span>

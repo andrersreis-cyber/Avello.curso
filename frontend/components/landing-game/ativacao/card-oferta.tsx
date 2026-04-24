@@ -32,15 +32,15 @@ export function CardOferta({ onAtivar, carregando = false }: CardOfertaProps) {
         <h3 className="font-orbitron font-bold text-xl md:text-2xl text-zinc-50 mb-4 uppercase tracking-wide">
           operador completo
         </h3>
-        <div className="flex items-baseline justify-center gap-3 flex-wrap">
-          <span className="line-through text-zinc-500 text-lg font-exo2">
+        <div className="flex flex-col items-center gap-1">
+          <span className="line-through text-zinc-500 text-base md:text-lg font-exo2">
             R$ {formatarReal(PRECO_ANCORA_REAIS)}
           </span>
-          <div className="flex items-baseline">
-            <span className="font-orbitron font-bold text-5xl md:text-6xl text-zinc-50 tabular-nums">
+          <div className="flex items-baseline gap-2 whitespace-nowrap">
+            <span className="font-orbitron font-bold text-4xl md:text-6xl text-zinc-50 tabular-nums">
               R$ {formatarReal(PRECO_OFERTA_REAIS)}
             </span>
-            <span className="ml-2 font-exo2 text-zinc-400 text-base md:text-lg">/ano</span>
+            <span className="font-exo2 text-zinc-400 text-sm md:text-lg">/ano</span>
           </div>
         </div>
       </div>

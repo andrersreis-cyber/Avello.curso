@@ -133,7 +133,7 @@ export function SlotRanking({ operador, destaque = false, onClickProva }: SlotRa
         <button
           type="button"
           onClick={onClickProva}
-          className="shrink-0 text-zinc-500 hover:text-neon-cyan transition-colors cursor-pointer p-2"
+          className="shrink-0 flex items-center justify-center w-11 h-11 -mr-2 rounded-lg text-zinc-500 hover:text-neon-cyan hover:bg-cyan-500/10 transition-colors cursor-pointer"
           aria-label={`ver prova de ${operador.nome}`}
         >
           <Eye className="w-4 h-4" aria-hidden />

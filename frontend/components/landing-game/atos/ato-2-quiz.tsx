@@ -65,7 +65,7 @@ export function Ato2Quiz({ onConcluir, somAtivo }: Ato2QuizProps) {
           </div>
           <h2
             id="ato-2-titulo"
-            className="font-orbitron font-bold text-zinc-50 leading-tight text-3xl md:text-4xl"
+            className="scroll-mt-20 font-orbitron font-bold text-zinc-50 leading-tight text-3xl md:text-4xl"
           >
             3 perguntas.{' '}
             <span className="text-neon-cyan neon-text-cyan">

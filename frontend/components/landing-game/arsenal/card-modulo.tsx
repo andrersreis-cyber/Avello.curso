@@ -84,7 +84,7 @@ export function CardModulo({ modulo, somAtivo, coletado, onColetar }: CardModulo
           aria-label={
             coletado ? `${modulo.nome} já coletado` : `coletar ${modulo.nome}`
           }
-          className={`inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg font-hud text-xs uppercase tracking-[0.15em] transition-all min-h-[40px] ${
+          className={`inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg font-hud text-xs uppercase tracking-[0.15em] transition-all min-h-[44px] ${
             coletado
               ? 'bg-amber-500/10 border border-amber-500/40 text-amber-300 cursor-default'
               : 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/50 text-neon-cyan hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400 cursor-pointer active:scale-95'
