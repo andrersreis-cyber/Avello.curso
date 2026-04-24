@@ -10,8 +10,8 @@ export const getStripe = () => {
   return stripePromise
 }
 
-// IDs dos preços no Stripe (criados via script)
-export const STRIPE_PRICE_IDS = {
+// IDs dos preços no Stripe (live mode, criados via script)
+const STRIPE_PRICE_IDS_LIVE = {
   starter: 'price_1T96RtHFr5u9PsVJDnXC0vR4',
   lowtik: 'price_1Sv50RHFr5u9PsVJJkc1AV1O',
   operador_anual: 'price_1TPfSiHFr5u9PsVJD1vvdu2Y',
@@ -21,6 +21,24 @@ export const STRIPE_PRICE_IDS = {
   acesso_vitalicio: 'price_1Sv50UHFr5u9PsVJbJ22A6Rw',
   mentoria_mensal: 'price_1Sv50UHFr5u9PsVJFU5wdeEx',
 }
+
+// IDs dos preços em test mode — só operador_anual por enquanto.
+// Os demais herdam o live (nunca vão ser comprados em teste via landing).
+const STRIPE_PRICE_IDS_TEST: typeof STRIPE_PRICE_IDS_LIVE = {
+  ...STRIPE_PRICE_IDS_LIVE,
+  operador_anual: 'price_1TPnzXHFr5u9PsVJejzqFxHs',
+}
+
+// Lê STRIPE_MODE no lado do cliente via NEXT_PUBLIC_STRIPE_MODE (opcional)
+// No server, process.env.STRIPE_MODE funciona direto.
+const STRIPE_MODE = (
+  typeof process !== 'undefined'
+    ? process.env.STRIPE_MODE || process.env.NEXT_PUBLIC_STRIPE_MODE || 'live'
+    : 'live'
+).toLowerCase()
+
+export const STRIPE_PRICE_IDS =
+  STRIPE_MODE === 'test' ? STRIPE_PRICE_IDS_TEST : STRIPE_PRICE_IDS_LIVE
 
 // Tipos de produtos
 export type ProductType = 'subscription' | 'one_time'

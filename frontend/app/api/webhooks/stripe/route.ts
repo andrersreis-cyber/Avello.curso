@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe-server'
+import { stripe, STRIPE_WEBHOOK_SECRET } from '@/lib/stripe-server'
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
@@ -31,9 +31,9 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event
   
   try {
-    // Em produção, você deve configurar STRIPE_WEBHOOK_SECRET
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
-    
+    // Usa o secret do mode ativo (test ou live) — vindo de lib/stripe-server
+    const webhookSecret = STRIPE_WEBHOOK_SECRET
+
     if (webhookSecret) {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
     } else {
