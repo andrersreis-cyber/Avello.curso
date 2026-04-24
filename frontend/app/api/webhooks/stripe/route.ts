@@ -262,9 +262,21 @@ async function provisionarAcesso(
   // 2. Busca ou cria user em auth.users
   let authUserId: string | undefined
 
-  // Tenta achar user existente em auth.users (pode ter se cadastrado antes)
-  const { data: list } = await supabase.auth.admin.listUsers()
-  authUserId = list?.users?.find((u) => u.email?.toLowerCase() === email)?.id
+  // Tenta achar user existente em auth.users (paginando, pode ter se cadastrado há meses)
+  const PAGE_SIZE = 1000
+  for (let page = 1; page <= 10; page++) {
+    const { data: list } = await supabase.auth.admin.listUsers({
+      page,
+      perPage: PAGE_SIZE,
+    })
+    const users = list?.users || []
+    const found = users.find((u) => u.email?.toLowerCase() === email)
+    if (found) {
+      authUserId = found.id
+      break
+    }
+    if (users.length < PAGE_SIZE) break
+  }
 
   if (!authUserId) {
     // Cria user silenciosamente — SEM senha, email já confirmado.

@@ -63,9 +63,23 @@ export async function POST(request: NextRequest) {
 
     const now = new Date().toISOString()
 
-    // 2. Busca user em auth.users (webhook deveria ter criado)
-    const { data: list } = await supabase.auth.admin.listUsers()
-    let authUserId = list?.users?.find((u) => u.email?.toLowerCase() === email)?.id
+    // 2. Busca user em auth.users (webhook deveria ter criado).
+    // Paginamos até achar — listUsers default é 50 items, e o user pode ser antigo.
+    let authUserId: string | undefined
+    const PAGE_SIZE = 1000
+    for (let page = 1; page <= 10; page++) {
+      const { data: list } = await supabase.auth.admin.listUsers({
+        page,
+        perPage: PAGE_SIZE,
+      })
+      const users = list?.users || []
+      const found = users.find((u) => u.email?.toLowerCase() === email)
+      if (found) {
+        authUserId = found.id
+        break
+      }
+      if (users.length < PAGE_SIZE) break // acabou a lista
+    }
 
     // Fallback: se webhook ainda não disparou, cria agora
     if (!authUserId) {
