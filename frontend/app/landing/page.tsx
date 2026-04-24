@@ -35,6 +35,7 @@ export default function LandingPage() {
   const classe = useGameStore((s) => s.classe)
   const somAtivo = useGameStore((s) => s.somAtivo)
   const conquistas = useGameStore((s) => s.conquistas)
+  const xpTotal = useGameStore((s) => s.xpTotal)
   const hydrated = useGameStore((s) => s.hydrated)
   const avancarPara = useGameStore((s) => s.avancarPara)
   const responderQuiz = useGameStore((s) => s.responderQuiz)
@@ -173,6 +174,7 @@ export default function LandingPage() {
         nivel={nivel}
         classe={classe}
         somAtivo={somAtivo}
+        xpTotal={xpTotal}
         onToggleSom={toggleSom}
       />
 

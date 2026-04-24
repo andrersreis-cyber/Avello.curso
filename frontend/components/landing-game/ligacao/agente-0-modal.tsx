@@ -298,18 +298,29 @@ function Agente0ModalInner({
               </p>
             )}
 
-            {fase === 'em-chamada' && erroAudio && (
+            {fase === 'em-chamada' && (
               <div className="mt-8 w-full max-w-lg">
-                <p
-                  role="alert"
-                  className="mx-auto mb-4 max-w-xs text-xs text-orange-300 font-exo2 bg-orange-500/10 border border-orange-500/30 rounded-lg px-3 py-2 text-center"
-                >
-                  áudio indisponível. siga pela transcrição.
-                </p>
-                <Transcricao
-                  linhas={script.transcricao}
-                  duracaoSegundos={script.duracaoSegundos}
-                />
+                {erroAudio && (
+                  <p
+                    role="alert"
+                    className="mx-auto mb-4 max-w-xs text-xs text-orange-300 font-exo2 bg-orange-500/10 border border-orange-500/30 rounded-lg px-3 py-2 text-center"
+                  >
+                    áudio indisponível. siga pela transcrição.
+                  </p>
+                )}
+                <div className="rounded-xl border border-cyan-500/20 bg-zinc-950/60 backdrop-blur-md px-4 py-3">
+                  <div className="flex items-center gap-2 mb-2 font-hud text-[10px] uppercase tracking-[0.2em] text-neon-cyan">
+                    <span className="relative inline-flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-cyan-500 opacity-75 animate-ping" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-500" />
+                    </span>
+                    transcrição ao vivo
+                  </div>
+                  <Transcricao
+                    linhas={script.transcricao}
+                    duracaoSegundos={script.duracaoSegundos}
+                  />
+                </div>
               </div>
             )}
           </div>

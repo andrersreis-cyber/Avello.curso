@@ -1,7 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { CheckCircle2 } from 'lucide-react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
+import { CheckCircle2, Package, Plus } from 'lucide-react'
 import { BadgeRaridade } from './badge-raridade'
 import { ICONES_MODULO, type Modulo, type Raridade, type Tier } from '@/lib/game/modulos'
 import { playSfx } from '@/lib/game/sounds'
@@ -9,7 +15,8 @@ import { playSfx } from '@/lib/game/sounds'
 interface CardModuloProps {
   modulo: Modulo
   somAtivo: boolean
-  onFlip?: () => void
+  coletado: boolean
+  onColetar: (el: HTMLElement) => void
 }
 
 const BORDA_POR_RARIDADE: Record<Raridade, string> = {
@@ -24,18 +31,6 @@ const TIER_CLASS: Record<Tier, string> = {
   premium: 'text-amber-300 border-amber-500/40 bg-amber-500/10',
 }
 
-const VERSO_GRADIENT: Record<Raridade, string> = {
-  comum: 'bg-zinc-900/90',
-  rara: 'bg-gradient-to-br from-zinc-900 to-cyan-950/40',
-  epica: 'bg-gradient-to-br from-zinc-900 to-fuchsia-950/40',
-  lendaria: 'bg-gradient-to-br from-cyan-950/50 via-zinc-900 to-fuchsia-950/50',
-}
-
-/**
- * Observa prefers-reduced-motion via useSyncExternalStore — pattern oficial
- * do React 18+ pra subscrever a stores externos (matchMedia, localStorage, etc.).
- * Evita chamar matchMedia em cada render e não dispara o lint de sync-set-state.
- */
 function subscribeReducedMotion(callback: () => void): () => void {
   if (typeof window === 'undefined') return () => {}
   const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -49,99 +44,71 @@ function getReducedMotion(): boolean {
 }
 
 function usePrefereReducedMotion(): boolean {
-  return useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotion,
-    () => false,
-  )
+  return useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false)
 }
 
-export function CardModulo({ modulo, somAtivo, onFlip }: CardModuloProps) {
+export function CardModulo({ modulo, somAtivo, coletado, onColetar }: CardModuloProps) {
   const [flipped, setFlipped] = useState(false)
-  const [fadeReduced, setFadeReduced] = useState(false)
-  const containerRef = useRef<HTMLButtonElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const temTouchRef = useRef(false)
-  const autoFlipFeitoRef = useRef(false)
   const reduced = usePrefereReducedMotion()
 
   const Icon = ICONES_MODULO[modulo.iconeKey]
 
-  const disparaFlip = useCallback(
-    (next: boolean) => {
-      setFlipped(next)
-      if (next) {
-        if (reduced) {
-          setFadeReduced(true)
-          window.setTimeout(() => setFadeReduced(false), 600)
-        }
-        playSfx('loot', somAtivo)
-        onFlip?.()
-      }
-    },
-    [onFlip, somAtivo, reduced],
-  )
-
   useEffect(() => {
     temTouchRef.current =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(hover: none)').matches
+      typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
   }, [])
 
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el || !temTouchRef.current || autoFlipFeitoRef.current) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && !autoFlipFeitoRef.current) {
-            autoFlipFeitoRef.current = true
-            disparaFlip(true)
-            window.setTimeout(() => setFlipped(false), 900)
-          }
-        }
-      },
-      { threshold: 0.5 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [disparaFlip])
+  // Se já tá coletado, fica sempre flipado mostrando o verso dourado.
+  const exibeVerso = coletado || (!reduced && flipped)
 
   const handleMouseEnter = () => {
-    if (temTouchRef.current) return
-    disparaFlip(true)
+    if (temTouchRef.current || coletado) return
+    setFlipped(true)
   }
   const handleMouseLeave = () => {
-    if (temTouchRef.current) return
+    if (temTouchRef.current || coletado) return
     setFlipped(false)
   }
-  const handleClick = () => {
-    disparaFlip(!flipped)
-  }
+
+  const handleColetar = useCallback(() => {
+    if (coletado) return
+    playSfx('loot', somAtivo)
+    if (containerRef.current) onColetar(containerRef.current)
+  }, [coletado, onColetar, somAtivo])
+
+  const cardLabel = coletado
+    ? `${modulo.nome} — já coletado`
+    : `coletar ${modulo.nome}`
 
   return (
-    <button
+    <div
       ref={containerRef}
-      type="button"
-      aria-label={`módulo ${modulo.nome} — ver detalhes`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
+      className={`relative w-full h-[240px] rounded-xl ${
+        coletado ? 'opacity-95' : 'opacity-100'
+      }`}
       style={{ perspective: reduced ? undefined : '1000px' }}
-      className={`relative w-full h-[220px] text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-xl ${
-        reduced && fadeReduced ? 'opacity-70' : 'opacity-100'
-      } transition-opacity`}
     >
       <div
         className="relative w-full h-full"
         style={{
           transformStyle: reduced ? 'flat' : 'preserve-3d',
-          transform: !reduced && flipped ? 'rotateY(180deg)' : undefined,
+          transform: !reduced && exibeVerso ? 'rotateY(180deg)' : undefined,
           transition: 'transform 600ms cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        <div
-          className={`absolute inset-0 rounded-xl border bg-zinc-900/80 p-5 flex flex-col gap-3 ${BORDA_POR_RARIDADE[modulo.raridade]}`}
+        {/* Frente — descoberto, com botão COLETAR */}
+        <button
+          type="button"
+          aria-label={cardLabel}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleColetar}
+          disabled={coletado}
+          className={`absolute inset-0 rounded-xl border bg-zinc-900/80 p-5 flex flex-col gap-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${BORDA_POR_RARIDADE[modulo.raridade]} ${
+            coletado ? 'cursor-default' : 'cursor-pointer'
+          }`}
           style={{ backfaceVisibility: 'hidden' }}
         >
           <div className="flex items-start justify-between">
@@ -165,33 +132,61 @@ export function CardModulo({ modulo, somAtivo, onFlip }: CardModuloProps) {
             </p>
           </div>
 
-          <div className="mt-auto">
+          <div className="mt-auto flex items-center justify-between gap-2">
             <span
               className={`inline-flex items-center font-hud text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-md border ${TIER_CLASS[modulo.tier]}`}
             >
               {modulo.tier === 'free' ? 'free' : 'premium'}
             </span>
+            <span
+              className={`inline-flex items-center gap-1.5 font-hud text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-md border border-cyan-500/40 bg-cyan-500/10 text-neon-cyan group-hover:bg-cyan-500/20 ${
+                coletado ? 'invisible' : ''
+              }`}
+              aria-hidden
+            >
+              <Plus className="w-3 h-3" aria-hidden />
+              coletar
+            </span>
           </div>
-        </div>
+        </button>
 
+        {/* Verso — coletado ou hover flip */}
         {!reduced && (
           <div
-            className={`absolute inset-0 rounded-xl border ${BORDA_POR_RARIDADE[modulo.raridade]} ${VERSO_GRADIENT[modulo.raridade]} p-5 flex flex-col items-center justify-center gap-3 text-center`}
+            className={`absolute inset-0 rounded-xl border p-5 flex flex-col items-center justify-center gap-3 text-center ${
+              coletado
+                ? 'border-amber-500/50 bg-gradient-to-br from-amber-950/40 via-zinc-900 to-amber-950/40 shadow-[0_0_32px_rgba(251,191,36,0.2)]'
+                : BORDA_POR_RARIDADE[modulo.raridade]
+            } ${!coletado ? 'bg-zinc-900/90' : ''}`}
             style={{
               backfaceVisibility: 'hidden',
               transform: 'rotateY(180deg)',
             }}
           >
-            <CheckCircle2 className="w-14 h-14 text-neon-green" aria-hidden />
-            <span className="font-orbitron font-bold text-xl text-neon-green neon-text-green">
-              DESBLOQUEADO
-            </span>
-            <span className="text-sm text-zinc-400 font-exo2">
-              arsenal liberado pra você
-            </span>
+            {coletado ? (
+              <>
+                <Package className="w-14 h-14 text-amber-300" aria-hidden />
+                <span className="font-orbitron font-bold text-xl text-amber-300 uppercase tracking-wider">
+                  coletado
+                </span>
+                <span className="text-sm text-zinc-400 font-exo2">
+                  no seu inventário
+                </span>
+              </>
+            ) : (
+              <>
+                <CheckCircle2 className="w-14 h-14 text-neon-green" aria-hidden />
+                <span className="font-orbitron font-bold text-xl text-neon-green neon-text-green">
+                  clica pra coletar
+                </span>
+                <span className="text-sm text-zinc-400 font-exo2">
+                  +50 xp
+                </span>
+              </>
+            )}
           </div>
         )}
       </div>
-    </button>
+    </div>
   )
 }

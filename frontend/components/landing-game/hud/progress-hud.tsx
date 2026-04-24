@@ -2,9 +2,11 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { Zap } from 'lucide-react'
 import { NivelBadge } from './nivel-badge'
 import { SomToggle } from './som-toggle'
 import { BadgeIntelAtivo } from '../central-intel/badge-intel-ativo'
+import { formatarXp } from '@/lib/game/leaderboard'
 import type { ClasseNivel, Nivel } from '@/lib/game/levels'
 
 interface ProgressHudProps {
@@ -12,6 +14,7 @@ interface ProgressHudProps {
   nivel: Nivel | null
   classe: ClasseNivel | null
   somAtivo: boolean
+  xpTotal: number
   onToggleSom: () => void
 }
 
@@ -20,6 +23,7 @@ export function ProgressHud({
   nivel,
   classe,
   somAtivo,
+  xpTotal,
   onToggleSom,
 }: ProgressHudProps) {
   const progressoClamp = Math.max(0, Math.min(100, progresso))
@@ -71,6 +75,19 @@ export function ProgressHud({
         >
           {progressoClamp}%
         </span>
+
+        <motion.div
+          id="hud-xp-target"
+          className="hidden sm:inline-flex items-center gap-1.5 font-hud text-[11px] uppercase tracking-wider text-neon-cyan tabular-nums shrink-0 border border-cyan-500/25 rounded-full px-2.5 py-0.5 bg-cyan-500/5"
+          key={xpTotal}
+          initial={false}
+          animate={{ scale: [1, 1.18, 1] }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          aria-label={`xp total: ${xpTotal}`}
+        >
+          <Zap className="w-3 h-3" aria-hidden />
+          {formatarXp(xpTotal)} xp
+        </motion.div>
 
         <div className="hidden lg:flex shrink-0">
           <BadgeIntelAtivo compact />
