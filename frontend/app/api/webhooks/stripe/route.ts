@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         devLog('   Cliente:', session.customer_email)
         devLog('   Produto:', session.metadata?.productId)
         devLog('   Afiliado:', session.metadata?.affiliateCode)
-        
+
         // Processa comissão do afiliado se houver código
         const affiliateCode = session.metadata?.affiliateCode
         if (affiliateCode) {
@@ -68,43 +68,28 @@ export async function POST(request: NextRequest) {
             session.customer_email || ''
           )
         }
-        
-        // Atualizar usuário para premium com data de início
-        if (session.customer_email) {
+
+        // Provisionar acesso: cria user auto + envia magic link se necessário
+        const rawEmail = session.customer_email
+        if (rawEmail) {
+          const email = rawEmail.toLowerCase().trim()
           const now = new Date().toISOString()
-          
-          // Buscar usuário pelo email
-          const { data: usuario } = await supabase
-            .from('usuarios')
-            .select('id')
-            .eq('email', session.customer_email)
-            .single()
-          
-          if (usuario) {
-            // Determinar plano baseado no produto comprado
-            const productId = session.metadata?.productId
-            let plano: 'starter' | 'premium' | 'premium_pro' = 'premium'
+          const productId = session.metadata?.productId
 
-            if (productId === 'starter') {
-              plano = 'starter'
-            } else if (productId === 'pack_premium') {
-              plano = 'premium_pro'
-            }
+          // Determinar plano baseado no produto comprado
+          let plano: 'starter' | 'premium' | 'premium_pro' = 'premium'
+          if (productId === 'starter') plano = 'starter'
+          else if (productId === 'pack_premium') plano = 'premium_pro'
 
-            await supabase
-              .from('usuarios')
-              .update({
-                plano,
-                premium_since: now
-              })
-              .eq('id', usuario.id)
-
-            devLog(`✅ Usuário ${session.customer_email} atualizado para ${plano}`)
-          } else {
-            devLog(`⚠️ Usuário não encontrado: ${session.customer_email}`)
+          try {
+            await provisionarAcesso(email, plano, now, productId)
+          } catch (err) {
+            console.error('❌ Erro ao provisionar acesso:', err)
           }
+        } else {
+          devLog('⚠️ customer_email ausente na session — impossível provisionar acesso')
         }
-        
+
         break
       }
       
@@ -233,6 +218,92 @@ export async function POST(request: NextRequest) {
       { error: 'Erro ao processar evento' },
       { status: 500 }
     )
+  }
+}
+
+/**
+ * Provisiona acesso após compra bem-sucedida (SILENCIOSO — não envia emails).
+ *
+ * O lead completa o cadastro (senha) na página /obrigado via /api/ativar-conta.
+ * Este webhook só garante que:
+ * - auth user existe (criado sem senha, email_confirm=true)
+ * - row em `usuarios` existe com plano correto
+ *
+ * Se lead fecha a aba antes de definir senha, ele pode ir em /login e
+ * usar "esqueci senha" que o fluxo recovery do Supabase funciona.
+ */
+async function provisionarAcesso(
+  email: string,
+  plano: 'starter' | 'premium' | 'premium_pro',
+  now: string,
+  productId?: string,
+) {
+  // 1. Usuário já tem perfil? Só atualiza
+  const { data: usuario } = await supabase
+    .from('usuarios')
+    .select('id')
+    .eq('email', email)
+    .single()
+
+  if (usuario) {
+    await supabase
+      .from('usuarios')
+      .update({ plano, premium_since: now })
+      .eq('id', usuario.id)
+    devLog(`✅ Usuário ${email} atualizado para ${plano}`)
+    return
+  }
+
+  // 2. Busca ou cria user em auth.users
+  let authUserId: string | undefined
+
+  // Tenta achar user existente em auth.users (pode ter se cadastrado antes)
+  const { data: list } = await supabase.auth.admin.listUsers()
+  authUserId = list?.users?.find((u) => u.email?.toLowerCase() === email)?.id
+
+  if (!authUserId) {
+    // Cria user silenciosamente — SEM senha, email já confirmado.
+    // A senha é definida pelo lead na página /obrigado (via /api/ativar-conta).
+    const { data: created, error: createError } = await supabase.auth.admin.createUser({
+      email,
+      email_confirm: true,
+      user_metadata: { source: 'stripe_checkout', productId: productId ?? 'unknown' },
+    })
+    if (createError) {
+      console.error('❌ Erro ao criar auth user:', createError.message)
+      return
+    }
+    authUserId = created?.user?.id
+    devLog(`👤 Auth user criado: ${email}`)
+  }
+
+  if (!authUserId) {
+    console.error(`❌ Não foi possível obter authUserId para ${email}`)
+    return
+  }
+
+  // 3. Cria row em `usuarios` com plano correto
+  const { error: insertError } = await supabase.from('usuarios').insert({
+    id: authUserId,
+    email,
+    nome: email.split('@')[0],
+    plano,
+    premium_since: now,
+  })
+
+  if (insertError) {
+    if (insertError.code === '23505') {
+      // Race condition — row já existe, só atualiza
+      await supabase
+        .from('usuarios')
+        .update({ plano, premium_since: now })
+        .eq('id', authUserId)
+      devLog(`✅ Race condition: ${email} atualizado para ${plano}`)
+    } else {
+      console.error('❌ Erro ao inserir usuário:', insertError.message)
+    }
+  } else {
+    devLog(`✅ Perfil criado para ${email} com plano ${plano}`)
   }
 }
 

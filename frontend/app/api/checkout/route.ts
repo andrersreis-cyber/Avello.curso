@@ -4,37 +4,47 @@ import { products, ProductId, STRIPE_PRICE_IDS } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
-    const { productId, affiliateCode, customerEmail } = await request.json()
-    
+    const { productId, affiliateCode, customerEmail, source } = await request.json()
+
     if (!productId || !products[productId as ProductId]) {
       return NextResponse.json(
         { error: 'Produto inválido' },
         { status: 400 }
       )
     }
-    
+
     const product = products[productId as ProductId]
     const priceId = STRIPE_PRICE_IDS[productId as keyof typeof STRIPE_PRICE_IDS]
     const origin = request.headers.get('origin') || 'http://localhost:3000'
-    
+
     if (!priceId) {
       return NextResponse.json(
         { error: 'Preço não configurado para este produto' },
         { status: 400 }
       )
     }
-    
+
+    // Landing gameficada (lead não logado) → página /obrigado com instrução de email
+    // Dashboard (user logado via /escolher-plano) → /loja/sucesso com polling
+    const successPath =
+      source === 'landing'
+        ? `/obrigado?session_id={CHECKOUT_SESSION_ID}`
+        : `/loja/sucesso?session_id={CHECKOUT_SESSION_ID}`
+    const cancelPath =
+      source === 'landing' ? `/landing` : `/oferta-especial?plano=${productId}`
+
     const sessionConfig: any = {
       payment_method_types: ['card'],
       billing_address_collection: 'required',
-      success_url: `${origin}/loja/sucesso?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/oferta-especial?plano=${productId}`,
+      success_url: `${origin}${successPath}`,
+      cancel_url: `${origin}${cancelPath}`,
       line_items: [
         { price: priceId, quantity: 1 },
       ],
       metadata: {
         productId: product.id,
         affiliateCode: affiliateCode || '',
+        source: source || 'dashboard',
       },
     }
 

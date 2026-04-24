@@ -122,7 +122,7 @@ export default function LandingPage() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: 'operador_anual' }),
+        body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
       })
       const data = (await res.json()) as { url?: string; error?: string }
       if (data.url) {
