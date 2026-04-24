@@ -52,12 +52,11 @@ export function Ato2Quiz({ onConcluir, somAtivo }: Ato2QuizProps) {
             id="ato-2-titulo"
             className="font-orbitron font-bold text-zinc-50 leading-tight text-3xl md:text-4xl"
           >
-            primeiro, preciso saber{' '}
-            <span className="text-neon-cyan neon-text-cyan">onde você tá.</span>
+            3 perguntas.{' '}
+            <span className="text-neon-cyan neon-text-cyan">
+              é o que separa operador de curioso.
+            </span>
           </h2>
-          <p className="mt-3 text-zinc-400 font-exo2">
-            3 perguntas. sem pegadinha.
-          </p>
         </header>
 
         <div className="flex items-center justify-center gap-2 mb-8" role="list">
@@ -91,10 +90,10 @@ export function Ato2Quiz({ onConcluir, somAtivo }: Ato2QuizProps) {
                 aria-hidden
               />
               <p className="font-hud text-sm uppercase tracking-widest text-zinc-400">
-                calculando perfil...
+                escaneando padrão de comportamento...
               </p>
               <p className="text-zinc-500 text-sm">
-                aguarda aí. o agente 0 vai te ligar.
+                aguarda aí. o agente 0 foi notificado.
               </p>
             </motion.div>
           ) : (

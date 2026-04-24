@@ -16,6 +16,9 @@ interface GameState {
   somAtivo: boolean
   ligacaoAtendida: boolean
   conquistas: string[]
+  nomeOperador: string | null
+  xpTotal: number
+  itensColetados: string[]
   hydrated: boolean
 
   avancarPara: (ato: Ato) => void
@@ -23,6 +26,10 @@ interface GameState {
   atenderLigacao: () => void
   toggleSom: () => void
   adicionarConquista: (id: string) => void
+  setNome: (nome: string | null) => void
+  adicionarXp: (xp: number) => void
+  coletarItem: (moduloId: string) => void
+  resetColeta: () => void
   resetJogo: () => void
   setHydrated: () => void
 }
@@ -46,6 +53,9 @@ const INITIAL: Pick<
   | 'somAtivo'
   | 'ligacaoAtendida'
   | 'conquistas'
+  | 'nomeOperador'
+  | 'xpTotal'
+  | 'itensColetados'
 > = {
   atoAtual: 1,
   progresso: PROGRESSO_POR_ATO[1],
@@ -55,6 +65,9 @@ const INITIAL: Pick<
   somAtivo: false,
   ligacaoAtendida: false,
   conquistas: [],
+  nomeOperador: null,
+  xpTotal: 0,
+  itensColetados: [],
 }
 
 export const useGameStore = create<GameState>()(
@@ -71,10 +84,11 @@ export const useGameStore = create<GameState>()(
 
       responderQuiz: (respostas) => {
         const perfil = calcularNivel(respostas)
-        set(() => ({
+        set((s) => ({
           respostasQuiz: respostas,
           nivel: perfil.nivel,
           classe: perfil.classe,
+          xpTotal: s.xpTotal + 300,
         }))
       },
 
@@ -88,6 +102,31 @@ export const useGameStore = create<GameState>()(
             ? s
             : { conquistas: [...s.conquistas, id] },
         ),
+
+      setNome: (nome) =>
+        set(() => ({
+          nomeOperador: nome ? nome.trim().slice(0, 24) : null,
+        })),
+
+      adicionarXp: (xp) =>
+        set((s) => ({
+          xpTotal: Math.max(0, s.xpTotal + xp),
+        })),
+
+      coletarItem: (moduloId) =>
+        set((s) =>
+          s.itensColetados.includes(moduloId)
+            ? s
+            : {
+                itensColetados: [...s.itensColetados, moduloId],
+                xpTotal: s.xpTotal + 50,
+              },
+        ),
+
+      resetColeta: () =>
+        set(() => ({
+          itensColetados: [],
+        })),
 
       resetJogo: () => set(() => ({ ...INITIAL })),
 
@@ -107,6 +146,9 @@ export const useGameStore = create<GameState>()(
         somAtivo: s.somAtivo,
         ligacaoAtendida: s.ligacaoAtendida,
         conquistas: s.conquistas,
+        nomeOperador: s.nomeOperador,
+        xpTotal: s.xpTotal,
+        itensColetados: s.itensColetados,
       }),
       onRehydrateStorage: () => (state) => {
         state?.setHydrated()

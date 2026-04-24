@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { NivelBadge } from './nivel-badge'
 import { SomToggle } from './som-toggle'
+import { BadgeIntelAtivo } from '../central-intel/badge-intel-ativo'
 import type { ClasseNivel, Nivel } from '@/lib/game/levels'
 
 interface ProgressHudProps {
@@ -70,6 +71,10 @@ export function ProgressHud({
         >
           {progressoClamp}%
         </span>
+
+        <div className="hidden lg:flex shrink-0">
+          <BadgeIntelAtivo compact />
+        </div>
 
         <SomToggle ativo={somAtivo} onToggle={onToggleSom} />
       </div>

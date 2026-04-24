@@ -52,11 +52,12 @@ export function Ato5Ativacao({ onEntrar, onAtivar }: Ato5AtivacaoProps) {
             id="ato-5-titulo"
             className="font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
           >
-            ativar{' '}
-            <span className="text-neon-cyan neon-text-cyan">arsenal completo.</span>
+            hora de{' '}
+            <span className="text-neon-cyan neon-text-cyan">ativar.</span>
           </h2>
           <p className="mt-4 text-zinc-400 font-exo2 text-base md:text-lg">
-            tudo o que você viu. um preço. um clique.
+            o preço atual expira no cronômetro acima.{' '}
+            <span className="text-zinc-200">depois volta pra R$ 199.</span>
           </p>
         </header>
 
@@ -77,10 +78,11 @@ export function Ato5Ativacao({ onEntrar, onAtivar }: Ato5AtivacaoProps) {
             className="inline-flex items-center justify-center gap-3 px-8 py-4 min-h-[64px] rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 disabled:cursor-wait text-zinc-950 font-orbitron font-bold uppercase tracking-wider text-base md:text-lg shadow-[0_0_40px_rgba(6,182,212,0.55)] hover:shadow-[0_0_60px_rgba(6,182,212,0.75)] active:scale-95 transition-all"
           >
             <Zap className="w-5 h-5" aria-hidden />
-            {carregando ? 'abrindo checkout...' : 'ativar operador'}
+            {carregando ? 'abrindo checkout...' : 'ativar meu arsenal agora'}
           </button>
           <p className="text-center text-xs md:text-sm text-zinc-500 font-exo2">
-            800+ operadores ativos · acesso imediato · sem mensalidade escondida
+            7 dias de garantia · cancela em 2 cliques ·{' '}
+            <span className="text-zinc-300">risco = zero</span>
           </p>
         </div>
       </div>

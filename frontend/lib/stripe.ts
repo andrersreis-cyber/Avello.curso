@@ -14,7 +14,7 @@ export const getStripe = () => {
 export const STRIPE_PRICE_IDS = {
   starter: 'price_1T96RtHFr5u9PsVJDnXC0vR4',
   lowtik: 'price_1Sv50RHFr5u9PsVJJkc1AV1O',
-  operador_anual: 'price_1TPXNiHFr5u9PsVJPRA0DkQL',
+  operador_anual: 'price_1TPfSiHFr5u9PsVJD1vvdu2Y',
   consultoria: 'price_1Sv50SHFr5u9PsVJLJbKqfmR',
   setup_n8n: 'price_1Sv50SHFr5u9PsVJce95MAwD',
   pack_premium: 'price_1Sv50THFr5u9PsVJEFZ6OTfk',

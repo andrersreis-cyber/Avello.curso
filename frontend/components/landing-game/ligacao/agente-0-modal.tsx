@@ -7,7 +7,8 @@ import { Phone, PhoneOff, ChevronRight, Lock, MicOff, Volume2 } from 'lucide-rea
 import { AvatarAgente0 } from './avatar-agente-0'
 import { Transcricao } from './transcricao'
 import { criarHowlAgente0, playSfx, stopSfx } from '@/lib/game/sounds'
-import { SCRIPTS_AGENTE_0, type ScriptAgente } from '@/lib/game/scripts-agente-0'
+import { obterScriptPersonalizado, type ScriptAgente } from '@/lib/game/scripts-agente-0'
+import { useGameStore } from '@/lib/game/store'
 import type { ClasseNivel, Nivel } from '@/lib/game/levels'
 
 interface Agente0ModalProps {
@@ -25,8 +26,9 @@ interface Agente0ModalProps {
  * dentro de useEffect.
  */
 export function Agente0Modal(props: Agente0ModalProps) {
+  const nomeOperador = useGameStore((s) => s.nomeOperador)
   if (!props.aberto || !props.nivel) return null
-  const script = SCRIPTS_AGENTE_0[props.nivel]
+  const script = obterScriptPersonalizado(props.nivel, nomeOperador)
   return (
     <Agente0ModalInner
       nivel={props.nivel}

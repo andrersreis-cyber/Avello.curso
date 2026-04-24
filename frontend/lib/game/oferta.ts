@@ -27,6 +27,10 @@ export const COUNTDOWN_STORAGE_KEY = 'avello_countdown_start_v1'
 
 export const ITENS_OFERTA: readonly ItemOferta[] = [
   { texto: 'todos os 9 módulos desbloqueados', destaque: true },
+  {
+    texto: 'atualizações semanais · Claude Code, Skills, MCPs, Projects, Agent SDK',
+    destaque: true,
+  },
   { texto: '3.500 prompts ChatGPT organizados' },
   { texto: '3.500 prompts Midjourney' },
   { texto: '3.000 templates Typebot' },
@@ -35,7 +39,7 @@ export const ITENS_OFERTA: readonly ItemOferta[] = [
   { texto: '350 softwares self-hosted' },
   { texto: 'GitHub de membros (acesso privado)' },
   { texto: 'infraestrutura completa' },
-  { texto: '🎁 bônus: 30 SaaS white label', destaque: true },
+  { texto: 'bônus: 30 SaaS white label', destaque: true },
 ] as const
 
 export const DEPOIMENTOS: readonly Depoimento[] = [
@@ -74,6 +78,11 @@ export const FAQ: readonly PerguntaFAQ[] = [
   {
     pergunta: 'funciona mesmo pra quem tá começando?',
     resposta: 'sim. o arsenal é categorizado por nível. você vê só o que precisa.',
+  },
+  {
+    pergunta: 'o que vem nas atualizações semanais?',
+    resposta:
+      'tudo o que sai na fronteira do Claude Code — skills novas, MCPs, Projects, hooks, sub-agents, Agent SDK. você recebe destilado, sem precisar garimpar em 20 newsletters.',
   },
   {
     pergunta: 'o que acontece depois que eu pago?',

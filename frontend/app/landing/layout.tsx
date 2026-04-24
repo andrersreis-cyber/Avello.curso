@@ -24,13 +24,13 @@ const shareTechMono = Share_Tech_Mono({
 
 // TODO: criar /public/images/og-landing.jpg (1200x630) e plugar em openGraph.images
 export const metadata: Metadata = {
-  title: 'avello — desbloqueie seu arsenal de IA em 3 minutos',
+  title: 'avello — 800 operadores ativaram o arsenal nas últimas 72h',
   description:
-    'jornada interativa em 5 atos. descubra seu nível, libere 14 mil ferramentas + 9 módulos por R$ 59,99/ano. 800+ operadores ativos.',
+    '3 minutos separam você deles. jornada interativa em 5 atos + leaderboard + atualizações semanais de Claude Code, Skills e MCPs. R$ 59,99/ano.',
   openGraph: {
-    title: 'avello — desbloqueie seu arsenal de IA',
+    title: 'avello — arsenal de IA com updates semanais',
     description:
-      'jornada interativa em 5 atos. R$ 59,99/ano. 800+ operadores ativos.',
+      '5 atos. 3 minutos. 14 mil ferramentas + Claude Code, Skills, MCPs, Projects toda semana. R$ 59,99/ano.',
     type: 'website',
   },
   robots: { index: true, follow: true },

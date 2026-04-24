@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { CONTADORES, MODULOS } from '@/lib/game/modulos'
+import { useGameStore } from '@/lib/game/store'
 import { ContadorSlot } from '../arsenal/contador-slot'
 import { CardModulo } from '../arsenal/card-modulo'
 
@@ -32,6 +33,8 @@ export function Ato3Arsenal({ onEntrar, onAvancar, somAtivo }: Ato3ArsenalProps)
   const [contadoresAtivos, setContadoresAtivos] = useState(false)
   const gridContadoresRef = useRef<HTMLDivElement | null>(null)
   const entrouRef = useRef(false)
+  const nomeOperador = useGameStore((s) => s.nomeOperador)
+  const nomeSaudacao = nomeOperador ? nomeOperador.split(' ')[0].toLowerCase() : 'operador'
 
   // Feedback de entrada: dispara uma vez quando o componente monta.
   // O AtoWrapper só renderiza Ato 3 quando atoAtual === 3, então mount = entrada.
@@ -77,11 +80,12 @@ export function Ato3Arsenal({ onEntrar, onAvancar, somAtivo }: Ato3ArsenalProps)
             id="ato-3-titulo"
             className="font-orbitron font-bold text-3xl md:text-4xl text-zinc-50 leading-tight"
           >
-            arsenal liberado{' '}
-            <span className="text-neon-cyan neon-text-cyan">pro seu nível.</span>
+            coleta o que você precisa,{' '}
+            <span className="text-neon-cyan neon-text-cyan">{nomeSaudacao}.</span>
           </h2>
           <p className="mt-4 text-zinc-400 font-exo2 text-base md:text-lg">
-            passa o olho. tudo isso tá te esperando.
+            cada ferramenta que fica pra trás{' '}
+            <span className="text-zinc-200">é uma oportunidade perdida.</span>
           </p>
         </header>
 
@@ -117,10 +121,10 @@ export function Ato3Arsenal({ onEntrar, onAvancar, somAtivo }: Ato3ArsenalProps)
             type="button"
             onClick={onAvancar}
             className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-zinc-950 font-orbitron font-bold uppercase tracking-wider text-base md:text-lg shadow-[0_0_40px_rgba(6,182,212,0.45)] hover:shadow-[0_0_60px_rgba(6,182,212,0.65)] transition-shadow min-h-[56px]"
-            aria-label="ver quem já tá usando — avançar pro ato 4"
+            aria-label="ver leaderboard — avançar pro ato 4"
           >
             <ChevronDown className="w-5 h-5" aria-hidden />
-            ver quem já tá usando
+            ver o leaderboard
           </button>
         </div>
       </div>

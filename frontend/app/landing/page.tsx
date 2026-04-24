@@ -7,9 +7,10 @@ import { AchievementToast } from '@/components/landing-game/shared/achievement-t
 import { Ato1Hook } from '@/components/landing-game/atos/ato-1-hook'
 import { Ato2Quiz } from '@/components/landing-game/atos/ato-2-quiz'
 import { Ato3Arsenal } from '@/components/landing-game/atos/ato-3-arsenal'
-import { Ato4Hall } from '@/components/landing-game/atos/ato-4-hall'
+import { Ato4Leaderboard } from '@/components/landing-game/atos/ato-4-leaderboard'
 import { Ato5Ativacao } from '@/components/landing-game/atos/ato-5-ativacao'
 import { Agente0Modal } from '@/components/landing-game/ligacao/agente-0-modal'
+import { CentralIntel } from '@/components/landing-game/central-intel/central-intel'
 import { useGameStore } from '@/lib/game/store'
 import { calcularNivel, type RespostasQuiz } from '@/lib/game/levels'
 import {
@@ -40,6 +41,7 @@ export default function LandingPage() {
   const atenderLigacao = useGameStore((s) => s.atenderLigacao)
   const toggleSom = useGameStore((s) => s.toggleSom)
   const adicionarConquista = useGameStore((s) => s.adicionarConquista)
+  const setNome = useGameStore((s) => s.setNome)
 
   const [ligacaoAberta, setLigacaoAberta] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
@@ -55,13 +57,17 @@ export default function LandingPage() {
     [adicionarConquista, conquistas, somAtivo],
   )
 
-  const handleIniciarJornada = useCallback(() => {
-    if (!somAtivo) toggleSom()
-    playSfx('click', true)
-    trackViewContent('landing-gameficada-iniciada')
-    lancarConquista('jornada_iniciada', 'jornada iniciada')
-    avancarPara(2)
-  }, [avancarPara, lancarConquista, somAtivo, toggleSom])
+  const handleIniciarJornada = useCallback(
+    (nome: string | null) => {
+      if (!somAtivo) toggleSom()
+      playSfx('click', true)
+      setNome(nome)
+      trackViewContent('landing-gameficada-iniciada')
+      lancarConquista('jornada_iniciada', 'jornada iniciada')
+      avancarPara(2)
+    },
+    [avancarPara, lancarConquista, setNome, somAtivo, toggleSom],
+  )
 
   const handleConcluirQuiz = useCallback(
     (respostas: RespostasQuiz) => {
@@ -97,7 +103,7 @@ export default function LandingPage() {
 
   const handleEntrarAto4 = useCallback(() => {
     playSfx('whoosh', somAtivo)
-    lancarConquista('hall_visto', 'hall dos operadores')
+    lancarConquista('leaderboard_visto', 'leaderboard acessado')
   }, [somAtivo, lancarConquista])
 
   const handleAvancarPara5 = useCallback(() => {
@@ -211,8 +217,10 @@ export default function LandingPage() {
           />
         </AtoWrapper>
 
+        {atoAtual >= 3 && <CentralIntel />}
+
         <AtoWrapper atoId={4} atoAtual={atoAtual}>
-          <Ato4Hall
+          <Ato4Leaderboard
             onEntrar={handleEntrarAto4}
             onAvancar={handleAvancarPara5}
             somAtivo={somAtivo}

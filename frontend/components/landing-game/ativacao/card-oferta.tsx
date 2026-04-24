@@ -71,7 +71,7 @@ export function CardOferta({ onAtivar, carregando = false }: CardOfertaProps) {
         className="w-full min-h-[64px] inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 disabled:cursor-wait text-zinc-950 font-orbitron font-bold uppercase tracking-wider text-base md:text-lg shadow-[0_0_40px_rgba(6,182,212,0.55)] hover:shadow-[0_0_60px_rgba(6,182,212,0.75)] active:scale-95 transition-all"
       >
         <Zap className="w-5 h-5" aria-hidden />
-        {carregando ? 'abrindo checkout...' : 'ativar operador'}
+        {carregando ? 'abrindo checkout...' : 'ativar meu arsenal agora'}
       </button>
 
       <div className="mt-5 flex flex-col gap-2 text-center text-xs md:text-sm text-zinc-400 font-exo2">

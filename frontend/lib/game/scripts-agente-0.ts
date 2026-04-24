@@ -8,6 +8,37 @@ export interface ScriptAgente {
 }
 
 /**
+ * Personaliza o script pro operador: se houver nome, insere na primeira linha.
+ * O áudio TTS fixo continua dizendo "operador" — a personalização é só visual
+ * na transcrição (força o reconhecimento e identidade sem regerar áudio).
+ */
+export function obterScriptPersonalizado(
+  nivel: Nivel,
+  nomeOperador: string | null,
+): ScriptAgente {
+  const base = SCRIPTS_AGENTE_0[nivel]
+  if (!nomeOperador || nomeOperador.trim().length === 0) return base
+
+  const nome = nomeOperador.trim().split(' ')[0].toLowerCase()
+  const transcricaoOriginal = base.transcricao
+  const linhasNovas = [...transcricaoOriginal]
+
+  // Nível 1: "interceptei seu sinal. agente 0 falando."
+  // Nível 2: "dados confirmados. agente 0 no canal."
+  // Nível 3: "travei suas respostas no cofre. agente 0."
+  // Nível 4: "identificado. agente 0 na linha."
+  const substituicoes: Record<Nivel, string> = {
+    1: `interceptei seu sinal, ${nome}. agente 0 falando.`,
+    2: `dados confirmados, ${nome}. agente 0 no canal.`,
+    3: `travei suas respostas no cofre, ${nome}. agente 0.`,
+    4: `identificado, ${nome}. agente 0 na linha.`,
+  }
+
+  linhasNovas[0] = substituicoes[nivel]
+  return { ...base, transcricao: linhasNovas }
+}
+
+/**
  * Scripts do Agente 0 por nível. A `transcricao` é dividida em linhas que
  * sincronizamos manualmente com o áudio (tempo total dividido em parts iguais).
  * Arquivos de áudio são gerados via ElevenLabs e salvos em

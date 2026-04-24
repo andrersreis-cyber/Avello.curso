@@ -40,3 +40,6 @@ Curso_Clone_Completo/
 
 # Local Netlify folder
 .netlify
+
+# Clone aninhado (bagunça de outro ambiente — ignorar)
+Avello.curso/
