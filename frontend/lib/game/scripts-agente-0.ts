@@ -59,7 +59,7 @@ export const SCRIPTS_AGENTE_0: Record<Nivel, ScriptAgente> = {
       '12 operadores nível 1 entraram nas últimas 24 horas. mesmo perfil que o seu.',
       'todos já têm uma automação rodando.',
       'missão pra você: primeira automação no ar em 3 dias.',
-      'liberei a trilha curta. ferramentas grátis, prompt base, fluxo simples.',
+      'liberei a trilha curta. prompt base, fluxo simples, primeiras vitórias.',
       'o arsenal abre agora. não pisca.',
       'agente 0. câmbio.',
     ],

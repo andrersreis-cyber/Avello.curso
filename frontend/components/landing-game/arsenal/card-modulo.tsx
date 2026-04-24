@@ -1,15 +1,10 @@
 'use client'
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from 'react'
-import { CheckCircle2, Package, Plus } from 'lucide-react'
+import { useCallback, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { Check, Plus } from 'lucide-react'
 import { BadgeRaridade } from './badge-raridade'
-import { ICONES_MODULO, type Modulo, type Raridade, type Tier } from '@/lib/game/modulos'
+import { ICONES_MODULO, type Modulo, type Raridade } from '@/lib/game/modulos'
 import { playSfx } from '@/lib/game/sounds'
 
 interface CardModuloProps {
@@ -20,173 +15,114 @@ interface CardModuloProps {
 }
 
 const BORDA_POR_RARIDADE: Record<Raridade, string> = {
-  comum: 'border-zinc-700',
-  rara: 'border-cyan-500/50',
-  epica: 'border-fuchsia-500/50',
-  lendaria: 'border-cyan-500/50 shadow-[0_0_24px_rgba(217,70,239,0.18)]',
+  comum: 'border-zinc-700 hover:border-zinc-500',
+  rara: 'border-cyan-500/40 hover:border-cyan-400',
+  epica: 'border-fuchsia-500/40 hover:border-fuchsia-400',
+  lendaria: 'border-cyan-500/50 hover:border-cyan-300 shadow-[0_0_24px_rgba(217,70,239,0.18)]',
 }
 
-const TIER_CLASS: Record<Tier, string> = {
-  free: 'text-zinc-500 border-zinc-700 bg-zinc-800',
-  premium: 'text-amber-300 border-amber-500/40 bg-amber-500/10',
+const GLOW_POR_RARIDADE: Record<Raridade, string> = {
+  comum: 'hover:shadow-[0_0_24px_rgba(113,113,122,0.3)]',
+  rara: 'hover:shadow-[0_0_32px_rgba(6,182,212,0.35)]',
+  epica: 'hover:shadow-[0_0_32px_rgba(217,70,239,0.35)]',
+  lendaria: 'hover:shadow-[0_0_40px_rgba(251,191,36,0.35)]',
 }
 
-function subscribeReducedMotion(callback: () => void): () => void {
-  if (typeof window === 'undefined') return () => {}
-  const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-  mql.addEventListener('change', callback)
-  return () => mql.removeEventListener('change', callback)
-}
-
-function getReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-function usePrefereReducedMotion(): boolean {
-  return useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false)
-}
-
+/**
+ * Card do Arsenal. Sem flip 3D — interação simples:
+ * - estado "disponível": card info + botão [coletar]
+ * - estado "coletado": overlay dourado por cima (permanente)
+ *
+ * A troca é por CSS + Framer Motion fade/scale, não rotação.
+ * Mais acessível, mais previsível, funciona 100% no mobile.
+ */
 export function CardModulo({ modulo, somAtivo, coletado, onColetar }: CardModuloProps) {
-  const [flipped, setFlipped] = useState(false)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const temTouchRef = useRef(false)
-  const reduced = usePrefereReducedMotion()
+  const cardRef = useRef<HTMLDivElement | null>(null)
 
   const Icon = ICONES_MODULO[modulo.iconeKey]
-
-  useEffect(() => {
-    temTouchRef.current =
-      typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
-  }, [])
-
-  // Se já tá coletado, fica sempre flipado mostrando o verso dourado.
-  const exibeVerso = coletado || (!reduced && flipped)
-
-  const handleMouseEnter = () => {
-    if (temTouchRef.current || coletado) return
-    setFlipped(true)
-  }
-  const handleMouseLeave = () => {
-    if (temTouchRef.current || coletado) return
-    setFlipped(false)
-  }
 
   const handleColetar = useCallback(() => {
     if (coletado) return
     playSfx('loot', somAtivo)
-    if (containerRef.current) onColetar(containerRef.current)
+    if (cardRef.current) onColetar(cardRef.current)
   }, [coletado, onColetar, somAtivo])
-
-  const cardLabel = coletado
-    ? `${modulo.nome} — já coletado`
-    : `coletar ${modulo.nome}`
 
   return (
     <div
-      ref={containerRef}
-      className={`relative w-full h-[240px] rounded-xl ${
-        coletado ? 'opacity-95' : 'opacity-100'
+      ref={cardRef}
+      className={`relative w-full h-[240px] rounded-xl border bg-zinc-900/80 transition-all duration-300 ${BORDA_POR_RARIDADE[modulo.raridade]} ${
+        coletado ? 'opacity-95' : GLOW_POR_RARIDADE[modulo.raridade]
       }`}
-      style={{ perspective: reduced ? undefined : '1000px' }}
     >
-      <div
-        className="relative w-full h-full"
-        style={{
-          transformStyle: reduced ? 'flat' : 'preserve-3d',
-          transform: !reduced && exibeVerso ? 'rotateY(180deg)' : undefined,
-          transition: 'transform 600ms cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
-        {/* Frente — descoberto, com botão COLETAR */}
+      {/* Conteúdo do card */}
+      <div className="absolute inset-0 p-5 flex flex-col gap-3">
+        <div className="flex items-start justify-between">
+          <Icon
+            className={
+              modulo.raridade === 'lendaria'
+                ? 'w-10 h-10 text-fuchsia-300'
+                : 'w-10 h-10 text-neon-cyan'
+            }
+            aria-hidden
+          />
+          <BadgeRaridade raridade={modulo.raridade} />
+        </div>
+
+        <div className="flex flex-col gap-1 flex-1">
+          <h3 className="font-orbitron font-semibold text-lg text-zinc-50">
+            {modulo.nome}
+          </h3>
+          <p className="text-sm text-zinc-400 font-exo2 leading-snug">
+            {modulo.descricao}
+          </p>
+        </div>
+
         <button
           type="button"
-          aria-label={cardLabel}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
           onClick={handleColetar}
           disabled={coletado}
-          className={`absolute inset-0 rounded-xl border bg-zinc-900/80 p-5 flex flex-col gap-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${BORDA_POR_RARIDADE[modulo.raridade]} ${
-            coletado ? 'cursor-default' : 'cursor-pointer'
+          aria-label={
+            coletado ? `${modulo.nome} já coletado` : `coletar ${modulo.nome}`
+          }
+          className={`inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg font-hud text-xs uppercase tracking-[0.15em] transition-all min-h-[40px] ${
+            coletado
+              ? 'bg-amber-500/10 border border-amber-500/40 text-amber-300 cursor-default'
+              : 'bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/50 text-neon-cyan hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400 cursor-pointer active:scale-95'
           }`}
-          style={{ backfaceVisibility: 'hidden' }}
         >
-          <div className="flex items-start justify-between">
-            <Icon
-              className={
-                modulo.raridade === 'lendaria'
-                  ? 'w-10 h-10 text-fuchsia-300'
-                  : 'w-10 h-10 text-neon-cyan'
-              }
-              aria-hidden
-            />
-            <BadgeRaridade raridade={modulo.raridade} />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <h3 className="font-orbitron font-semibold text-lg text-zinc-50">
-              {modulo.nome}
-            </h3>
-            <p className="text-sm text-zinc-400 font-exo2 leading-snug">
-              {modulo.descricao}
-            </p>
-          </div>
-
-          <div className="mt-auto flex items-center justify-between gap-2">
-            <span
-              className={`inline-flex items-center font-hud text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-md border ${TIER_CLASS[modulo.tier]}`}
-            >
-              {modulo.tier === 'free' ? 'free' : 'premium'}
-            </span>
-            <span
-              className={`inline-flex items-center gap-1.5 font-hud text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-md border border-cyan-500/40 bg-cyan-500/10 text-neon-cyan group-hover:bg-cyan-500/20 ${
-                coletado ? 'invisible' : ''
-              }`}
-              aria-hidden
-            >
-              <Plus className="w-3 h-3" aria-hidden />
-              coletar
-            </span>
-          </div>
-        </button>
-
-        {/* Verso — coletado ou hover flip */}
-        {!reduced && (
-          <div
-            className={`absolute inset-0 rounded-xl border p-5 flex flex-col items-center justify-center gap-3 text-center ${
+          {coletado ? (
+            <>
+              <Check className="w-3.5 h-3.5" aria-hidden />
               coletado
-                ? 'border-amber-500/50 bg-gradient-to-br from-amber-950/40 via-zinc-900 to-amber-950/40 shadow-[0_0_32px_rgba(251,191,36,0.2)]'
-                : BORDA_POR_RARIDADE[modulo.raridade]
-            } ${!coletado ? 'bg-zinc-900/90' : ''}`}
-            style={{
-              backfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)',
-            }}
-          >
-            {coletado ? (
-              <>
-                <Package className="w-14 h-14 text-amber-300" aria-hidden />
-                <span className="font-orbitron font-bold text-xl text-amber-300 uppercase tracking-wider">
-                  coletado
-                </span>
-                <span className="text-sm text-zinc-400 font-exo2">
-                  no seu inventário
-                </span>
-              </>
-            ) : (
-              <>
-                <CheckCircle2 className="w-14 h-14 text-neon-green" aria-hidden />
-                <span className="font-orbitron font-bold text-xl text-neon-green neon-text-green">
-                  clica pra coletar
-                </span>
-                <span className="text-sm text-zinc-400 font-exo2">
-                  +50 xp
-                </span>
-              </>
-            )}
-          </div>
-        )}
+            </>
+          ) : (
+            <>
+              <Plus className="w-3.5 h-3.5" aria-hidden />
+              coletar · +50 xp
+            </>
+          )}
+        </button>
       </div>
+
+      {/* Overlay dourado quando coletado — fade suave */}
+      {coletado && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-xl border-2 border-amber-500/60 shadow-[0_0_32px_rgba(251,191,36,0.25)]"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(251,191,36,0.08) 0%, transparent 50%, rgba(251,191,36,0.12) 100%)',
+          }}
+        >
+          {/* Stamp "COLETADO" no canto */}
+          <div className="absolute top-3 left-3 font-hud text-[9px] uppercase tracking-[0.2em] text-amber-400 border border-amber-500/50 rounded px-1.5 py-0.5 bg-amber-500/10">
+            ✓ coletado
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }
