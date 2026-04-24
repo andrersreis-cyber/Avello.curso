@@ -19,15 +19,15 @@ interface SfxConfig {
 }
 
 const CATALOG: Record<SfxKey, SfxConfig> = {
-  ringtone: { src: ['/audio/agente-0/ringtone.mp3'], volume: 0.55, loop: true },
-  beep: { src: ['/audio/agente-0/beep-fim.mp3'], volume: 0.7 },
-  click: { src: ['/sfx/click-hud.mp3'], volume: 0.35 },
-  levelUp: { src: ['/sfx/level-up.mp3'], volume: 0.5 },
-  loot: { src: ['/sfx/loot.mp3'], volume: 0.4 },
-  whoosh: { src: ['/sfx/whoosh.mp3'], volume: 0.4 },
-  tensionSpike: { src: ['/sfx/tension-spike.mp3'], volume: 0.4 },
-  riser: { src: ['/audio/riser-stinger.mp3'], volume: 0.75 },
-  heartbeat: { src: ['/audio/heartbeat-intensify.mp3'], volume: 0.55 },
+  ringtone: { src: ['/audio/agente-0/ringtone.mp3'], volume: 0.65, loop: true },
+  beep: { src: ['/audio/agente-0/beep-fim.mp3'], volume: 0.8 },
+  click: { src: ['/sfx/click-hud.mp3'], volume: 0.7 },
+  levelUp: { src: ['/sfx/level-up.mp3'], volume: 0.65 },
+  loot: { src: ['/sfx/loot.mp3'], volume: 0.6 },
+  whoosh: { src: ['/sfx/whoosh.mp3'], volume: 0.55 },
+  tensionSpike: { src: ['/sfx/tension-spike.mp3'], volume: 0.55 },
+  riser: { src: ['/audio/riser-stinger.mp3'], volume: 0.85 },
+  heartbeat: { src: ['/audio/heartbeat-intensify.mp3'], volume: 0.7 },
 }
 
 const cache = new Map<SfxKey, Howl>()

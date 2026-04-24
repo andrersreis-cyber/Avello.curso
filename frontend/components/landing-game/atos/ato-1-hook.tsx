@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Clock, Radio, Users } from 'lucide-react'
+import { ChevronRight, Clock, Headphones, Radio, Users } from 'lucide-react'
 import { GlitchText } from '../shared/glitch-text'
 import { BadgeIntelAtivo } from '../central-intel/badge-intel-ativo'
 
@@ -47,6 +47,24 @@ export function Ato1Hook({ onAvancar }: Ato1HookProps) {
         >
           <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse" />
           jornada interativa · ato 1/5
+        </motion.div>
+
+        {/* Aviso destacado: experiência é sonora */}
+        <motion.div
+          {...FADE_UP}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex justify-center mb-6"
+        >
+          <div
+            className="inline-flex items-center gap-2.5 rounded-full border border-amber-500/50 bg-amber-500/10 px-4 py-2 shadow-[0_0_24px_rgba(251,191,36,0.2)]"
+            role="note"
+            aria-label="experiência melhor com fone"
+          >
+            <Headphones className="w-4 h-4 text-amber-300 shrink-0" aria-hidden />
+            <span className="font-hud text-[11px] md:text-xs uppercase tracking-[0.15em] text-amber-200">
+              coloca o fone · voz + trilha cinematográfica
+            </span>
+          </div>
         </motion.div>
 
         <GlitchText
@@ -150,8 +168,9 @@ export function Ato1Hook({ onAvancar }: Ato1HookProps) {
             </button>
           )}
 
-          <p className="font-hud text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-            som ativado ao iniciar · pode mutar no topo
+          <p className="font-hud text-[11px] uppercase tracking-[0.18em] text-amber-300/80 flex items-center gap-1.5">
+            <Headphones className="w-3 h-3" aria-hidden />
+            som ativa ao entrar · mute disponível no topo
           </p>
         </motion.div>
 
