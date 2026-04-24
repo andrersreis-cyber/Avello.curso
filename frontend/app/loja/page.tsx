@@ -27,6 +27,7 @@ import { ExitIntentPopup } from '@/components/exit-intent-popup'
 const productIcons: Record<ProductId, React.ReactNode> = {
   starter: <Shield className="w-6 h-6" />,
   lowtik: <Crown className="w-6 h-6" />,
+  operador_anual: <Crown className="w-6 h-6" />,
   consultoria: <Clock className="w-6 h-6" />,
   setup_n8n: <Server className="w-6 h-6" />,
   pack_premium: <Package className="w-6 h-6" />,
@@ -37,6 +38,7 @@ const productIcons: Record<ProductId, React.ReactNode> = {
 const productColors: Record<ProductId, string> = {
   starter: 'from-green-500 to-emerald-600',
   lowtik: 'from-cyan-500 to-blue-600',
+  operador_anual: 'from-cyan-500 to-blue-600',
   consultoria: 'from-purple-500 to-pink-600',
   setup_n8n: 'from-orange-500 to-red-600',
   pack_premium: 'from-emerald-500 to-green-600',

@@ -22,15 +22,18 @@ const shareTechMono = Share_Tech_Mono({
   display: 'swap',
 })
 
+// TODO: criar /public/images/og-landing.jpg (1200x630) e plugar em openGraph.images
 export const metadata: Metadata = {
-  title: 'avello — desbloqueie seu arsenal de ia',
+  title: 'avello — desbloqueie seu arsenal de IA em 3 minutos',
   description:
-    'jornada interativa em 5 atos. descubra seu nível, libere ferramentas e entre para os 800+ operadores ativos.',
+    'jornada interativa em 5 atos. descubra seu nível, libere 14 mil ferramentas + 9 módulos por R$ 59,99/ano. 800+ operadores ativos.',
   openGraph: {
-    title: 'avello — desbloqueie seu arsenal de ia',
+    title: 'avello — desbloqueie seu arsenal de IA',
     description:
-      'jornada interativa em 5 atos. descubra seu nível, libere ferramentas e entre para os 800+ operadores ativos.',
+      'jornada interativa em 5 atos. R$ 59,99/ano. 800+ operadores ativos.',
+    type: 'website',
   },
+  robots: { index: true, follow: true },
 }
 
 export default function LandingLayout({
