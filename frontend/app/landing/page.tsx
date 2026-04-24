@@ -15,10 +15,11 @@ import { useGameStore } from '@/lib/game/store'
 import { calcularNivel, type RespostasQuiz } from '@/lib/game/levels'
 import {
   playSfx,
-  playAmbient,
+  playAmbientPorAto,
   pauseAmbient,
   stopAmbient,
   setAmbientVolume,
+  type AtoAmbient,
 } from '@/lib/game/sounds'
 import { dispararConfetti } from '@/lib/game/confetti'
 import {
@@ -84,12 +85,12 @@ export default function LandingPage() {
   const handleLigacaoAtendida = useCallback(() => {
     atenderLigacao()
     lancarConquista('agente_0_atendido', 'agente 0 atendido')
-    setAmbientVolume(0.1)
+    setAmbientVolume(0.08)
   }, [atenderLigacao, lancarConquista])
 
   const handleLigacaoEncerrada = useCallback(() => {
     setLigacaoAberta(false)
-    setAmbientVolume(0.35)
+    setAmbientVolume(null)
     avancarPara(3)
   }, [avancarPara])
 
@@ -134,24 +135,28 @@ export default function LandingPage() {
     }
   }, [somAtivo])
 
-  // Ambient sonoro de tensão toca durante toda a jornada.
+  // Ambient sonoro cinematográfico muda com o ato. Crossfade suave entre eles.
   // Só dispara depois que o usuário ativou som (gesto explícito => permite autoplay).
   useEffect(() => {
     if (!somAtivo) {
       pauseAmbient()
       return
     }
-    playAmbient(true, 0.35)
+    // Ato 0 (não iniciado) cai pro 1 (hook). Tudo entre 1-5 tem ambient próprio.
+    const atoAmbient = (atoAtual >= 1 && atoAtual <= 5
+      ? atoAtual
+      : 1) as AtoAmbient
+    playAmbientPorAto(atoAmbient, true)
     return () => {
       // Ao desmontar a page (ex: navegar pra outra rota), para tudo.
       stopAmbient()
     }
-  }, [somAtivo])
+  }, [somAtivo, atoAtual])
 
   // Duck o ambient enquanto a ligação tá aberta (voz do agente ganha o palco).
   useEffect(() => {
     if (!somAtivo) return
-    setAmbientVolume(ligacaoAberta ? 0.1 : 0.35)
+    setAmbientVolume(ligacaoAberta ? 0.08 : null)
   }, [ligacaoAberta, somAtivo])
 
   if (!hydrated) {

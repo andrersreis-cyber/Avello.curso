@@ -41,6 +41,8 @@ export function Ato2Quiz({ onConcluir, somAtivo }: Ato2QuizProps) {
       } else {
         setCalculando(true)
         playSfx('tensionSpike', somAtivo)
+        // Heartbeat crescente durante o scanner (5s de build-up)
+        playSfx('heartbeat', somAtivo)
         // XP bônus no final do quiz (disparado do centro da tela)
         window.setTimeout(() => {
           const centerEl = document.getElementById('quiz-scanner-target')

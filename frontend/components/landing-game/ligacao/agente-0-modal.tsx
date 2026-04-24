@@ -92,10 +92,30 @@ function Agente0ModalInner({
     setFase('encerrada')
   }, [somAtivo])
 
-  // Toca ringtone no mount. Limpa tudo no unmount.
+  // Riser stinger + ringtone no mount. Limpa tudo no unmount.
+  // O riser (3s) toca primeiro construindo tensão, depois o ringtone entra.
   useEffect(() => {
-    if (somAtivo) playSfx('ringtone', true)
+    if (somAtivo) {
+      playSfx('riser', true)
+      // Ringtone entra 1.8s depois (quando o riser tá próximo do clímax)
+      const t = window.setTimeout(() => {
+        playSfx('ringtone', true)
+      }, 1800)
+      return () => {
+        window.clearTimeout(t)
+        stopSfx('riser')
+        stopSfx('ringtone')
+        if (vozRef.current) {
+          vozRef.current.stop()
+          vozRef.current.unload()
+          vozRef.current = null
+        }
+        if (tickRef.current) window.clearInterval(tickRef.current)
+        if (fallbackTimerRef.current) window.clearTimeout(fallbackTimerRef.current)
+      }
+    }
     return () => {
+      stopSfx('riser')
       stopSfx('ringtone')
       if (vozRef.current) {
         vozRef.current.stop()

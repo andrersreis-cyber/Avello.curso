@@ -8,6 +8,8 @@ export type SfxKey =
   | 'loot'
   | 'whoosh'
   | 'tensionSpike'
+  | 'riser'
+  | 'heartbeat'
 
 interface SfxConfig {
   src: string[]
@@ -24,6 +26,8 @@ const CATALOG: Record<SfxKey, SfxConfig> = {
   loot: { src: ['/sfx/loot.mp3'], volume: 0.4 },
   whoosh: { src: ['/sfx/whoosh.mp3'], volume: 0.4 },
   tensionSpike: { src: ['/sfx/tension-spike.mp3'], volume: 0.4 },
+  riser: { src: ['/audio/riser-stinger.mp3'], volume: 0.75 },
+  heartbeat: { src: ['/audio/heartbeat-intensify.mp3'], volume: 0.55 },
 }
 
 const cache = new Map<SfxKey, Howl>()
@@ -78,46 +82,148 @@ export function criarHowlAgente0(src: string): Howl | null {
   })
 }
 
-/**
- * Ambient sonoro de tensão que roda em loop durante toda a jornada.
- * Fade-in suave pra não assustar, fade-out suave pra sair.
- */
-let ambientHowl: Howl | null = null
-let ambientPlaying = false
+/* ============================================================
+ * Ambient por ato — 4 trilhas cinematográficas com crossfade.
+ *
+ * - Ato 1 (hook):      briefing room, static rádio, drone baixo
+ * - Ato 2 (quiz):      scanning, heartbeat pulse, hum digital
+ * - Ato 3 (arsenal):   vault opening, synth pad reveal
+ * - Ato 5 (ativação):  pressão, ticking crescendo
+ *
+ * Ato 4 (leaderboard) herda o ambient do ato 3 — mantém clima
+ * de "conquista" sem quebrar o tom. Se preferir silêncio, passa
+ * `null` em `playAmbientPorAto`.
+ * ============================================================ */
 
-export function playAmbient(enabled: boolean, targetVolume = 0.35): void {
-  if (!enabled || typeof window === 'undefined') return
-  if (!ambientHowl) {
-    ambientHowl = new Howl({
-      src: ['/audio/ambient-tension.mp3'],
-      volume: 0,
-      loop: true,
-      html5: true,
-    })
+export type AtoAmbient = 1 | 2 | 3 | 4 | 5
+
+const AMBIENT_SRC: Record<AtoAmbient, string> = {
+  1: '/audio/ambient-ato1.mp3',
+  2: '/audio/ambient-ato2.mp3',
+  3: '/audio/ambient-ato3.mp3',
+  4: '/audio/ambient-ato3.mp3', // herda ato 3
+  5: '/audio/ambient-ato5.mp3',
+}
+
+const AMBIENT_VOLUME: Record<AtoAmbient, number> = {
+  1: 0.32,
+  2: 0.28,
+  3: 0.3,
+  4: 0.3,
+  5: 0.42, // mais alto no ato de pressão
+}
+
+const CROSSFADE_MS = 600
+
+let ambientAtual: { ato: AtoAmbient; howl: Howl } | null = null
+let ambientProximo: Howl | null = null
+let habilitado = false
+
+function criarAmbientHowl(src: string, volumeInicial: number): Howl {
+  return new Howl({
+    src: [src],
+    volume: volumeInicial,
+    loop: true,
+    html5: true,
+    preload: true,
+  })
+}
+
+/**
+ * Troca o ambient pro ato especificado com crossfade.
+ * - Se mesmo ato, não faz nada.
+ * - Se som desabilitado, só registra o desejo de ato (sem tocar).
+ */
+export function playAmbientPorAto(ato: AtoAmbient, enabled: boolean): void {
+  if (typeof window === 'undefined') return
+
+  habilitado = enabled
+
+  // Som off → silencia tudo
+  if (!enabled) {
+    if (ambientAtual) {
+      const { howl } = ambientAtual
+      howl.fade(howl.volume(), 0, 400)
+      window.setTimeout(() => howl.pause(), 420)
+    }
+    return
   }
-  if (ambientPlaying) return
-  ambientPlaying = true
-  ambientHowl.play()
-  ambientHowl.fade(0, targetVolume, 1500)
+
+  // Mesmo ato e já tocando → nada a fazer
+  if (ambientAtual?.ato === ato && ambientAtual.howl.playing()) return
+
+  const src = AMBIENT_SRC[ato]
+  const vol = AMBIENT_VOLUME[ato]
+
+  // Primeira chamada
+  if (!ambientAtual) {
+    const h = criarAmbientHowl(src, 0)
+    h.play()
+    h.fade(0, vol, CROSSFADE_MS)
+    ambientAtual = { ato, howl: h }
+    return
+  }
+
+  // Crossfade: sobe o novo, desce o antigo
+  const antigo = ambientAtual
+  ambientProximo = criarAmbientHowl(src, 0)
+  ambientProximo.play()
+  ambientProximo.fade(0, vol, CROSSFADE_MS)
+  antigo.howl.fade(antigo.howl.volume(), 0, CROSSFADE_MS)
+
+  window.setTimeout(() => {
+    antigo.howl.stop()
+    antigo.howl.unload()
+  }, CROSSFADE_MS + 100)
+
+  ambientAtual = { ato, howl: ambientProximo }
+  ambientProximo = null
+}
+
+/**
+ * Ajusta temporariamente o volume do ambient atual. Útil pra "duckar" durante
+ * a ligação do Agente 0 (voz toma o palco). Passa `null` pra restaurar o padrão.
+ */
+export function setAmbientVolume(vol: number | null): void {
+  if (!ambientAtual || !habilitado) return
+  const volFinal = vol ?? AMBIENT_VOLUME[ambientAtual.ato]
+  ambientAtual.howl.fade(ambientAtual.howl.volume(), volFinal, 400)
+}
+
+/**
+ * Para tudo. Chamado ao desmontar a landing.
+ */
+export function stopAmbient(): void {
+  if (ambientAtual) {
+    ambientAtual.howl.stop()
+    ambientAtual.howl.unload()
+    ambientAtual = null
+  }
+  if (ambientProximo) {
+    ambientProximo.stop()
+    ambientProximo.unload()
+    ambientProximo = null
+  }
+}
+
+/* ============================================================
+ * Compat com API antiga (page.tsx ainda usa).
+ * Redireciona para a nova lógica por ato, mantendo comportamento
+ * básico de liga/desliga sem quebrar chamadas existentes.
+ * ============================================================ */
+
+export function playAmbient(enabled: boolean): void {
+  // Legado: inicia no ato 1 se nenhum ato foi setado ainda.
+  if (!ambientAtual) {
+    playAmbientPorAto(1, enabled)
+  } else {
+    playAmbientPorAto(ambientAtual.ato, enabled)
+  }
 }
 
 export function pauseAmbient(): void {
-  if (!ambientHowl || !ambientPlaying) return
-  const h = ambientHowl
-  h.fade(h.volume(), 0, 600)
-  window.setTimeout(() => {
-    h.pause()
-    ambientPlaying = false
-  }, 620)
-}
-
-export function stopAmbient(): void {
-  if (!ambientHowl) return
-  ambientHowl.stop()
-  ambientPlaying = false
-}
-
-export function setAmbientVolume(vol: number): void {
-  if (!ambientHowl) return
-  ambientHowl.fade(ambientHowl.volume(), vol, 400)
+  if (!ambientAtual) return
+  const { howl } = ambientAtual
+  howl.fade(howl.volume(), 0, 400)
+  window.setTimeout(() => howl.pause(), 420)
 }
