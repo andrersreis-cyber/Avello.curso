@@ -22,20 +22,21 @@ const shareTechMono = Share_Tech_Mono({
   display: 'swap',
 })
 
+// TODO: criar /public/images/og-landing.jpg (1200x630) e plugar em openGraph.images
 export const metadata: Metadata = {
-  title: 'Avello Operador — R$ 59,99/ano · Arsenal completo de IA · 80% off',
+  title: 'avello — 800 operadores ativaram o arsenal nas últimas 72h',
   description:
-    'Arsenal completo de IA por R$ 59,99 o ano (era R$ 297). Atualizações semanais com skills do Claude Code, cases reais e ideias prontas. Acesso imediato. Acaba em 72h.',
+    '3 minutos separam você deles. jornada interativa em 5 atos + leaderboard + atualizações semanais de Claude Code, Skills e MCPs. R$ 59,99/ano.',
   openGraph: {
-    title: 'Avello Operador — Arsenal de IA por R$ 59,99/ano',
+    title: 'avello — arsenal de IA com updates semanais',
     description:
-      '80% off. Atualizações semanais. Skills do Claude Code, cases reais, ideias prontas. 72h.',
+      '5 atos. 3 minutos. 14 mil ferramentas + Claude Code, Skills, MCPs, Projects toda semana. R$ 59,99/ano.',
     type: 'website',
   },
   robots: { index: true, follow: true },
 }
 
-export default function LandingExpressLayout({
+export default function LandingLayout({
   children,
 }: {
   children: React.ReactNode

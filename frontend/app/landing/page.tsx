@@ -1,123 +1,92 @@
 'use client'
 
+/**
+ * Landing express — versão direta, alta-conversão pra cold traffic de Meta Ads.
+ *
+ * NÃO é a versão gameficada (que ficou em /jornada). Esta é uma página de
+ * oferta clássica: hero → benefícios → grupo → preço/timer → FAQ → CTA.
+ *
+ * Pixel: ViewContent dispara na chegada, InitiateCheckout dispara no clique
+ * de qualquer CTA. Purchase dispara em /loja/sucesso (ou /obrigado para
+ * source='landing') após retorno do Stripe.
+ */
+
 import { useCallback, useEffect, useState } from 'react'
-import { ProgressHud } from '@/components/landing-game/hud/progress-hud'
-import { AtoWrapper } from '@/components/landing-game/shared/ato-wrapper'
-import { AchievementToast } from '@/components/landing-game/shared/achievement-toast'
-import { Ato1Hook } from '@/components/landing-game/atos/ato-1-hook'
-import { Ato2Quiz } from '@/components/landing-game/atos/ato-2-quiz'
-import { Ato3Arsenal } from '@/components/landing-game/atos/ato-3-arsenal'
-import { Ato4Leaderboard } from '@/components/landing-game/atos/ato-4-leaderboard'
-import { Ato5Ativacao } from '@/components/landing-game/atos/ato-5-ativacao'
-import { Agente0Modal } from '@/components/landing-game/ligacao/agente-0-modal'
-import { CentralIntel } from '@/components/landing-game/central-intel/central-intel'
-import { useGameStore } from '@/lib/game/store'
-import { calcularNivel, type RespostasQuiz } from '@/lib/game/levels'
+import Link from 'next/link'
 import {
-  playSfx,
-  playAmbientPorAto,
-  pauseAmbient,
-  stopAmbient,
-  setAmbientVolume,
-  type AtoAmbient,
-} from '@/lib/game/sounds'
-import { dispararConfetti } from '@/lib/game/confetti'
-import {
-  trackViewContent,
-  trackLead,
   trackInitiateCheckout,
+  trackViewContent,
 } from '@/lib/game/pixel'
-import { PRECO_OFERTA_REAIS } from '@/lib/game/oferta'
+import {
+  PRECO_OFERTA_REAIS,
+  ITENS_OFERTA,
+  FAQ,
+} from '@/lib/game/oferta'
 
-export default function LandingPage() {
-  const atoAtual = useGameStore((s) => s.atoAtual)
-  const progresso = useGameStore((s) => s.progresso)
-  const nivel = useGameStore((s) => s.nivel)
-  const classe = useGameStore((s) => s.classe)
-  const somAtivo = useGameStore((s) => s.somAtivo)
-  const conquistas = useGameStore((s) => s.conquistas)
-  const xpTotal = useGameStore((s) => s.xpTotal)
-  const hydrated = useGameStore((s) => s.hydrated)
-  const avancarPara = useGameStore((s) => s.avancarPara)
-  const responderQuiz = useGameStore((s) => s.responderQuiz)
-  const atenderLigacao = useGameStore((s) => s.atenderLigacao)
-  const toggleSom = useGameStore((s) => s.toggleSom)
-  const adicionarConquista = useGameStore((s) => s.adicionarConquista)
-  const setNome = useGameStore((s) => s.setNome)
+const PRECO_ORIGINAL = 297 // ancoragem do anúncio (não da oferta diária)
+const COUNTDOWN_HORAS = 72
+const COUNTDOWN_STORAGE_KEY = 'avello_landing_express_countdown_v1'
 
-  const [ligacaoAberta, setLigacaoAberta] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
-  const [erroCheckout, setErroCheckout] = useState<string | null>(null)
+// ────────────────────────────────────────────────────────────
+// helpers
+// ────────────────────────────────────────────────────────────
 
-  const lancarConquista = useCallback(
-    (id: string, rotulo: string) => {
-      if (conquistas.includes(id)) return
-      adicionarConquista(id)
-      setToast(rotulo)
-      playSfx('levelUp', somAtivo)
-    },
-    [adicionarConquista, conquistas, somAtivo],
-  )
+function formatarPreco(reais: number): string {
+  return reais.toFixed(2).replace('.', ',')
+}
 
-  const handleIniciarJornada = useCallback(
-    (nome: string | null) => {
-      if (!somAtivo) toggleSom()
-      playSfx('click', true)
-      setNome(nome)
-      trackViewContent('landing-gameficada-iniciada')
-      lancarConquista('jornada_iniciada', 'jornada iniciada')
-      avancarPara(2)
-    },
-    [avancarPara, lancarConquista, setNome, somAtivo, toggleSom],
-  )
+function calcularSegundosRestantes(): number {
+  if (typeof window === 'undefined') return COUNTDOWN_HORAS * 3600
+  const inicio = window.localStorage.getItem(COUNTDOWN_STORAGE_KEY)
+  const agora = Date.now()
+  if (!inicio) {
+    window.localStorage.setItem(COUNTDOWN_STORAGE_KEY, String(agora))
+    return COUNTDOWN_HORAS * 3600
+  }
+  const decorrido = Math.floor((agora - Number(inicio)) / 1000)
+  const restante = COUNTDOWN_HORAS * 3600 - decorrido
+  return Math.max(0, restante)
+}
 
-  const handleConcluirQuiz = useCallback(
-    (respostas: RespostasQuiz) => {
-      responderQuiz(respostas)
-      const perfil = calcularNivel(respostas)
-      trackLead({ nivel: perfil.nivel, classe: perfil.classe })
-      lancarConquista('diagnostico_completo', 'diagnóstico concluído')
-      setLigacaoAberta(true)
-    },
-    [responderQuiz, lancarConquista],
-  )
+function fmtCountdown(s: number): { h: string; m: string; s: string } {
+  const h = Math.floor(s / 3600)
+  const m = Math.floor((s % 3600) / 60)
+  const sec = s % 60
+  return {
+    h: String(h).padStart(2, '0'),
+    m: String(m).padStart(2, '0'),
+    s: String(sec).padStart(2, '0'),
+  }
+}
 
-  const handleLigacaoAtendida = useCallback(() => {
-    atenderLigacao()
-    lancarConquista('agente_0_atendido', 'agente 0 atendido')
-    setAmbientVolume(0.08)
-  }, [atenderLigacao, lancarConquista])
+// ────────────────────────────────────────────────────────────
+// componente principal
+// ────────────────────────────────────────────────────────────
 
-  const handleLigacaoEncerrada = useCallback(() => {
-    setLigacaoAberta(false)
-    setAmbientVolume(null)
-    avancarPara(3)
-  }, [avancarPara])
+export default function LandingExpressPage() {
+  // Lazy init pra ler localStorage no client e fallback seguro pro SSR.
+  // calcularSegundosRestantes já trata typeof window === 'undefined'.
+  const [countdown, setCountdown] = useState(() => calcularSegundosRestantes())
+  const [carregandoCheckout, setCarregandoCheckout] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
 
-  const handleEntrarAto3 = useCallback(() => {
-    playSfx('whoosh', somAtivo)
-    lancarConquista('arsenal_liberado', 'arsenal liberado')
-  }, [somAtivo, lancarConquista])
+  // Pixel: ViewContent na chegada
+  useEffect(() => {
+    trackViewContent('landing-express')
+  }, [])
 
-  const handleAvancarPara4 = useCallback(() => {
-    avancarPara(4)
-  }, [avancarPara])
+  // Countdown de 72h — só re-tick a cada segundo, valor inicial já vem do useState
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setCountdown(calcularSegundosRestantes())
+    }, 1000)
+    return () => clearInterval(intervalo)
+  }, [])
 
-  const handleEntrarAto4 = useCallback(() => {
-    playSfx('whoosh', somAtivo)
-    lancarConquista('leaderboard_visto', 'leaderboard acessado')
-  }, [somAtivo, lancarConquista])
-
-  const handleAvancarPara5 = useCallback(() => {
-    playSfx('whoosh', somAtivo)
-    avancarPara(5)
-  }, [somAtivo, avancarPara])
-
-  const handleAtivarOperador = useCallback(async () => {
-    playSfx('levelUp', somAtivo)
-    setErroCheckout(null)
+  const irParaCheckout = useCallback(async () => {
+    setErro(null)
+    setCarregandoCheckout(true)
     trackInitiateCheckout(PRECO_OFERTA_REAIS)
-    dispararConfetti()
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
@@ -128,125 +97,313 @@ export default function LandingPage() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        setErroCheckout('erro ao abrir checkout. tenta de novo em 1 minuto.')
+        setErro('Erro ao abrir checkout. Tenta de novo em 1 minuto.')
+        setCarregandoCheckout(false)
       }
     } catch {
-      setErroCheckout('erro ao abrir checkout. tenta de novo em 1 minuto.')
+      setErro('Erro ao abrir checkout. Tenta de novo em 1 minuto.')
+      setCarregandoCheckout(false)
     }
-  }, [somAtivo])
+  }, [])
 
-  // Ambient sonoro cinematográfico muda com o ato. Crossfade suave entre eles.
-  // Só dispara depois que o usuário ativou som (gesto explícito => permite autoplay).
-  useEffect(() => {
-    if (!somAtivo) {
-      pauseAmbient()
-      return
-    }
-    // Ato 0 (não iniciado) cai pro 1 (hook). Tudo entre 1-5 tem ambient próprio.
-    const atoAmbient = (atoAtual >= 1 && atoAtual <= 5
-      ? atoAtual
-      : 1) as AtoAmbient
-    playAmbientPorAto(atoAmbient, true)
-    return () => {
-      // Ao desmontar a page (ex: navegar pra outra rota), para tudo.
-      stopAmbient()
-    }
-  }, [somAtivo, atoAtual])
-
-  // Duck o ambient enquanto a ligação tá aberta (voz do agente ganha o palco).
-  useEffect(() => {
-    if (!somAtivo) return
-    setAmbientVolume(ligacaoAberta ? 0.08 : null)
-  }, [ligacaoAberta, somAtivo])
-
-  if (!hydrated) {
-    return (
-      <main
-        className="min-h-dvh bg-zinc-950 text-zinc-50 flex items-center justify-center"
-        aria-label="carregando jornada"
-      >
-        <div className="font-hud text-xs uppercase tracking-[0.3em] text-neon-cyan animate-pulse">
-          inicializando...
-        </div>
-      </main>
-    )
-  }
+  const cd = fmtCountdown(countdown)
 
   return (
-    <main className="relative min-h-dvh bg-zinc-950 text-zinc-50 font-exo2">
-      <ProgressHud
-        progresso={progresso}
-        nivel={nivel}
-        classe={classe}
-        somAtivo={somAtivo}
-        xpTotal={xpTotal}
-        onToggleSom={toggleSom}
-      />
-
-      <AchievementToast label={toast} onDismiss={() => setToast(null)} />
-
-      {erroCheckout && (
-        <div
-          role="alert"
-          aria-live="assertive"
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] max-w-md mx-auto px-4 w-full"
-        >
-          <div className="flex items-start gap-3 rounded-xl border border-orange-500/50 bg-zinc-900/95 backdrop-blur-md px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-            <div className="flex-1 text-sm text-orange-200 font-exo2">
-              {erroCheckout}
-            </div>
-            <button
-              type="button"
-              onClick={() => setErroCheckout(null)}
-              aria-label="fechar aviso de erro"
-              className="text-zinc-400 hover:text-zinc-200 transition-colors font-hud text-xs uppercase tracking-wider cursor-pointer"
-            >
-              fechar
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="pt-14">
-        <AtoWrapper atoId={1} atoAtual={atoAtual}>
-          <Ato1Hook onAvancar={handleIniciarJornada} />
-        </AtoWrapper>
-
-        <AtoWrapper atoId={2} atoAtual={atoAtual}>
-          <Ato2Quiz onConcluir={handleConcluirQuiz} somAtivo={somAtivo} />
-        </AtoWrapper>
-
-        <AtoWrapper atoId={3} atoAtual={atoAtual}>
-          <Ato3Arsenal
-            onEntrar={handleEntrarAto3}
-            onAvancar={handleAvancarPara4}
-            somAtivo={somAtivo}
-          />
-        </AtoWrapper>
-
-        {atoAtual >= 3 && <CentralIntel />}
-
-        <AtoWrapper atoId={4} atoAtual={atoAtual}>
-          <Ato4Leaderboard
-            onEntrar={handleEntrarAto4}
-            onAvancar={handleAvancarPara5}
-            somAtivo={somAtivo}
-          />
-        </AtoWrapper>
-
-        <AtoWrapper atoId={5} atoAtual={atoAtual}>
-          <Ato5Ativacao onAtivar={handleAtivarOperador} />
-        </AtoWrapper>
+    <main className="min-h-dvh bg-zinc-950 text-zinc-50 font-exo2 overflow-x-hidden">
+      {/* ──────────── Top banner ──────────── */}
+      <div className="bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 text-white text-center py-2 text-xs sm:text-sm font-semibold tracking-wide font-share-tech-mono">
+        🔓 ARSENAL LIBERADO · OFERTA TERMINA EM {cd.h}:{cd.m}:{cd.s}
       </div>
 
-      <Agente0Modal
-        aberto={ligacaoAberta}
-        nivel={nivel}
-        classe={classe}
-        somAtivo={somAtivo}
-        onAtendida={handleLigacaoAtendida}
-        onEncerrar={handleLigacaoEncerrada}
-      />
+      {/* ──────────── Header ──────────── */}
+      <header className="px-6 py-5 max-w-6xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+            <span className="text-white font-bold text-sm font-orbitron">A</span>
+          </div>
+          <span className="font-orbitron font-semibold tracking-wider text-lg">avello</span>
+        </div>
+        <Link
+          href="/login"
+          className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors"
+        >
+          já é membro? entrar
+        </Link>
+      </header>
+
+      {/* ──────────── HERO ──────────── */}
+      <section className="px-6 pt-8 sm:pt-16 pb-12 max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 text-xs font-share-tech-mono tracking-widest mb-8">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          SINAL INTERCEPTADO · 72H
+        </div>
+
+        <h1 className="font-orbitron font-bold text-4xl sm:text-5xl md:text-6xl leading-tight mb-6">
+          Arsenal completo de IA por{' '}
+          <span className="text-cyan-400">R$ {formatarPreco(PRECO_OFERTA_REAIS)}</span> o ano.
+        </h1>
+
+        <p className="text-lg sm:text-xl text-zinc-300 mb-3 max-w-2xl mx-auto">
+          Era R$ {PRECO_ORIGINAL}. <span className="text-cyan-400 font-semibold">80% off</span>. Acaba em 72h. Depois volta pro preço cheio.
+        </p>
+
+        <p className="text-base text-zinc-400 mb-10 max-w-2xl mx-auto">
+          Você não compra só uma plataforma — entra num canal aberto que recebe, toda semana,
+          as <span className="text-zinc-200">skills do Claude Code mais usadas</span>,{' '}
+          <span className="text-zinc-200">cases reais de projetos</span> e{' '}
+          <span className="text-zinc-200">ideias prontas pra implementar</span>.
+        </p>
+
+        <button
+          type="button"
+          onClick={irParaCheckout}
+          disabled={carregandoCheckout}
+          className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide w-full sm:w-auto"
+        >
+          {carregandoCheckout ? 'abrindo checkout...' : `Ativar arsenal — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}/ano`}
+        </button>
+
+        <p className="text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
+          acesso imediato · garantia 7 dias · cartão à vista ou parcelado
+        </p>
+
+        {erro && (
+          <div className="mt-6 mx-auto max-w-md px-4 py-3 rounded-xl border border-orange-500/50 bg-orange-500/10 text-orange-200 text-sm">
+            {erro}
+          </div>
+        )}
+      </section>
+
+      {/* ──────────── O grupo (DIFERENCIAL DO ANÚNCIO) ──────────── */}
+      <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 via-cyan-950/10 to-zinc-950">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
+              o diferencial
+            </p>
+            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
+              O grupo é o arsenal real.
+            </h2>
+            <p className="text-zinc-400 max-w-2xl mx-auto">
+              Enquanto a galera tá descobrindo IA no YouTube,
+              você tá vendo o que tá pegando AGORA — direto do grupo, toda semana.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              {
+                titulo: 'Skills do Claude Code',
+                desc: 'As mais usadas, organizadas. Sem garimpo em newsletter.',
+              },
+              {
+                titulo: 'Cases reais',
+                desc: 'Projetos rodando agora. Quanto custou, quanto rendeu, como foi feito.',
+              },
+              {
+                titulo: 'Ideias prontas',
+                desc: 'Pra você implementar e cobrar. Com prompt e fluxo já mapeado.',
+              },
+            ].map((item) => (
+              <div
+                key={item.titulo}
+                className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-sm hover:border-cyan-500/40 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mb-4">
+                  <span className="text-cyan-400 font-bold font-orbitron">▸</span>
+                </div>
+                <h3 className="font-orbitron font-semibold text-lg mb-2">{item.titulo}</h3>
+                <p className="text-sm text-zinc-400">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────── O que tá dentro ──────────── */}
+      <section className="px-6 py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
+              tudo desbloqueado
+            </p>
+            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
+              O que entra no arsenal
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+            {ITENS_OFERTA.map((item, i) => (
+              <div
+                key={i}
+                className={`flex items-start gap-3 px-4 py-3 rounded-xl ${
+                  item.destaque
+                    ? 'bg-cyan-500/10 border border-cyan-500/30'
+                    : 'bg-zinc-900/50 border border-zinc-800'
+                }`}
+              >
+                <span
+                  className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
+                    item.destaque ? 'bg-cyan-500' : 'bg-zinc-700'
+                  }`}
+                >
+                  <svg
+                    className="w-3 h-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span
+                  className={`text-sm ${
+                    item.destaque ? 'text-cyan-100 font-medium' : 'text-zinc-300'
+                  }`}
+                >
+                  {item.texto}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────── Comparação de preço + timer ──────────── */}
+      <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900/40">
+        <div className="max-w-2xl mx-auto">
+          <div className="rounded-3xl border-2 border-cyan-500/40 bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 sm:p-10 shadow-[0_8px_64px_rgba(6,182,212,0.2)]">
+            <p className="text-center text-xs font-share-tech-mono tracking-widest uppercase text-cyan-400 mb-6">
+              oferta de lançamento
+            </p>
+
+            <div className="text-center mb-8">
+              <p className="text-zinc-500 text-sm mb-2">era</p>
+              <p className="text-3xl text-zinc-500 line-through font-orbitron mb-1">
+                R$ {PRECO_ORIGINAL}
+              </p>
+              <p className="text-zinc-400 text-sm mb-4">agora</p>
+              <p className="font-orbitron font-bold text-6xl sm:text-7xl text-cyan-400 mb-2">
+                R$ {formatarPreco(PRECO_OFERTA_REAIS)}
+              </p>
+              <p className="text-zinc-400 text-sm">12 meses · pagamento único</p>
+            </div>
+
+            {/* Timer */}
+            <div className="mb-8 rounded-2xl bg-zinc-950/60 border border-zinc-800 p-5">
+              <p className="text-center text-xs font-share-tech-mono tracking-widest uppercase text-zinc-400 mb-3">
+                a oferta acaba em
+              </p>
+              <div className="flex justify-center gap-3 sm:gap-6">
+                {[
+                  { v: cd.h, l: 'horas' },
+                  { v: cd.m, l: 'min' },
+                  { v: cd.s, l: 'seg' },
+                ].map((b) => (
+                  <div key={b.l} className="text-center">
+                    <div className="font-orbitron font-bold text-3xl sm:text-4xl text-cyan-400 tabular-nums">
+                      {b.v}
+                    </div>
+                    <div className="text-[10px] text-zinc-500 font-share-tech-mono tracking-widest uppercase mt-1">
+                      {b.l}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={irParaCheckout}
+              disabled={carregandoCheckout}
+              className="w-full inline-flex items-center justify-center gap-3 px-8 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide"
+            >
+              {carregandoCheckout ? 'abrindo checkout...' : `Quero o arsenal — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}`}
+            </button>
+
+            <p className="text-center text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
+              acesso imediato · garantia 7 dias · stripe
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────── FAQ ──────────── */}
+      <section className="px-6 py-16">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
+              perguntas que todo mundo faz
+            </p>
+            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
+              FAQ
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {FAQ.map((q) => (
+              <details
+                key={q.pergunta}
+                className="group rounded-xl border border-zinc-800 bg-zinc-900/40 hover:border-cyan-500/40 transition-colors overflow-hidden"
+              >
+                <summary className="cursor-pointer px-5 py-4 flex items-center justify-between gap-4 list-none">
+                  <span className="font-medium text-zinc-200">{q.pergunta}</span>
+                  <span className="shrink-0 text-cyan-400 group-open:rotate-45 transition-transform font-orbitron text-xl">
+                    +
+                  </span>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-zinc-400 leading-relaxed">
+                  {q.resposta}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────── CTA final ──────────── */}
+      <section className="px-6 py-20 bg-gradient-to-b from-zinc-950 via-cyan-950/20 to-zinc-950">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
+            Câmbio. 🔓
+          </h2>
+          <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
+            12 meses de arsenal por R$ {formatarPreco(PRECO_OFERTA_REAIS)}. Quando o timer zera, volta pra R$ {PRECO_ORIGINAL}. Decisão é tua.
+          </p>
+
+          <button
+            type="button"
+            onClick={irParaCheckout}
+            disabled={carregandoCheckout}
+            className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide w-full sm:w-auto"
+          >
+            {carregandoCheckout ? 'abrindo checkout...' : `Ativar agora — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}`}
+          </button>
+
+          <p className="text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
+            72 horas · 80% off · acesso imediato
+          </p>
+        </div>
+      </section>
+
+      {/* ──────────── Footer ──────────── */}
+      <footer className="px-6 py-10 border-t border-zinc-900">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <p>© Avello · arsenal de IA</p>
+          <div className="flex items-center gap-5">
+            <Link href="/termos" className="hover:text-cyan-400 transition-colors">
+              termos
+            </Link>
+            <Link href="/privacidade" className="hover:text-cyan-400 transition-colors">
+              privacidade
+            </Link>
+            <Link href="/jornada" className="hover:text-cyan-400 transition-colors">
+              jornada interativa
+            </Link>
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }

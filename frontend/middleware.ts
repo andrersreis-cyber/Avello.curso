@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession()
 
   // Rotas públicas (não precisam de autenticação)
-  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/oferta-especial', '/landing', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro', '/obrigado']
+  const publicRoutes = ['/login', '/cadastro', '/escolher-plano', '/oferta-especial', '/landing', '/jornada', '/api', '/auth', '/recuperar-senha', '/redefinir-senha', '/termos', '/privacidade', '/completar-cadastro', '/obrigado']
   const isPublicRoute = publicRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
   // Se está logado
   if (session) {
     // Se tenta acessar login/cadastro/landing, redireciona para home
-    if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro' || request.nextUrl.pathname === '/landing') {
+    if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/cadastro' || request.nextUrl.pathname === '/landing' || request.nextUrl.pathname === '/jornada') {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       return NextResponse.redirect(url)

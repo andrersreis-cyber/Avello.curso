@@ -36,11 +36,11 @@ export default function LandingError({
             Tentar novamente
           </button>
           <Link
-            href="/landing"
+            href="/jornada"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-medium transition-colors"
           >
             <Home className="w-5 h-5" />
-            Ir para início
+            Voltar à jornada
           </Link>
         </div>
       </div>
