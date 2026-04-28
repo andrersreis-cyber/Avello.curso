@@ -33,9 +33,13 @@ export async function POST(request: NextRequest) {
     const cancelPath =
       source === 'landing' ? `/landing` : `/oferta-especial?plano=${productId}`
 
+    const isOneTime = product.type !== 'subscription'
+
     const sessionConfig: any = {
-      payment_method_types: ['card'],
-      billing_address_collection: 'required',
+      // PIX só funciona em modo payment (cobrança única), não em subscription
+      payment_method_types: isOneTime ? ['card', 'pix'] : ['card'],
+      // Endereço obrigatório só para cartão; PIX não precisa
+      billing_address_collection: isOneTime ? 'auto' : 'required',
       success_url: `${origin}${successPath}`,
       cancel_url: `${origin}${cancelPath}`,
       line_items: [
@@ -52,7 +56,7 @@ export async function POST(request: NextRequest) {
     if (customerEmail && typeof customerEmail === 'string') {
       sessionConfig.customer_email = customerEmail
     }
-    
+
     // Define o modo baseado no tipo de produto
     if (product.type === 'subscription') {
       sessionConfig.mode = 'subscription'

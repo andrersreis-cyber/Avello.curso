@@ -14,7 +14,7 @@ export const getStripe = () => {
 const STRIPE_PRICE_IDS_LIVE = {
   starter: 'price_1T96RtHFr5u9PsVJDnXC0vR4',
   lowtik: 'price_1Sv50RHFr5u9PsVJJkc1AV1O',
-  operador_anual: 'price_1TPfSiHFr5u9PsVJD1vvdu2Y',
+  operador_anual: 'price_1TRGVBHFr5u9PsVJ18QiNpAV',
   consultoria: 'price_1Sv50SHFr5u9PsVJLJbKqfmR',
   setup_n8n: 'price_1Sv50SHFr5u9PsVJce95MAwD',
   pack_premium: 'price_1Sv50THFr5u9PsVJEFZ6OTfk',
@@ -26,7 +26,7 @@ const STRIPE_PRICE_IDS_LIVE = {
 // Os demais herdam o live (nunca vão ser comprados em teste via landing).
 const STRIPE_PRICE_IDS_TEST: typeof STRIPE_PRICE_IDS_LIVE = {
   ...STRIPE_PRICE_IDS_LIVE,
-  operador_anual: 'price_1TPnzXHFr5u9PsVJejzqFxHs',
+  operador_anual: 'price_1TRGVBHFr5u9PsVJ18QiNpAV',
 }
 
 // Lê STRIPE_MODE no lado do cliente via NEXT_PUBLIC_STRIPE_MODE (opcional)
@@ -87,7 +87,7 @@ export const products = {
     highlight: true,
   },
 
-  // Oferta da landing gameficada — R$ 59,99/ano (Operador Completo)
+  // Oferta da landing — R$ 59,99/ano (Operador Completo) — cobrança única, PIX habilitado
   operador_anual: {
     id: 'operador_anual',
     name: 'Operador Completo',
@@ -95,8 +95,7 @@ export const products = {
       'Acesso anual ao arsenal Avello: 14 mil ferramentas IA, 9 módulos, 30 SaaS white label.',
     price: 5999, // em centavos (R$ 59,99)
     currency: 'brl',
-    type: 'subscription' as ProductType,
-    interval: 'year' as const,
+    type: 'one_time' as ProductType,
     features: [
       'Todos os 9 módulos desbloqueados',
       '3.500 prompts ChatGPT',
