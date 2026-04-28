@@ -36,8 +36,9 @@ export async function POST(request: NextRequest) {
     const isOneTime = product.type !== 'subscription'
 
     const sessionConfig: any = {
-      // PIX só funciona em modo payment (cobrança única), não em subscription
-      payment_method_types: isOneTime ? ['card', 'pix'] : ['card'],
+      // PIX será adicionado após ativação completa no Stripe Dashboard
+      // (dashboard.stripe.com/account/payments/settings → PIX → Ativar)
+      payment_method_types: ['card'],
       // Endereço obrigatório só para cartão; PIX não precisa
       billing_address_collection: isOneTime ? 'auto' : 'required',
       success_url: `${origin}${successPath}`,
