@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { trackViewContent } from '@/lib/game/pixel'
 import { UrgencyBanner } from '@/components/landing/urgency-banner'
 import { HeroSection } from '@/components/landing/hero-section'
 import { DemoSection } from '@/components/landing/demo-section'
@@ -25,6 +26,9 @@ export default function LandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [stickyCtaVisible, setStickyCtaVisible] = useState(false)
   const [precosInView, setPrecosInView] = useState(false)
+
+  // Pixel: dispara ViewContent ao entrar na landing
+  useEffect(() => { trackViewContent('landing-classica') }, [])
 
   // Sticky CTA: visível após 500px scroll, esconde quando #precos está na viewport
   useEffect(() => {

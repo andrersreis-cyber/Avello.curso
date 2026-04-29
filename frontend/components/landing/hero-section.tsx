@@ -1,9 +1,36 @@
 'use client'
 
-import Link from 'next/link'
+import { useState } from 'react'
 import { Zap, ArrowRight } from 'lucide-react'
 
+async function irParaCheckout() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'InitiateCheckout', {
+      value: 59.99, currency: 'BRL', content_name: 'Operador Anual',
+    })
+  }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
+    })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+  } catch {
+    window.location.href = '/loja'
+  }
+}
+
 export function HeroSection() {
+  const [loading, setLoading] = useState(false)
+
+  const handleCheckout = async () => {
+    setLoading(true)
+    await irParaCheckout()
+    setLoading(false)
+  }
+
   return (
     <section className="pt-32 pb-20 relative overflow-hidden">
       {/* Background gradients */}
@@ -34,38 +61,45 @@ export function HeroSection() {
           Biblioteca pronta para vender automações, implementar chatbots e usar IA com velocidade. Escolha um recurso, personalize para seu nicho e monetize — sem começar do zero.
         </p>
 
-        {/* CTA Principal único */}
+        {/* Progressão de preço — narrativa de escassez */}
+        <div className="flex items-center justify-center gap-3 mb-5">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700">
+            <span className="text-xs text-zinc-500 line-through">R$39</span>
+            <span className="text-xs text-zinc-600">fundadores</span>
+          </div>
+          <span className="text-zinc-600">→</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/40">
+            <span className="text-xs font-bold text-cyan-400">R$59,99</span>
+            <span className="text-xs text-cyan-500">agora</span>
+          </div>
+          <span className="text-zinc-600">→</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700">
+            <span className="text-xs text-zinc-500">R$99</span>
+            <span className="text-xs text-zinc-600">após 1.000 membros</span>
+          </div>
+        </div>
+
+        {/* CTA Principal */}
         <div className="flex flex-col items-center gap-3 mb-8">
-          <Link
-            href="/loja"
-            onClick={() => {
-              if (window.fbq) {
-                window.fbq('track', 'Lead', {
-                  content_name: 'CTA Premium (Hero)',
-                  content_category: 'Landing Page'
-                })
-              }
-            }}
-            className="group relative flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
+          <button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="group relative flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
           >
-            {/* Badge -60% OFF */}
             <span className="absolute -top-3 -right-3 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
-              -60% OFF
+              -40% OFF
             </span>
             <Zap className="w-6 h-6" />
             <span className="flex flex-col items-start leading-tight">
-              <span className="text-white/60 text-sm font-medium line-through">R$ 97/ano</span>
-              <span>Acesso Completo — R$ 39/ano</span>
+              <span className="text-white/60 text-sm font-medium line-through">R$ 99/ano</span>
+              <span>{loading ? 'Abrindo checkout...' : 'Acesso Completo — R$ 59,99/ano'}</span>
             </span>
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </button>
 
-          <Link
-            href="/cadastro"
-            className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-4"
-          >
-            Ou começar pelo Starter — R$ 14,90/ano
-          </Link>
+          <p className="text-xs text-zinc-500">
+            Garantia 7 dias · Acesso imediato · Cancele quando quiser
+          </p>
         </div>
 
         {/* Microcopy + Tech stack - em destaque */}

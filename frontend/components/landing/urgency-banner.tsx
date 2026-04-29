@@ -118,7 +118,11 @@ export function UrgencyBanner() {
             </div>
 
             <p className="hidden sm:block text-sm text-white font-medium whitespace-nowrap">
-              R$39/ano → sobe para R$97 após 1.000 membros
+              <span className="line-through opacity-60">R$39</span>
+              {' → '}
+              <span className="font-bold">R$59,99</span>
+              {' → '}
+              <span className="opacity-80">R$99 após 1.000 membros</span>
             </p>
           </div>
 

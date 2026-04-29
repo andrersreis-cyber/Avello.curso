@@ -1,7 +1,26 @@
 'use client'
 
-import Link from 'next/link'
+import { useState } from 'react'
 import { DollarSign, Rocket, Target, TrendingUp, Zap } from 'lucide-react'
+
+async function irParaCheckout() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'InitiateCheckout', {
+      value: 59.99, currency: 'BRL', content_name: 'Operador Anual',
+    })
+  }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
+    })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+  } catch {
+    window.location.href = '/loja'
+  }
+}
 
 const opportunities = [
   {
@@ -46,6 +65,14 @@ const opportunities = [
 ]
 
 export function MoneyMakingSection() {
+  const [loading, setLoading] = useState(false)
+
+  const handleCheckout = async () => {
+    setLoading(true)
+    await irParaCheckout()
+    setLoading(false)
+  }
+
   return (
     <section className="py-20 bg-zinc-950 relative overflow-hidden">
       {/* Background decoration */}
@@ -129,31 +156,16 @@ export function MoneyMakingSection() {
 
         {/* CTA */}
         <div className="text-center">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/loja"
-              onClick={() => {
-                if (typeof window !== 'undefined' && window.fbq) {
-                  window.fbq('track', 'Lead', {
-                    content_name: 'CTA Premium (Money Making)',
-                    content_category: 'Landing Page'
-                  })
-                }
-              }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
-            >
-              <Zap className="w-5 h-5" />
-              Desbloquear tudo — R$ 39/ano
-            </Link>
-            <Link
-              href="/cadastro"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] text-zinc-400 hover:text-white transition-colors"
-            >
-              Ou começar por R$ 14,90
-            </Link>
-          </div>
+          <button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+          >
+            <Zap className="w-5 h-5" />
+            {loading ? 'Abrindo checkout...' : 'Desbloquear tudo — R$ 59,99/ano'}
+          </button>
           <p className="text-sm text-zinc-500 mt-4">
-            R$ 39 = menos que 1 projeto. O resto é lucro puro.
+            R$ 59,99 = menos que 1 projeto. O resto é lucro puro.
           </p>
         </div>
       </div>

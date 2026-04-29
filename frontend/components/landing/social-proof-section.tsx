@@ -1,8 +1,28 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
-import { Star } from 'lucide-react'
+import { Star, Zap } from 'lucide-react'
 import { VideoThumbnail } from './video-testimonial-modal'
+
+async function irParaCheckout() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'InitiateCheckout', {
+      value: 59.99, currency: 'BRL', content_name: 'Operador Anual',
+    })
+  }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
+    })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+  } catch {
+    window.location.href = '/loja'
+  }
+}
 
 const whatsappTestimonials = [
   {
@@ -10,39 +30,52 @@ const whatsappTestimonials = [
     image: '/images/social-proof/gustavo.png',
     highlight: '"É um atalho pronto... Depois que entrei, fiquei de bobeira."',
     role: 'Empreendedor',
-    caseStudy: 'Explorou templates n8n e chatbots para acelerar projetos'
+    caseStudy: 'Explorou templates n8n e chatbots para acelerar projetos',
+    badge: null,
   },
   {
     name: 'Vitória',
     image: '/images/social-proof/vitoria.png',
     highlight: '"Cobrei R$250, paguei R$39... Já pagou a plataforma no primeiro job"',
     role: 'Freelancer',
-    caseStudy: 'Pegou um template n8n e vendeu automação por R$ 500'
+    caseStudy: 'Entrou quando ainda era R$39 — hoje já está em R$59,99',
+    badge: '⚡ Entrou por R$39'
   },
   {
     name: 'Matheus',
     image: '/images/social-proof/matheus.png',
     highlight: '"Cobrei R$500 + R$300/mês... Tá muito barato, R$39 no plano anual"',
     role: 'Desenvolvedor',
-    caseStudy: 'Adaptou chatbot e implementou em cliente local'
+    caseStudy: 'Entrou quando ainda era R$39 — hoje já está em R$59,99',
+    badge: '⚡ Entrou por R$39'
   },
   {
     name: 'Cliente',
     image: '/images/demo/prova-social-1.png',
     highlight: '"Isso não é gasto nem investimento. Mudei a forma de trampar. Organização e tudo!"',
     role: 'WhatsApp',
-    caseStudy: 'Usou templates para organizar operação e atendimento'
+    caseStudy: 'Usou templates para organizar operação e atendimento',
+    badge: null,
   },
   {
     name: 'Cliente',
     image: '/images/demo/prova-social-2.png',
     highlight: '"Muito surpreso com a quantidade de coisa boa. Essa SaaS roda perfeito. Automatizei meus canais de corte no YouTube"',
     role: 'WhatsApp',
-    caseStudy: 'Usou white-label para criar oferta recorrente'
+    caseStudy: 'Usou white-label para criar oferta recorrente',
+    badge: null,
   }
 ]
 
 export function SocialProofSection() {
+  const [loading, setLoading] = useState(false)
+
+  const handleCheckout = async () => {
+    setLoading(true)
+    await irParaCheckout()
+    setLoading(false)
+  }
+
   return (
     <section className="py-20 bg-zinc-900/50">
       <div className="max-w-6xl mx-auto px-6">
@@ -71,6 +104,12 @@ export function SocialProofSection() {
               <div className="absolute top-3 left-3 px-2 py-1 bg-green-500 text-white text-xs font-bold rounded z-10">
                 WhatsApp
               </div>
+              {/* Badge de preço antigo */}
+              {testimonial.badge && (
+                <div className="absolute top-3 right-3 px-2 py-1 bg-orange-500/90 text-white text-xs font-bold rounded z-10">
+                  {testimonial.badge}
+                </div>
+              )}
 
               {/* Image */}
               <div className="relative w-full aspect-[9/19.5]">
@@ -113,31 +152,20 @@ export function SocialProofSection() {
 
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
-          <p className="text-zinc-400 mb-4">
-            Junte-se aos empreendedores que já estão lucrando com a Avello
+          <p className="text-zinc-400 mb-2">
+            Junte-se a quem já está lucrando com a Avello
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/loja"
-              onClick={() => {
-                if (typeof window !== 'undefined' && window.fbq) {
-                  window.fbq('track', 'Lead', {
-                    content_name: 'CTA Premium (Social Proof)',
-                    content_category: 'Landing Page'
-                  })
-                }
-              }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
-            >
-              Acesso Completo — R$ 39/ano
-            </a>
-            <a
-              href="/cadastro"
-              className="inline-flex items-center justify-center py-3 min-h-[44px] text-zinc-400 hover:text-white transition-colors"
-            >
-              Ou começar por R$ 14,90
-            </a>
-          </div>
+          <p className="text-sm text-orange-400 font-medium mb-5">
+            Vitória e Matheus entraram por R$39. Hoje está em R$59,99. Próxima virada: R$99.
+          </p>
+          <button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+          >
+            <Zap className="w-5 h-5" />
+            {loading ? 'Abrindo checkout...' : 'Garantir por R$59,99 — antes de virar R$99'}
+          </button>
         </div>
       </div>
     </section>
