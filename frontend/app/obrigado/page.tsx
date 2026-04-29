@@ -74,6 +74,10 @@ function ObrigadoContent() {
           return
         }
         setSession({ email: email.toLowerCase().trim(), paymentStatus })
+        // Dispara Purchase no Pixel Meta apenas para pagamentos confirmados
+        if (paymentStatus === 'paid' && typeof window !== 'undefined' && window.avelloPixel) {
+          window.avelloPixel.purchase('Avello Operador Anual', 59.99)
+        }
       })
       .catch(() => {
         if (!cancelado) setErroSession('não consegui validar sua compra. tenta recarregar a página.')
