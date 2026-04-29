@@ -4,17 +4,6 @@ const nextConfig: NextConfig = {
   // Otimizações de produção
   poweredByHeader: false,
 
-  // Redirects
-  async redirects() {
-    return [
-      {
-        source: '/landing',
-        destination: '/jornada',
-        permanent: false,
-      },
-    ]
-  },
-  
   // Output para Netlify
   output: 'standalone',
   

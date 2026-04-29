@@ -1,360 +1,228 @@
 'use client'
 
-/**
- * Landing express — versão direta, alta-conversão pra cold traffic de Meta Ads.
- *
- * NÃO é a versão gameficada (que ficou em /jornada). Esta é uma página de
- * oferta clássica: hero → benefícios → grupo → preço/timer → FAQ → CTA.
- *
- * Pixel: ViewContent dispara na chegada, InitiateCheckout dispara no clique
- * de qualquer CTA. Purchase dispara em /loja/sucesso (ou /obrigado para
- * source='landing') após retorno do Stripe.
- */
-
-import { useCallback, useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import {
-  trackInitiateCheckout,
-  trackViewContent,
-} from '@/lib/game/pixel'
-import {
-  PRECO_OFERTA_REAIS,
-  ITENS_OFERTA,
-  FAQ,
-} from '@/lib/game/oferta'
+import { UrgencyBanner } from '@/components/landing/urgency-banner'
+import { HeroSection } from '@/components/landing/hero-section'
+import { DemoSection } from '@/components/landing/demo-section'
+import { ModulesShowcase } from '@/components/landing/modules-showcase'
+import { MoneyMakingSection } from '@/components/landing/money-making-section'
+import { PremiumComparison } from '@/components/landing/premium-comparison'
+import { HowItWorksSection } from '@/components/landing/how-it-works-section'
+import { SocialProofSection } from '@/components/landing/social-proof-section'
+import { Zap, Shield, Star, Menu, X } from 'lucide-react'
 
-const PRECO_ORIGINAL = 297 // ancoragem do anúncio (não da oferta diária)
-const COUNTDOWN_HORAS = 72
-const COUNTDOWN_STORAGE_KEY = 'avello_landing_express_countdown_v1'
+const NAV_LINKS = [
+  { href: '#como-funciona', label: 'Como funciona', ariaLabel: 'Ir para seção Como Funciona' },
+  { href: '#demo', label: 'Demo', ariaLabel: 'Ir para seção Demo' },
+  { href: '#recursos', label: 'Recursos', ariaLabel: 'Ir para seção Recursos' },
+  { href: '#precos', label: 'Preços', ariaLabel: 'Ir para seção Preços' },
+  { href: '#depoimentos', label: 'Depoimentos', ariaLabel: 'Ir para seção Depoimentos' },
+]
 
-// ────────────────────────────────────────────────────────────
-// helpers
-// ────────────────────────────────────────────────────────────
+export default function LandingPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [stickyCtaVisible, setStickyCtaVisible] = useState(false)
+  const [precosInView, setPrecosInView] = useState(false)
 
-function formatarPreco(reais: number): string {
-  return reais.toFixed(2).replace('.', ',')
-}
-
-function calcularSegundosRestantes(): number {
-  if (typeof window === 'undefined') return COUNTDOWN_HORAS * 3600
-  const inicio = window.localStorage.getItem(COUNTDOWN_STORAGE_KEY)
-  const agora = Date.now()
-  if (!inicio) {
-    window.localStorage.setItem(COUNTDOWN_STORAGE_KEY, String(agora))
-    return COUNTDOWN_HORAS * 3600
-  }
-  const decorrido = Math.floor((agora - Number(inicio)) / 1000)
-  const restante = COUNTDOWN_HORAS * 3600 - decorrido
-  return Math.max(0, restante)
-}
-
-function fmtCountdown(s: number): { h: string; m: string; s: string } {
-  const h = Math.floor(s / 3600)
-  const m = Math.floor((s % 3600) / 60)
-  const sec = s % 60
-  return {
-    h: String(h).padStart(2, '0'),
-    m: String(m).padStart(2, '0'),
-    s: String(sec).padStart(2, '0'),
-  }
-}
-
-// ────────────────────────────────────────────────────────────
-// componente principal
-// ────────────────────────────────────────────────────────────
-
-export default function LandingExpressPage() {
-  // Lazy init pra ler localStorage no client e fallback seguro pro SSR.
-  // calcularSegundosRestantes já trata typeof window === 'undefined'.
-  const [countdown, setCountdown] = useState(() => calcularSegundosRestantes())
-  const [carregandoCheckout, setCarregandoCheckout] = useState(false)
-  const [erro, setErro] = useState<string | null>(null)
-
-  // Pixel: ViewContent na chegada
+  // Sticky CTA: visível após 500px scroll, esconde quando #precos está na viewport
   useEffect(() => {
-    trackViewContent('landing-express')
-  }, [])
-
-  // Countdown de 72h — só re-tick a cada segundo, valor inicial já vem do useState
-  useEffect(() => {
-    const intervalo = setInterval(() => {
-      setCountdown(calcularSegundosRestantes())
-    }, 1000)
-    return () => clearInterval(intervalo)
-  }, [])
-
-  const irParaCheckout = useCallback(async () => {
-    setErro(null)
-    setCarregandoCheckout(true)
-    trackInitiateCheckout(PRECO_OFERTA_REAIS)
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
-      })
-      const data = (await res.json()) as { url?: string; error?: string }
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        setErro('Erro ao abrir checkout. Tenta de novo em 1 minuto.')
-        setCarregandoCheckout(false)
-      }
-    } catch {
-      setErro('Erro ao abrir checkout. Tenta de novo em 1 minuto.')
-      setCarregandoCheckout(false)
+    const handleScroll = () => setStickyCtaVisible(typeof window !== 'undefined' && window.scrollY > 500)
+    const el = typeof document !== 'undefined' ? document.getElementById('precos') : null
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setPrecosInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
     }
   }, [])
 
-  const cd = fmtCountdown(countdown)
+  const showStickyCta = stickyCtaVisible && !precosInView
 
   return (
-    <main className="min-h-dvh bg-zinc-950 text-zinc-50 font-exo2 overflow-x-hidden">
-      {/* ──────────── Top banner ──────────── */}
-      <div className="bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 text-white text-center py-2 text-xs sm:text-sm font-semibold tracking-wide font-share-tech-mono">
-        🔓 ARSENAL LIBERADO · OFERTA TERMINA EM {cd.h}:{cd.m}:{cd.s}
+    <div className="min-h-screen bg-zinc-950 text-white">
+      {/* Urgency Banner (sticky após scroll) */}
+      <UrgencyBanner />
+
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-zinc-950/80 backdrop-blur-lg border-b border-zinc-800">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
+            <span className="text-xl font-bold text-cyan-400">AVELLO</span>
+          </div>
+
+          <div className="hidden md:flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <a key={link.href} href={link.href} className="py-2 px-3 text-zinc-400 hover:text-white transition-colors" aria-label={link.ariaLabel}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link href="/login" className="py-2 px-3 min-h-[44px] flex items-center text-zinc-400 hover:text-white transition-colors hidden sm:block" aria-label="Ir para página de login">
+              Entrar
+            </Link>
+            <Link
+              href="/loja"
+              className="px-4 py-2 min-h-[44px] flex items-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-500/25"
+            >
+              Começar Agora
+            </Link>
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+              aria-label="Abrir menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu drawer */}
+      {isMobileMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed top-0 right-0 bottom-0 z-50 w-72 max-w-[85vw] bg-zinc-950 border-l border-zinc-800 p-6 md:hidden">
+            <div className="flex justify-between items-center mb-6">
+              <span className="font-semibold text-white">Menu</span>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-zinc-400 hover:text-white transition-colors"
+                aria-label="Fechar menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <nav className="flex flex-col gap-2">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="py-3 px-4 min-h-[44px] flex items-center text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors"
+                  aria-label={link.ariaLabel}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3 px-4 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-colors"
+              >
+                Entrar
+              </Link>
+            </nav>
+          </div>
+        </>
+      )}
+
+      {/* Sticky CTA mobile */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 p-3 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800 md:hidden transition-transform duration-300"
+        style={{ transform: showStickyCta ? 'translateY(0)' : 'translateY(100%)' }}
+      >
+        <Link
+          href="/loja"
+          className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-base shadow-lg shadow-cyan-500/25"
+        >
+          <Zap className="w-5 h-5" />
+          Acesso Completo — R$ 59,99/ano
+        </Link>
       </div>
 
-      {/* ──────────── Header ──────────── */}
-      <header className="px-6 py-5 max-w-6xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-            <span className="text-white font-bold text-sm font-orbitron">A</span>
-          </div>
-          <span className="font-orbitron font-semibold tracking-wider text-lg">avello</span>
-        </div>
-        <Link
-          href="/login"
-          className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors"
-        >
-          já é membro? entrar
-        </Link>
-      </header>
+      {/* Hero Section */}
+      <HeroSection />
 
-      {/* ──────────── HERO ──────────── */}
-      <section className="px-6 pt-8 sm:pt-16 pb-12 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 text-xs font-share-tech-mono tracking-widest mb-8">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          SINAL INTERCEPTADO · 72H
-        </div>
+      {/* Como funciona */}
+      <HowItWorksSection />
 
-        <h1 className="font-orbitron font-bold text-4xl sm:text-5xl md:text-6xl leading-tight mb-6">
-          Arsenal completo de IA por{' '}
-          <span className="text-cyan-400">R$ {formatarPreco(PRECO_OFERTA_REAIS)}</span> o ano.
-        </h1>
+      {/* Demo Section */}
+      <DemoSection />
 
-        <p className="text-lg sm:text-xl text-zinc-300 mb-3 max-w-2xl mx-auto">
-          Era R$ {PRECO_ORIGINAL}. <span className="text-cyan-400 font-semibold">80% off</span>. Acaba em 72h. Depois volta pro preço cheio.
-        </p>
+      {/* Modules Showcase - Recursos */}
+      <ModulesShowcase />
 
-        <p className="text-base text-zinc-400 mb-10 max-w-2xl mx-auto">
-          Você não compra só uma plataforma — entra num canal aberto que recebe, toda semana,
-          as <span className="text-zinc-200">skills do Claude Code mais usadas</span>,{' '}
-          <span className="text-zinc-200">cases reais de projetos</span> e{' '}
-          <span className="text-zinc-200">ideias prontas pra implementar</span>.
-        </p>
+      {/* Money Making Section - Oportunidades */}
+      <MoneyMakingSection />
 
-        <button
-          type="button"
-          onClick={irParaCheckout}
-          disabled={carregandoCheckout}
-          className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide w-full sm:w-auto"
-        >
-          {carregandoCheckout ? 'abrindo checkout...' : `Ativar arsenal — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}/ano`}
-        </button>
+      {/* Social Proof - Depoimentos (validação antes do pricing) */}
+      <div id="depoimentos">
+        <SocialProofSection />
+      </div>
 
-        <p className="text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
-          acesso imediato · garantia 7 dias · cartão à vista ou parcelado
-        </p>
+      {/* Premium Comparison */}
+      <PremiumComparison />
 
-        {erro && (
-          <div className="mt-6 mx-auto max-w-md px-4 py-3 rounded-xl border border-orange-500/50 bg-orange-500/10 text-orange-200 text-sm">
-            {erro}
-          </div>
-        )}
-      </section>
-
-      {/* ──────────── O grupo (DIFERENCIAL DO ANÚNCIO) ──────────── */}
-      <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 via-cyan-950/10 to-zinc-950">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
-              o diferencial
-            </p>
-            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
-              O grupo é o arsenal real.
+      {/* FAQ Section */}
+      <section className="py-20">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Perguntas Frequentes
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Enquanto a galera tá descobrindo IA no YouTube,
-              você tá vendo o que tá pegando AGORA — direto do grupo, toda semana.
-            </p>
+            <p className="text-zinc-400">Tudo que você precisa saber</p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="space-y-4">
             {[
               {
-                titulo: 'Skills do Claude Code',
-                desc: 'As mais usadas, organizadas. Sem garimpo em newsletter.',
+                q: 'O que está incluído no Avello Operador?',
+                a: 'Por R$ 59,99/ano você tem acesso a todo o arsenal: 14 mil ferramentas de IA, 9 módulos completos, 3.500 prompts ChatGPT, 3.500 prompts Midjourney, 2.000 templates n8n, 30 SaaS white label e muito mais. Acesso imediato após a compra.'
               },
               {
-                titulo: 'Cases reais',
-                desc: 'Projetos rodando agora. Quanto custou, quanto rendeu, como foi feito.',
+                q: 'E se eu não gostar?',
+                a: 'Garantia de 7 dias. Se não gostar por qualquer motivo, devolvemos 100% do seu dinheiro, sem perguntas. Você não tem nada a perder.'
               },
               {
-                titulo: 'Ideias prontas',
-                desc: 'Pra você implementar e cobrar. Com prompt e fluxo já mapeado.',
+                q: 'Como eu uso isso no meu trabalho?',
+                a: 'Use os templates para clientes (atendimento, automações, chatbots), revenda os SaaS white label, implemente fluxos n8n para empresas ou crie conteúdo com IA. Um único projeto paga o acesso inteiro.'
               },
-            ].map((item) => (
-              <div
-                key={item.titulo}
-                className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-sm hover:border-cyan-500/40 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mb-4">
-                  <span className="text-cyan-400 font-bold font-orbitron">▸</span>
-                </div>
-                <h3 className="font-orbitron font-semibold text-lg mb-2">{item.titulo}</h3>
-                <p className="text-sm text-zinc-400">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────── O que tá dentro ──────────── */}
-      <section className="px-6 py-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
-              tudo desbloqueado
-            </p>
-            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
-              O que entra no arsenal
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
-            {ITENS_OFERTA.map((item, i) => (
-              <div
-                key={i}
-                className={`flex items-start gap-3 px-4 py-3 rounded-xl ${
-                  item.destaque
-                    ? 'bg-cyan-500/10 border border-cyan-500/30'
-                    : 'bg-zinc-900/50 border border-zinc-800'
-                }`}
-              >
-                <span
-                  className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
-                    item.destaque ? 'bg-cyan-500' : 'bg-zinc-700'
-                  }`}
-                >
-                  <svg
-                    className="w-3 h-3 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </span>
-                <span
-                  className={`text-sm ${
-                    item.destaque ? 'text-cyan-100 font-medium' : 'text-zinc-300'
-                  }`}
-                >
-                  {item.texto}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────── Comparação de preço + timer ──────────── */}
-      <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900/40">
-        <div className="max-w-2xl mx-auto">
-          <div className="rounded-3xl border-2 border-cyan-500/40 bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 sm:p-10 shadow-[0_8px_64px_rgba(6,182,212,0.2)]">
-            <p className="text-center text-xs font-share-tech-mono tracking-widest uppercase text-cyan-400 mb-6">
-              oferta de lançamento
-            </p>
-
-            <div className="text-center mb-8">
-              <p className="text-zinc-500 text-sm mb-2">era</p>
-              <p className="text-3xl text-zinc-500 line-through font-orbitron mb-1">
-                R$ {PRECO_ORIGINAL}
-              </p>
-              <p className="text-zinc-400 text-sm mb-4">agora</p>
-              <p className="font-orbitron font-bold text-6xl sm:text-7xl text-cyan-400 mb-2">
-                R$ {formatarPreco(PRECO_OFERTA_REAIS)}
-              </p>
-              <p className="text-zinc-400 text-sm">12 meses · pagamento único</p>
-            </div>
-
-            {/* Timer */}
-            <div className="mb-8 rounded-2xl bg-zinc-950/60 border border-zinc-800 p-5">
-              <p className="text-center text-xs font-share-tech-mono tracking-widest uppercase text-zinc-400 mb-3">
-                a oferta acaba em
-              </p>
-              <div className="flex justify-center gap-3 sm:gap-6">
-                {[
-                  { v: cd.h, l: 'horas' },
-                  { v: cd.m, l: 'min' },
-                  { v: cd.s, l: 'seg' },
-                ].map((b) => (
-                  <div key={b.l} className="text-center">
-                    <div className="font-orbitron font-bold text-3xl sm:text-4xl text-cyan-400 tabular-nums">
-                      {b.v}
-                    </div>
-                    <div className="text-[10px] text-zinc-500 font-share-tech-mono tracking-widest uppercase mt-1">
-                      {b.l}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={irParaCheckout}
-              disabled={carregandoCheckout}
-              className="w-full inline-flex items-center justify-center gap-3 px-8 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide"
-            >
-              {carregandoCheckout ? 'abrindo checkout...' : `Quero o arsenal — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}`}
-            </button>
-
-            <p className="text-center text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
-              acesso imediato · garantia 7 dias · stripe
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────── FAQ ──────────── */}
-      <section className="px-6 py-16">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-cyan-400 text-xs font-share-tech-mono tracking-widest uppercase mb-3">
-              perguntas que todo mundo faz
-            </p>
-            <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
-              FAQ
-            </h2>
-          </div>
-
-          <div className="space-y-3">
-            {FAQ.map((q) => (
+              {
+                q: 'Os recursos são atualizados?',
+                a: 'Sim! Adicionamos novos recursos toda semana. Com o Operador Anual, você tem acesso a todas as atualizações durante os 12 meses.'
+              },
+              {
+                q: 'Vale a pena pagar R$ 59,99?',
+                a: 'São R$ 5/mês. Um único uso relevante já tende a pagar o investimento. Se não gostar, garantia de 7 dias com reembolso total.'
+              },
+              {
+                q: 'Isso serve para iniciantes?',
+                a: 'Sim! A maioria dos recursos vem pronta para usar. Você escolhe, personaliza e entrega. Não precisa ser técnico para começar.'
+              },
+              {
+                q: 'Como isso se paga?',
+                a: 'Um projeto de R$ 250 ou uma implementação de chatbot já cobre o ano. O restante é lucro. E se não gostar, garantia de 7 dias.'
+              },
+              {
+                q: 'Posso usar os recursos comercialmente?',
+                a: 'Sim! Todos os recursos podem ser usados comercialmente. Implemente para clientes, revenda SaaS e use em seus projetos.'
+              },
+            ].map((faq, index) => (
               <details
-                key={q.pergunta}
-                className="group rounded-xl border border-zinc-800 bg-zinc-900/40 hover:border-cyan-500/40 transition-colors overflow-hidden"
+                key={index}
+                className="group bg-zinc-800/50 rounded-xl border border-zinc-700 overflow-hidden"
               >
-                <summary className="cursor-pointer px-5 py-4 flex items-center justify-between gap-4 list-none">
-                  <span className="font-medium text-zinc-200">{q.pergunta}</span>
-                  <span className="shrink-0 text-cyan-400 group-open:rotate-45 transition-transform font-orbitron text-xl">
-                    +
-                  </span>
+                <summary className="cursor-pointer p-5 font-medium text-white hover:bg-zinc-800/80 transition-colors list-none flex items-center justify-between">
+                  <span>{faq.q}</span>
+                  <span className="text-zinc-400 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-5 pb-4 text-sm text-zinc-400 leading-relaxed">
-                  {q.resposta}
+                <div className="px-5 pb-5 text-zinc-400 leading-relaxed">
+                  {faq.a}
                 </div>
               </details>
             ))}
@@ -362,48 +230,81 @@ export default function LandingExpressPage() {
         </div>
       </section>
 
-      {/* ──────────── CTA final ──────────── */}
-      <section className="px-6 py-20 bg-gradient-to-b from-zinc-950 via-cyan-950/20 to-zinc-950">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-orbitron font-bold text-3xl sm:text-4xl mb-4">
-            Câmbio. 🔓
+      {/* Final CTA */}
+      <section className="py-20 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative max-w-4xl mx-auto px-6 text-center">
+          {/* Trust badges */}
+          <div className="flex items-center justify-center gap-6 mb-8">
+            <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <Shield className="w-5 h-5 text-green-400" />
+              <span>Garantia 7 dias</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              <span>+18.000 recursos disponíveis</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <Zap className="w-5 h-5 text-cyan-400" />
+              <span>Acesso imediato</span>
+            </div>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Um único projeto paga o ano inteiro
           </h2>
-          <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
-            12 meses de arsenal por R$ {formatarPreco(PRECO_OFERTA_REAIS)}. Quando o timer zera, volta pra R$ {PRECO_ORIGINAL}. Decisão é tua.
+          <p className="text-zinc-400 text-lg mb-8 max-w-2xl mx-auto">
+            Copie um template, venda por R$ 250+ e o Operador já se pagou. Garantia de 7 dias — não gostou, devolvemos 100%.
           </p>
 
-          <button
-            type="button"
-            onClick={irParaCheckout}
-            disabled={carregandoCheckout}
-            className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_8px_32px_rgba(6,182,212,0.4)] transition-all disabled:opacity-60 disabled:cursor-not-allowed font-orbitron tracking-wide w-full sm:w-auto"
-          >
-            {carregandoCheckout ? 'abrindo checkout...' : `Ativar agora — R$ ${formatarPreco(PRECO_OFERTA_REAIS)}`}
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/loja"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-xl transition-all shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105"
+            >
+              <Zap className="w-6 h-6" />
+              Acesso Completo — R$ 59,99/ano
+            </Link>
+            <Link
+              href="/cadastro"
+              className="inline-flex items-center justify-center py-3 min-h-[44px] text-zinc-400 hover:text-white text-lg transition-colors"
+            >
+              Ou começar de graça
+            </Link>
+          </div>
 
-          <p className="text-xs text-zinc-500 mt-4 font-share-tech-mono tracking-wider uppercase">
-            72 horas · 80% off · acesso imediato
+          <p className="text-sm text-zinc-500 mt-4">
+            Garantia 7 dias · Acesso imediato · Cancele quando quiser
           </p>
         </div>
       </section>
 
-      {/* ──────────── Footer ──────────── */}
-      <footer className="px-6 py-10 border-t border-zinc-900">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© Avello · arsenal de IA</p>
-          <div className="flex items-center gap-5">
-            <Link href="/termos" className="hover:text-cyan-400 transition-colors">
-              termos
-            </Link>
-            <Link href="/privacidade" className="hover:text-cyan-400 transition-colors">
-              privacidade
-            </Link>
-            <Link href="/jornada" className="hover:text-cyan-400 transition-colors">
-              jornada interativa
-            </Link>
+      {/* Footer */}
+      <footer className="py-12 border-t border-zinc-800 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-2">
+              <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
+              <span className="text-lg font-bold text-cyan-400">AVELLO</span>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
+              <Link href="/suporte" className="hover:text-white transition-colors">Suporte</Link>
+              <Link href="/comunidade" className="hover:text-white transition-colors">Comunidade</Link>
+              <Link href="/afiliados" className="hover:text-white transition-colors">Afiliados</Link>
+              <Link href="/termos" className="hover:text-white transition-colors">Termos</Link>
+              <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
+            </div>
+
+            <p className="text-sm text-zinc-500">
+              © 2026 Avello. Todos os direitos reservados.
+            </p>
           </div>
         </div>
       </footer>
-    </main>
+    </div>
   )
 }
