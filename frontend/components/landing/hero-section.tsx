@@ -32,7 +32,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="pt-32 pb-20 relative overflow-hidden">
+    <section className="pt-32 pb-12 relative overflow-hidden">
       {/* Background gradients */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
@@ -44,55 +44,38 @@ export function HeroSection() {
         {/* Badge de urgência */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/15 to-red-500/10 rounded-full border border-orange-500/40 mb-6 backdrop-blur-sm">
           <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-          <span className="text-sm text-orange-400 font-semibold">Preço de lançamento — sobe para R$97 após 1.000 membros</span>
+          <span className="text-sm text-orange-400 font-semibold">
+            Era R$39 (fundadores) → R$59,99 agora → R$99 após 1.000 membros
+          </span>
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          Pare de criar automações do zero.
+          Outros vendem curso.
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
-            Copie, cole e fature.
+            A gente entrega o arsenal.
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto mb-8 leading-relaxed">
-          Biblioteca pronta para vender automações, implementar chatbots e usar IA com velocidade. Escolha um recurso, personalize para seu nicho e monetize — sem começar do zero.
+          Skills do Claude Code, templates n8n e SaaS prontos. O arsenal que devs sêniores cobram R$ 250/h pra montar — <span className="text-white font-semibold">você adapta em 12 minutos</span>. Atualizado toda semana, direto da fonte.
         </p>
 
-        {/* Progressão de preço — narrativa de escassez */}
-        <div className="flex items-center justify-center gap-3 mb-5">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700">
-            <span className="text-xs text-zinc-500 line-through">R$39</span>
-            <span className="text-xs text-zinc-600">fundadores</span>
-          </div>
-          <span className="text-zinc-600">→</span>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/40">
-            <span className="text-xs font-bold text-cyan-400">R$59,99</span>
-            <span className="text-xs text-cyan-500">agora</span>
-          </div>
-          <span className="text-zinc-600">→</span>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700">
-            <span className="text-xs text-zinc-500">R$99</span>
-            <span className="text-xs text-zinc-600">após 1.000 membros</span>
-          </div>
-        </div>
-
-        {/* CTA Principal */}
+        {/* CTA Principal — padronizado h=68 / 20px / 700 */}
         <div className="flex flex-col items-center gap-3 mb-8">
           <button
             onClick={handleCheckout}
             disabled={loading}
-            className="group relative flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
+            className="group relative inline-flex items-center justify-center gap-3 h-[68px] px-10 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-bold text-xl transition-all shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
           >
             <span className="absolute -top-3 -right-3 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
               -40% OFF
             </span>
             <Zap className="w-6 h-6" />
-            <span className="flex flex-col items-start leading-tight">
-              <span className="text-white/60 text-sm font-medium line-through">R$ 99/ano</span>
-              <span>{loading ? 'Abrindo checkout...' : 'Acesso Completo — R$ 59,99/ano'}</span>
+            <span className="font-orbitron tracking-wide">
+              {loading ? 'Abrindo checkout...' : 'Quero o arsenal — R$ 59,99'}
             </span>
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>

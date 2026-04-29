@@ -1,8 +1,26 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
-import { Check, Zap, Crown, Shield, Star, ShoppingCart } from 'lucide-react'
+import { Check, Zap, Crown, Shield, ShoppingCart } from 'lucide-react'
+
+async function irParaCheckout() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'InitiateCheckout', {
+      value: 59.99, currency: 'BRL', content_name: 'Operador Anual',
+    })
+  }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: 'operador_anual', source: 'landing' }),
+    })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+  } catch {
+    window.location.href = '/loja'
+  }
+}
 
 const NOMES = [
   'Lucas', 'Pedro', 'Gabriel', 'Mateus', 'Rafael', 'Thiago', 'Bruno', 'Diego',
@@ -43,16 +61,7 @@ function usePurchaseSimulator(initial = 940) {
   return { vagas, toast }
 }
 
-const starterFeatures = [
-  '20 Templates n8n selecionados',
-  '3 downloads/semana',
-  'Uso comercial permitido',
-  'Comunidade Telegram',
-  'Visualização de todos os recursos'
-]
-
 const premiumFeatures = [
-  'Tudo do Starter +',
   '+2500 Templates n8n completos',
   '+500 Chatbots prontos',
   '+2400 Prompts ChatGPT',
@@ -61,23 +70,22 @@ const premiumFeatures = [
   '+14 mil Ferramentas IA',
   '+350 Self-Hosted Apps',
   '+30 SaaS White Label',
-  '+8 Bônus Exclusivos'
-]
-
-const premiumProFeatures = [
-  'Tudo do Premium',
-  'Suporte prioritário WhatsApp',
-  '1 consultoria mensal (1h)',
-  'Acesso antecipado a novos recursos',
-  'Comunidade VIP',
-  '1 template customizado/mês'
+  '+8 Bônus Exclusivos',
+  'Skills do Claude Code (atualizadas toda semana)',
+  'Grupo VIP com casos reais e prints',
 ]
 
 export function PremiumComparison() {
   const { vagas, toast } = usePurchaseSimulator()
   const preenchidas = 1000 - vagas
   const percentual = (preenchidas / 1000) * 100
-  const [showProPlan, setShowProPlan] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleCheckout = async () => {
+    setLoading(true)
+    await irParaCheckout()
+    setLoading(false)
+  }
 
   return (
     <section id="precos" className="py-20">
@@ -86,7 +94,7 @@ export function PremiumComparison() {
         <div className="text-center mb-8">
           <div className="inline-flex flex-col items-center gap-3 px-6 py-4 bg-orange-500/10 rounded-xl border border-orange-500/30 min-w-[320px]">
             <span className="text-sm text-orange-400 font-semibold">
-              Preço de lançamento — sobe para R$97/ano após 1.000 membros
+              Era R$39 (fundadores) → R$59,99 agora → R$99 após 1.000 membros
             </span>
             <div className="w-full max-w-xs">
               <div className="flex justify-between text-xs text-zinc-400 mb-1.5">
@@ -117,88 +125,49 @@ export function PremiumComparison() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Escolha seu plano e comece agora
+            Um plano. Tudo dentro. Sem pegadinha.
           </h2>
           <p className="text-zinc-400 text-lg">
-            Todos os planos com <span className="text-white font-semibold">garantia de 7 dias</span>. Não gostou? Devolvemos 100%.
+            <span className="text-white font-semibold">Garantia de 7 dias</span>. Não gostou? Devolvemos 100%.
           </p>
         </div>
 
-        {/* Comparison Grid - 2 planos principais (Hick's Law: menos opções = mais conversão) */}
-        <div className={`grid gap-6 lg:gap-8 ${showProPlan ? 'md:grid-cols-3' : 'md:grid-cols-2 max-w-3xl mx-auto'}`}>
-          {/* Plano Starter */}
-          <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-zinc-800">
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-5 h-5 text-zinc-400" />
-                <h3 className="text-xl font-bold text-white">Plano Starter</h3>
-              </div>
-              <p className="text-zinc-400 text-sm">Para conhecer a plataforma e começar com o essencial</p>
-            </div>
-
-            <div className="mb-6">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-white">R$ 14,90</span>
-                <span className="text-zinc-500">/ano</span>
-              </div>
-              <p className="text-zinc-400 text-sm mt-2">R$ 1,24/mês</p>
-            </div>
-
-            <ul className="space-y-3 mb-8">
-              {starterFeatures.map((feature, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-zinc-300 text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link
-              href="/cadastro"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-medium transition-all border border-zinc-700"
-            >
-              Começar por R$ 14,90/ano
-            </Link>
-
-            <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
-              <Shield className="w-3 h-3" />
-              Garantia de 7 dias
-            </p>
-          </div>
-
-          {/* Plano Premium - MAIS POPULAR */}
-          <div className="relative -mt-4 md:mt-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-2xl p-8 border-2 border-cyan-500/40 shadow-xl shadow-cyan-500/10">
+        {/* Plano único — Operador Anual (foco total em conversão) */}
+        <div className="max-w-xl mx-auto">
+          <div className="relative bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-2xl p-8 md:p-10 border-2 border-cyan-500/40 shadow-2xl shadow-cyan-500/10">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-bold rounded-full shadow-lg">
-              MAIS POPULAR
+              OPERADOR ANUAL
             </div>
-            
-            <div className="mb-6 mt-2">
-              <div className="flex items-center gap-2 mb-2">
-                <Crown className="w-5 h-5 text-cyan-400" />
-                <h3 className="text-xl font-bold text-white">Plano Premium</h3>
+
+            <div className="mb-6 mt-2 text-center">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Crown className="w-6 h-6 text-cyan-400" />
+                <h3 className="text-2xl font-bold text-white">Acesso Completo</h3>
               </div>
-              <p className="text-zinc-400 text-sm">O plano ideal para quem quer transformar IA em renda — vender, implementar e escalar</p>
+              <p className="text-zinc-400 text-sm">
+                O arsenal inteiro + grupo VIP + Skills do Claude Code toda semana
+              </p>
             </div>
-            
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-2">
+
+            <div className="mb-8 text-center">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs font-bold rounded border border-orange-500/30">
+                  ⚡ Era R$39
+                </span>
                 <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded border border-red-500/30">
-                  LANÇAMENTO
-                </span>
-                <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs font-bold rounded border border-green-500/30">
-                  −60% OFF
+                  −40% OFF
                 </span>
               </div>
-              <div className="flex items-baseline gap-3">
-                <span className="text-xl text-zinc-500 line-through font-medium">R$ 97</span>
-                <span className="text-5xl font-bold text-white">R$ 39</span>
+              <div className="flex items-baseline justify-center gap-3">
+                <span className="text-2xl text-zinc-500 line-through font-medium font-orbitron">R$ 99</span>
+                <span className="text-6xl font-bold text-white font-orbitron tracking-tight">R$ 59,99</span>
                 <span className="text-zinc-500">/ano</span>
               </div>
               <p className="text-cyan-400 text-sm mt-2 font-medium">
-                R$ 3,25/mês • Você economiza R$ 58/ano
+                R$ 5/mês · Em 1.000 membros vira R$ 99
               </p>
             </div>
-            
+
             <ul className="space-y-3 mb-8">
               {premiumFeatures.map((feature, index) => (
                 <li key={index} className="flex items-start gap-3">
@@ -207,82 +176,24 @@ export function PremiumComparison() {
                 </li>
               ))}
             </ul>
-            
-            <Link
-              href="/loja"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40"
+
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="flex items-center justify-center gap-3 w-full h-[68px] bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 text-white rounded-xl font-bold text-xl transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-[1.02]"
             >
-              <Zap className="w-5 h-5" />
-              Começar Agora
-            </Link>
-            
+              <Zap className="w-6 h-6" />
+              <span className="font-orbitron tracking-wide">
+                {loading ? 'Abrindo checkout...' : 'Quero o arsenal — R$ 59,99'}
+              </span>
+            </button>
+
             <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
               <Shield className="w-3 h-3" />
-              Garantia de 7 dias ou seu dinheiro de volta
+              Garantia 7 dias · Acesso imediato · Cancele quando quiser
             </p>
           </div>
-
-          {/* Plano Premium Pro — colapsado por padrão (Hick's Law) */}
-          {showProPlan && (
-            <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/30">
-              <div className="absolute -top-3 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-zinc-900 text-xs font-bold rounded-full">
-                NOVO
-              </div>
-
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <Star className="w-5 h-5 text-amber-400" />
-                  <h3 className="text-xl font-bold text-white">Plano Premium Pro</h3>
-                </div>
-                <p className="text-zinc-400 text-sm">Para agências, implementadores e quem quer aceleração com suporte próximo</p>
-              </div>
-
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold text-white">R$ 97</span>
-                  <span className="text-zinc-500">/ano</span>
-                </div>
-                <p className="text-amber-400 text-sm mt-2 font-medium">
-                  R$ 8,08/mês
-                </p>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {premiumProFeatures.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-zinc-300 text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/loja?plano=premium-pro"
-                className="flex items-center justify-center gap-2 w-full py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-xl font-semibold transition-all border border-amber-500/40"
-              >
-                <Star className="w-5 h-5" />
-                Quero Premium Pro
-              </Link>
-
-              <p className="text-center text-xs text-zinc-500 mt-4 flex items-center justify-center gap-1">
-                <Shield className="w-3 h-3" />
-                Garantia de 7 dias
-              </p>
-            </div>
-          )}
         </div>
-
-        {/* Toggle Premium Pro — não poluir visão principal */}
-        {!showProPlan && (
-          <div className="text-center mt-4">
-            <button
-              onClick={() => setShowProPlan(true)}
-              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-4"
-            >
-              Ver também o Plano Premium Pro (agências e implementadores)
-            </button>
-          </div>
-        )}
 
         {/* Garantia e ROI */}
         <div className="mt-12 grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">

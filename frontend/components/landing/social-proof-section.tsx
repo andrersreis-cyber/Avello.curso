@@ -85,11 +85,15 @@ export function SocialProofSection() {
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
             <span className="text-sm text-yellow-400 font-medium">Depoimentos Reais</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Quem entrou, não sai mais
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+            Eles entraram quando ainda era <span className="text-orange-400">R$ 39</span>.
+            <br />
+            Cobraram <span className="text-green-400">R$ 250-500</span> no primeiro projeto.
+            <br />
+            Hoje, você entra por <span className="text-cyan-400">R$ 59,99</span>.
           </h2>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-            Veja o que nossos membros estão dizendo sobre a plataforma
+            Em 1.000 membros, vira R$ 99. Os prints abaixo são reais.
           </p>
         </div>
 

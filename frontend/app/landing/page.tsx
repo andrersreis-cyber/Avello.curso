@@ -12,6 +12,7 @@ import { MoneyMakingSection } from '@/components/landing/money-making-section'
 import { PremiumComparison } from '@/components/landing/premium-comparison'
 import { HowItWorksSection } from '@/components/landing/how-it-works-section'
 import { SocialProofSection } from '@/components/landing/social-proof-section'
+import { VipClaudeSection } from '@/components/landing/vip-claude-section'
 import { Zap, Shield, Star, Menu, X } from 'lucide-react'
 
 const NAV_LINKS = [
@@ -60,7 +61,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
-            <span className="text-xl font-bold text-cyan-400">AVELLO</span>
+            <span className="text-xl font-bold text-cyan-400 font-orbitron tracking-[0.15em]">AVELLO</span>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
@@ -160,6 +161,9 @@ export default function LandingPage() {
 
       {/* Modules Showcase - Recursos */}
       <ModulesShowcase />
+
+      {/* VIP Claude Section - O diferencial: grupo + Claude Code semanal */}
+      <VipClaudeSection />
 
       {/* Money Making Section - Oportunidades */}
       <MoneyMakingSection />
@@ -292,7 +296,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <Image src="/images/logo-avello.png" alt="Avello" width={32} height={32} className="rounded-lg" />
-              <span className="text-lg font-bold text-cyan-400">AVELLO</span>
+              <span className="text-lg font-bold text-cyan-400 font-orbitron tracking-[0.15em]">AVELLO</span>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
