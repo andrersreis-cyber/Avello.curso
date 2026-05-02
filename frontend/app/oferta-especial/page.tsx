@@ -15,6 +15,13 @@ const OFFER_DATA: Record<string, {
   economia: string
   porMes: string
 }> = {
+  operador_anual: {
+    nome: 'Operador Anual',
+    precoOriginal: 'R$ 59,99',
+    precoDesconto: 'R$ 39',
+    economia: 'R$ 21',
+    porMes: 'R$ 3,25',
+  },
   lowtik: {
     nome: 'Premium',
     precoOriginal: 'R$ 39',
@@ -34,8 +41,8 @@ const OFFER_DATA: Record<string, {
 function OfertaContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const plano = searchParams.get('plano') || 'lowtik'
-  const offer = OFFER_DATA[plano] || OFFER_DATA.lowtik
+  const plano = searchParams.get('plano') || 'operador_anual'
+  const offer = OFFER_DATA[plano] || OFFER_DATA.operador_anual
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
   const [timeLeft, setTimeLeft] = useState(OFFER_DURATION)
@@ -196,23 +203,12 @@ function OfertaContent() {
 
           {/* Features */}
           <div className="grid grid-cols-2 gap-2 text-left mb-8 max-w-md mx-auto">
-            {plano === 'lowtik' ? (
-              <>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+2.500 Templates n8n</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+500 Chatbots</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+2.400 Prompts</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+14 mil ferramentas IA</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Downloads ilimitados</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Comunidade Telegram</span></div>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">20 Templates n8n</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">3 downloads/semana</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Uso comercial</span></div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Comunidade Telegram</span></div>
-              </>
-            )}
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+2.000 Templates n8n</span></div>
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+14 mil Ferramentas IA</span></div>
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+3.500 Prompts ChatGPT</span></div>
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">+30 SaaS White Label</span></div>
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Skills Claude Code</span></div>
+            <div className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400 shrink-0" /><span className="text-sm text-zinc-300">Grupo VIP Telegram</span></div>
           </div>
 
           <button

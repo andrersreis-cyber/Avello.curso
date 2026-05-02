@@ -2,16 +2,15 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { X, Shield, Zap, Clock } from 'lucide-react'
-import { ProductId } from '@/lib/stripe'
 
 type ExitIntentPopupProps = {
-  onCheckout: (productId: ProductId) => Promise<void> | void
-  loading: boolean
+  customerEmail?: string
 }
 
-export function ExitIntentPopup({ onCheckout, loading }: ExitIntentPopupProps) {
+export function ExitIntentPopup({ customerEmail }: ExitIntentPopupProps) {
   const [show, setShow] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const triggerPopup = useCallback(() => {
     // Mostrar apenas 1x por sessão
@@ -83,11 +82,14 @@ export function ExitIntentPopup({ onCheckout, loading }: ExitIntentPopupProps) {
           <h2 className="text-2xl font-bold text-white mb-2">
             Espera! Antes de sair...
           </h2>
-          <p className="text-zinc-400 mb-6">
-            O Premium custa <span className="text-white font-semibold">R$3,25/mês</span>.
-            Um único projeto de R$250 paga o ano inteiro. E se não gostar,
-            devolvemos 100% em até 7 dias.
+          <p className="text-zinc-400 mb-2">
+            Oferta exclusiva para quem está saindo agora.
           </p>
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <span className="text-zinc-500 line-through text-lg">R$ 59,99</span>
+            <span className="text-white font-bold text-3xl">R$ 39</span>
+            <span className="text-zinc-400">/ano</span>
+          </div>
 
           {/* Trust badges */}
           <div className="flex items-center justify-center gap-4 mb-6">
@@ -102,12 +104,25 @@ export function ExitIntentPopup({ onCheckout, loading }: ExitIntentPopupProps) {
           </div>
 
           <button
-            onClick={() => onCheckout('lowtik')}
+            onClick={async () => {
+              setLoading(true)
+              try {
+                const res = await fetch('/api/checkout-desconto', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ productId: 'operador_anual', customerEmail }),
+                })
+                const data = await res.json()
+                if (data.url) window.location.href = data.url
+              } finally {
+                setLoading(false)
+              }
+            }}
             disabled={loading}
             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 mb-3"
           >
             <Zap className="w-5 h-5" />
-            Assinar Premium — R$ 39/ano
+            Garantir por R$ 39 agora
           </button>
 
           <button

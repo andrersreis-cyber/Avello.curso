@@ -6,6 +6,7 @@ import { products, ProductId, STRIPE_PRICE_IDS } from '@/lib/stripe'
 const COUPONS: Record<string, string> = {
   starter: 'VOLTA10_STARTER',
   lowtik: 'VOLTA10_PREMIUM',
+  operador_anual: 'OFERTA39_OPERADOR',
 }
 
 export async function POST(request: NextRequest) {

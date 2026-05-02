@@ -367,10 +367,7 @@ export default function LojaPage() {
         </div>
       </footer>
 
-      <ExitIntentPopup
-        onCheckout={handleCheckout}
-        loading={loading !== null}
-      />
+      <ExitIntentPopup customerEmail={user?.email} />
     </div>
   )
 }
