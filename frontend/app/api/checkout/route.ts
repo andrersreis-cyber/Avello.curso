@@ -36,10 +36,7 @@ export async function POST(request: NextRequest) {
     const isOneTime = product.type !== 'subscription'
 
     const sessionConfig: any = {
-      // PIX será adicionado após ativação completa no Stripe Dashboard
-      // (dashboard.stripe.com/account/payments/settings → PIX → Ativar)
       payment_method_types: ['card'],
-      // Endereço obrigatório só para cartão; PIX não precisa
       billing_address_collection: isOneTime ? 'auto' : 'required',
       success_url: `${origin}${successPath}`,
       cancel_url: `${origin}${cancelPath}`,
@@ -50,6 +47,11 @@ export async function POST(request: NextRequest) {
         productId: product.id,
         affiliateCode: affiliateCode || '',
         source: source || 'dashboard',
+      },
+      custom_text: {
+        submit: {
+          message: '🔒 Acesso liberado automaticamente após a confirmação do pagamento.\n\n✅ Skills do Claude Code — atualizadas toda semana, exclusivo para membros\n✅ +2.000 templates n8n prontos para uso comercial\n✅ +14 mil ferramentas de IA desbloqueadas\n✅ +30 SaaS White Label para revender\n✅ Grupo VIP com cases reais de monetização\n\nGarantia de 7 dias. Não gostou? Devolvemos 100%.',
+        },
       },
     }
 

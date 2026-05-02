@@ -240,30 +240,6 @@ function SucessoContent() {
           </div>
         </div>
 
-        {/* Upsell para Premium (apenas para Starter) */}
-        {profile?.plano === 'starter' && (
-          <div className="mt-8 p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl border border-cyan-500/30">
-            <div className="text-center">
-              <Crown className="w-10 h-10 text-cyan-400 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-white mb-2">
-                Quer desbloquear tudo?
-              </h3>
-              <p className="text-zinc-400 mb-4">
-                Por apenas <span className="text-white font-semibold">+R$24</span>, desbloqueie
-                todos os 6.000+ recursos. Um projeto de R$250 já paga o upgrade.
-              </p>
-              <button
-                onClick={() => handleCheckout('lowtik')}
-                disabled={loading !== null}
-                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 mx-auto disabled:opacity-50"
-              >
-                <Zap className="w-5 h-5" />
-                Fazer Upgrade para Premium — R$ 39/ano
-              </button>
-              <p className="text-xs text-zinc-500 mt-3">Garantia de 7 dias • Acesso imediato</p>
-            </div>
-          </div>
-        )}
 
         {/* CTAs */}
         <div className="space-y-3">

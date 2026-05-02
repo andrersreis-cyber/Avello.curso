@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
             email: session.customer_email,
             nome: usuario?.nome || '',
             telefone: usuario?.telefone || '',
-            productId: session.metadata?.productId || 'lowtik',
+            productId: session.metadata?.productId || 'operador_anual',
             valor: (session.amount_total || 0) / 100,
             sessionId: session.id,
             abandonedAt: new Date().toISOString(),
