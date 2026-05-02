@@ -20,7 +20,7 @@ async function irParaCheckout() {
     const data = await res.json()
     if (data.url) window.location.href = data.url
   } catch {
-    window.location.href = '/loja'
+    window.location.href = '/cadastro'
   }
 }
 

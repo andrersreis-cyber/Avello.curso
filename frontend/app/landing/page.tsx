@@ -77,7 +77,7 @@ export default function LandingPage() {
               Entrar
             </Link>
             <Link
-              href="/loja"
+              href="/cadastro"
               className="px-4 py-2 min-h-[44px] flex items-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg font-medium transition-all shadow-lg shadow-cyan-500/25"
             >
               Começar Agora
@@ -142,7 +142,7 @@ export default function LandingPage() {
         style={{ transform: showStickyCta ? 'translateY(0)' : 'translateY(100%)' }}
       >
         <Link
-          href="/loja"
+          href="/cadastro"
           className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-base shadow-lg shadow-cyan-500/25"
         >
           <Zap className="w-5 h-5" />
@@ -270,7 +270,7 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/loja"
+              href="/cadastro"
               className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-semibold text-xl transition-all shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105"
             >
               <Zap className="w-6 h-6" />
